@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Box, Container, Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
 import Sidebar from "./Sidebar/Sidebar";
 import "./Layout.scss";
 import { useEffect, useState } from "react";
@@ -16,7 +16,6 @@ function Layout() {
 
   return ( 
     <div className="app">
-      <Container>
         <main className="app-main">
           <Grid container className="admin" sx={{ height: "100%" }}>
             <Grid
@@ -49,7 +48,6 @@ function Layout() {
             </Grid>
           </Grid>
         </main>
-      </Container>
     </div>
   );
 }

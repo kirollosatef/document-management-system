@@ -14,6 +14,11 @@ const theme = createTheme({
       default: "#F8F8F8",
       alt: "#F5F5F5",
     },
+    role: {
+      superadmin: "#FF5722",
+      editor: "",
+      viewer: "",
+    },
   },
   typography: {
     fontFamily: "Tajawal, sans-serif",

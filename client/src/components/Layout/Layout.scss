@@ -4,9 +4,10 @@
   main,
   &-main {
     min-height: 93dvh;
+    
     .topNavbar {
       @include flex($jc: flex-end);
-      padding-left: 0.8rem;
+      padding-inline:1rem;
       padding-block: .5rem;
       @include large {
         @include flex($jc: space-between);
