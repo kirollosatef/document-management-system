@@ -1,73 +1,47 @@
-import SevereColdRoundedIcon from "@mui/icons-material/SevereColdRounded";
-import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
+import CategoryIcon from '@mui/icons-material/Category';
+import ArchiveIcon from '@mui/icons-material/Archive';
+import GroupIcon from '@mui/icons-material/Group';
+import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from "@mui/icons-material/Logout";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import LockIcon from "@mui/icons-material/Lock";
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
-const same = {
-  id: Math.floor(Math.random() * 1000000) + 1,
-  text: "قائمة السيرفرات",
-  icon: SevereColdRoundedIcon,
-  link: "../../../dashboard",
-  special: false,
-}
+
 export const userLinks = [
-  same,
   {
     id: Math.floor(Math.random() * 1000000) + 1,
-    text: "الاشتراك",
-    icon: SubscriptionsIcon,
-    link: "/dashboard/subscriptions",
+    text: "الرئيسية",
+    icon: HomeIcon,
+    link: "/",
     special: true,
+  },
+  {
+    id: Math.floor(Math.random() * 1000000) + 1,
+    text: "الافسام",
+    icon: CategoryIcon,
+    link: "/departments",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000) + 1,
+    text: "الارشيف",
+    icon: ArchiveIcon,
+    link: "/archive",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000) + 1,
+    text: "المستخدمون",
+    icon: GroupIcon,
+    link: "/users",
   },
   {
     id: Math.floor(Math.random() * 1000000) + 1,
     text: "الاعدادات",
     icon: SettingsIcon,
-    link: "/",
+    link: "/settings",
   },
   {
     id: Math.floor(Math.random() * 1000000) + 1,
-    text: "تسجيل الخروج",
-    icon: LogoutIcon,
-    link: "/",
-  },
-];
-
-export const serverLinks = [
-  
-  {
-    id: Math.floor(Math.random() * 1000000) + 1,
-    text: "تخصيص البوت",
-    icon: SevereColdRoundedIcon,
-    link: "server-info",
-    special: true,
-  },
-  {
-    id: Math.floor(Math.random() * 1000000) + 1,
-    text: "الاحصائيات",
-    icon: AutoAwesomeIcon,
-    link: "statistics",
-  },
-  {
-    id: Math.floor(Math.random() * 1000000) + 1,
-    text: "اعدادات البوت",
-    icon: SettingsIcon,
-    link: "server-settings",
-    special: true,
-  },
-  {
-    id: Math.floor(Math.random() * 1000000) + 1,
-    text: "صلاحيات الداشبورد",
-    icon: LockIcon,
-    link: "server-permissions",
-  },
-  same,
-  {
-    id: Math.floor(Math.random() * 1000000) + 1,
-    text: "تسجيل الخروج",
-    icon: LogoutIcon,
-    link: "/",
+    text: "مساعدة",
+    icon: QuestionMarkIcon,
+    link: "/help",
   },
 ];

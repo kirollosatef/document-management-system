@@ -17,7 +17,7 @@ function Layout() {
   return ( 
     <div className="app">
         <main className="app-main">
-          <Grid container className="admin" sx={{ height: "100%" }}>
+          <Grid container className="admin" sx={{ height: "100vh" }}>
             <Grid
               sx={{
                 flex: "0 0 18rem",

@@ -12,7 +12,7 @@ function UniChip({ label, role }) {
   const chipClass = roleToClass[role];
 
   return (
-    <Chip label={label} className={chipClass} variant="outlined" size="small" sx={{fontWeight:"bold"}} />
+    <Chip label={label === "superadmin" ? "super admin" : label} className={chipClass} variant="outlined" size="small" sx={{fontWeight:"bold"}} />
   );
 }
 

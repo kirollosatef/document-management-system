@@ -1,5 +1,4 @@
 import Links from "./Links/Links";
-import logo from "@assets/icons/1/logo.png";
 
 import "./Sidebar.scss";
 // import { useMediaQuery } from "@mui/material";
@@ -41,16 +40,9 @@ function Sidebar({ openSidebar, setOpenSidebar }) {
       )}
       {/* User-Info Code */}
       <div className="sidebar-logo">
-        <img src={logo} alt="logo" />
+        لوجو
       </div>
       <div className="sidebar-user">
-        <div className="sidebar-user-role">
-          {loading ? (
-            <Skeleton sx={{ width: 100 }} height={35} variant="text" />
-          ) : (
-            <UniChip label={user.role} role={user.role}/>
-          )}
-        </div>
         <div className="sidebar-user-img">
           {loading ? (
             <Skeleton variant="circular" width={99} height={99} />
@@ -65,6 +57,13 @@ function Sidebar({ openSidebar, setOpenSidebar }) {
             >
               {user.name.slice(0, 2)}
             </Avatar>
+          )}
+        </div>
+        <div className="sidebar-user-role">
+          {loading ? (
+            <Skeleton sx={{ width: 100 }} height={35} variant="text" />
+          ) : (
+            <UniChip label={user.role} role={user.role}/>
           )}
         </div>
         <div className="sidebar-user-name">
