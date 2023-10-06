@@ -1,0 +1,112 @@
+$bg_color: #F5F5F5;
+$bg_color_2: #5b35d5;
+$main_color: #1976D2;
+$grey_color: #171821; 
+$green_color: #3eb250;
+$secondary_color: #da8a2d;
+$smallTxt_color: #0E4A8E;
+$gradient_1: #5b35d5;
+$gradient_2: #9747ff;
+
+// Shadows
+$shadow-1: 10px 10px 19px #1c1e22, -10px -10px 19px #262a2e;
+$shadow-2: inset 21px 21px 19px #181a1d, inset -21px -21px 19px #202225;
+
+.row {
+  display: flex;
+  gap: 40px;
+}
+
+// Padding
+$main_sec_padding: 5rem;
+
+// Transitions
+$normal_speed: 0.3s ease;
+
+// ------------- mixins -------------
+@mixin flex($jc: center, $ai: center, $dir: row) {
+  display: flex;
+  justify-content: $jc;
+  align-items: $ai;
+  flex-direction: $dir;
+}
+
+@mixin grid($min: 300px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min, 1fr));
+}
+@mixin gradBorder($deg: 100deg) {
+  border: 1px solid;
+  border-image-source: linear-gradient($deg, #333, transparent, #111);
+  border-image-slice: 10;
+  transition: 0.3s ease-out;
+
+  &:hover {
+    border-image-source: linear-gradient(
+      170deg,
+      #111,
+      #333,
+      darken($main_color, 20%)
+    );
+  }
+}
+@mixin cardLight(
+  $bfl: -3rem,
+  $bfb: -4rem,
+  $bfbg: $bg-color,
+  $afr: -2rem,
+  $aft: -2rem,
+  $afbg: $main_color
+) {
+  border: 1px solid #222;
+  border-radius: 1rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: $bfl;
+    bottom: $bfb;
+    width: 5rem;
+    height: 5rem;
+    background-color: $bfbg;
+    border-radius: 50%;
+    filter: blur(4rem);
+    transition: $normal_speed;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    right: $afr;
+    top: $aft;
+    width: 10rem;
+    height: 4rem;
+    background-color: $afbg;
+    border-radius: 50%;
+    filter: blur(4rem);
+    transition: $normal_speed;
+  }
+}
+
+// ------------- Media -------------
+@mixin xLarge {
+  @media (max-width: 1200px) {
+    @content;
+  }
+}
+@mixin large {
+  @media (max-width: 992px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
+}

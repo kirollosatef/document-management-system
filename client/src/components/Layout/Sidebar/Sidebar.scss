@@ -1,0 +1,164 @@
+@use "../../../theme/globals.scss" as *;
+
+.dashboardSidebar {
+  width: 100%;
+  height: 100%;
+  border-left: 2px solid #7771;
+  transition: $normal-speed;
+  &-topBar {
+    @include flex($jc: space-between);
+    padding: 1rem;
+    width: 100%;
+    &-user {
+      @include flex();
+      gap: 0.7rem;
+      &-img {
+        width: 3.5rem;
+        position: relative;
+        &::before {
+          content: "";
+          position: absolute;
+          bottom: 0.5rem;
+          width: 0.9rem;
+          height: 0.9rem;
+          border-radius: 50%;
+          border: 2px solid $bg-color;
+          background-color: rgb(255, 172, 47);
+        }
+
+        img {
+          width: 100%;
+          border-radius: 50%;
+        }
+      }
+    }
+    &-burger {
+    }
+  }
+  &-logo {
+    padding-block: 1rem;
+    @include large {
+      display: none;
+    }
+    img {
+    }
+  }
+  &-user {
+    @include flex($dir: column);
+    gap: 1rem;
+    width: 100%;
+    margin-block: 4rem;
+    &-img {
+      @include flex($dir: column);
+      position: relative;
+      max-width: 7rem;
+      width: 100%;
+      border-radius: 50%;
+      background-image: linear-gradient(
+        to left,
+        transparent,
+        rgba($main-color, 0.3),
+        transparent
+      );
+      padding: 0.4rem;
+      img {
+        width: 100%;
+        border-radius: 50%;
+      }
+      &-special {
+        @include flex();
+        position: absolute;
+        bottom: -.4rem;
+        right: .5rem;
+        background-color: rgba($secondary-color, .3);
+        backdrop-filter: blur(10px);
+        padding: .3rem;
+        border-radius: 2rem;
+      }
+    }
+    &-name {
+      font-weight: 500;
+    }
+  }
+  &-links {
+    &-link {
+      position: relative;
+      @include flex($jc: flex-start);
+      gap: 1rem;
+      padding-right: 1rem;
+      padding-block: 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 2rem;
+      background-image: linear-gradient(
+        to left,
+        transparent,
+        rgba($main-color, 0.06),
+        transparent
+      );
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 90%;
+        height: 100%;
+        background-image: linear-gradient(
+          to left,
+          $main-color,
+          rgba($main-color, 0.1),
+          transparent
+        );
+        border-radius: 2rem;
+        opacity: 0;
+        transition: $normal-speed;
+      }
+      &:hover,
+      &.active {
+        &::before {
+          opacity: 1;
+          width: 100%;
+        }
+        .dashboardSidebar-links-link {
+          &-icon {
+            svg {
+              color: #fff;
+            }
+          }
+          &-text {
+            color: #fff;
+          }
+        }
+      }
+      &-icon {
+        @include flex();
+        position: relative;
+        color: $main-color;
+        svg {
+          transition: $normal-speed;
+          font-size: 1.7rem;
+        }
+      }
+      &-text {
+        position: relative;
+        transition: $normal-speed;
+        color: $smallTxt-color;
+      }
+      &-special {
+        @include flex();
+        margin-right: 2rem;
+        font-size: 0.7rem;
+        color: $secondary-color;
+        background-image: linear-gradient(
+          to left,
+          transparent,
+          rgba($secondary-color, 0.2)
+        );
+        // background-color: rgba($secondary-color, 0.2);
+        padding-inline: 1rem;
+        border-radius: 4rem;
+      }
+    }
+  }
+}

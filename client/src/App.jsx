@@ -1,10 +1,22 @@
+import Layout from "@components/Layout/Layout";
+import Home from "@views/Home/Home";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 function App() {
-  return (
-    <> بسم الله الرحمن الرحيم
-    <h1>محمد رمضان</h1>
-    <h1>الرئيسية</h1>
-    </>
-  )
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App
