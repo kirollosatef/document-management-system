@@ -1,6 +1,5 @@
-import bell from "@assets/icons/1/bell.png";
 import { Menu } from "@mui/icons-material";
-import { Avatar, Button, Stack, useTheme } from "@mui/material";
+import {  Button, Stack, useTheme } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -9,7 +8,6 @@ import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 
 function Toolbar({ setOpenSidebar }) {
   const theme = useTheme();
-  const newNotification = true;
 
   const user = {
     name: "Mohammed",
