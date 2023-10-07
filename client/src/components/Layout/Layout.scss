@@ -5,8 +5,8 @@
   &-main {
     min-height: 93dvh;
     
-    .topNavbar {
-      @include flex($jc: flex-end);
+    .toolbar {
+      // @include flex($jc: flex-end);
       padding-inline:1rem;
       padding-block: .5rem;
       @include large {
