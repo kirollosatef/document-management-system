@@ -1,0 +1,19 @@
+@use "../../../theme/globals.scss" as *;
+
+.superadmin-chip {
+//   background-color: $role_superadmin !important;
+  border-color: $role_superadmin !important;
+  color: $role_superadmin !important;
+}
+
+.editor-chip {
+//   background-color: $role_viewer !important;
+  border-color: $role_viewer !important;
+  color: $role_viewer !important;
+}
+
+.viewer-chip {
+//   background-color: $role_editor !important;
+  border-color: $role_editor !important;
+  color: $role_editor !important;
+}

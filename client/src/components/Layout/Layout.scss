@@ -1,0 +1,77 @@
+@use "../../theme/globals.scss" as *;
+.app {
+  height: 100%;
+  main,
+  &-main {
+    min-height: 93dvh;
+    
+    .topNavbar {
+      @include flex($jc: flex-end);
+      padding-inline:1rem;
+      padding-block: .5rem;
+      @include large {
+        @include flex($jc: space-between);
+      }
+      &-bell {
+        padding: 0.3rem;
+        transition: $normal-speed;
+        border-radius: 1rem;
+        &:hover {
+          background-color: #222;
+        }
+        &.green-square {
+          position: relative;
+          &::before {
+            content: "";
+            position: absolute;
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: greenyellow;
+          }
+        }
+      }
+      &-left {
+        @include flex();
+        gap: 0.5rem;
+        order: 2;
+      }
+      &-user {
+        @include flex();
+        gap: .7rem;
+        &-img {
+          width: 3.5rem;
+          position: relative;
+          &::before {
+            content: "";
+            position: absolute;
+            bottom: .5rem;
+            width: 0.9rem;
+            height: 0.9rem;
+            border-radius: 50%;
+            border: 2px solid $bg-color;
+            background-color: rgb(255, 172, 47);
+          }
+
+          img {
+            width: 100%;
+            border-radius: 50%;
+          }
+        }
+      }
+      &-burger {
+        order: 1;
+        display: none;
+        @include large{
+          display: block;
+        }
+      }
+    }
+  }
+  .admin-footer {
+    @include flex($jc: flex-end);
+    height: 7dvh;
+    border-top: 2px solid #7771;
+    color: $smallTxt-color;
+  }
+}
