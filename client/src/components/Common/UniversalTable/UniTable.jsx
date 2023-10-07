@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Table,
   TableRow,
@@ -8,24 +9,13 @@ import {
   Paper,
   TablePagination,
   useTheme,
+  Checkbox,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-
-// import EnhancedTableHead from "../../components/EnhancedTableHead/EnhancedTableHead";
-
 import dayjs from "dayjs";
 import { sortTable } from "@src/utils/sortTable";
 import EnhancedTableHead from "./EnhancedTableHead/EnhancedTableHead";
 import { useTable } from "./useTable";
-
-/**
- * 
- * headers is an Array of objects
- * each object should contain id and label
- * for Example: headers = [{
-    id:1,label:"name"
- * }]
- */
 
 const UniTable = ({ data = [], headers, title }) => {
   const {
@@ -39,15 +29,17 @@ const UniTable = ({ data = [], headers, title }) => {
   } = useTable();
   const theme = useTheme();
 
-  const onDelete = (id) => {
-    console.log(id);
+  const [selected, setSelected] = useState(null); // State for selected row
+
+  const handleRowClick = (id) => {
+    setSelected(id === selected ? null : id); // Toggle selection on row click
   };
+
   return (
     <>
       <Typography
         variant="h6"
         mt={4}
-        // mb={1}
         color={theme.palette.secondary[400]}
         border={`1px solid ${theme.palette.secondary[400]}`}
         borderBottom={"unset"}
@@ -55,7 +47,6 @@ const UniTable = ({ data = [], headers, title }) => {
         width="fit-content"
         px={2}
         py={1}
-        // borderRadius={20}
         fontSize={12}
       >
         {title}
@@ -67,11 +58,7 @@ const UniTable = ({ data = [], headers, title }) => {
         }}
       >
         <TableContainer>
-          <Table
-            xs={{
-              "&td": {},
-            }}
-          >
+          <Table>
             <EnhancedTableHead
               headers={headers}
               order={order}
@@ -81,30 +68,32 @@ const UniTable = ({ data = [], headers, title }) => {
             <TableBody>
               {sortTable(data, order, orderBy)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((item) => (
-                  <TableRow key={item.ownerID}>
-                    <TableCell align="right" dir="ltr">
-                      <Link to={`/dashboard/users/${item.id}`}>{item.id}</Link>
-                    </TableCell>
+                .map((item) => {
+                  const isSelected = item.id === selected;
 
-                    {/* <TableCell align="right">
-                    <Link to={`/admin/users/1`}>
-                      <Stack direction={"row"} alignItems={"center"} gap={2}>
-                        <Avatar src={item.customer.avatar} />
-                        <span> {item.customer.name} </span>
-                      </Stack>
-                    </Link>
-                  </TableCell> */}
-                    <TableCell align="right">{item.fullName}</TableCell>
-                    <TableCell align="right">{item.username}</TableCell>
-                    <TableCell align="right">{item.password}</TableCell>
-
-                    <TableCell align="right">{item.department}</TableCell>
-                    <TableCell align="right">
-                      {dayjs(item.addedAt).format("D/M/YYYY")}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                  return (
+                    <TableRow
+                      key={item.id}
+                      selected={isSelected}
+                      hover
+                      onClick={() => handleRowClick(item.id)}
+                    >
+                      {headers.map((header) => (
+                        <TableCell key={header.id} align="right">
+                          {header.id === "id" ? (
+                            <Link to={`/dashboard/users/${item.id}`}>
+                              {item[header.id]}
+                            </Link>
+                          ) : header.id === "addedAt" ? (
+                            dayjs(item[header.id]).format("DD-MM-YYYY")
+                          ) : (
+                            item[header.id]
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
           <TablePagination
@@ -125,6 +114,7 @@ const UniTable = ({ data = [], headers, title }) => {
               `عرض ${from} من ${to}  اجمالي  ${count}`
             }
             sx={{
+              marginRight: 4,
               display: "flex",
               justifyContent: "flex-start",
               color: "#777",
