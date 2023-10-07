@@ -6,6 +6,7 @@
         "@views/*": ["src/views/*"],
         "@assets/*": ["src/assets/*"],
         "@dashboard/*": ["src/dashboard/*"],
+        "@store/*": ["src/store/*"],
         "@src/*": ["src/*"],
       }
     },

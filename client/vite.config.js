@@ -10,6 +10,7 @@ export default defineConfig({
       "@views": path.resolve(__dirname, "./src/views"),
       "@assets": path.resolve(__dirname, "./src/assets"),
       "@dashboard": path.resolve(__dirname, "./src/dashboard"),
+      "@store": path.resolve(__dirname, "./src/store"),
       "@src": path.resolve(__dirname, "./src"),
     },
   },
