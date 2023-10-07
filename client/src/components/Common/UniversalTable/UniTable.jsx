@@ -1,7 +1,5 @@
-import React from "react";
 import {
   Table,
-  TableHead,
   TableRow,
   TableCell,
   TableContainer,
@@ -10,9 +8,6 @@ import {
   Paper,
   TablePagination,
   useTheme,
-  Button,
-  Avatar,
-  Stack,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -104,9 +99,7 @@ const UniTable = ({ data = [], headers, title }) => {
                     <TableCell align="right">{item.username}</TableCell>
                     <TableCell align="right">{item.password}</TableCell>
 
-                    <TableCell align="right">
-                      {item.department}
-                    </TableCell>
+                    <TableCell align="right">{item.department}</TableCell>
                     <TableCell align="right">
                       {dayjs(item.addedAt).format("D/M/YYYY")}
                     </TableCell>
@@ -137,7 +130,7 @@ const UniTable = ({ data = [], headers, title }) => {
               color: "#777",
               "& .MuiTablePagination-actions": {
                 display: "flex",
-                flexDirection: "row-reverse",
+                flexDirection: "row",
               },
             }}
           />
