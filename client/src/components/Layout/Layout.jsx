@@ -39,10 +39,9 @@ function Layout() {
             </Grid>
             <Grid flex={1} sx={{ height: "100%" }}>
               <Toolbar
-                // openSidebar={openSidebar}
                 setOpenSidebar={setOpenSidebar}
               />
-              <Box p={3}>
+              <Box px={4} py={2}>
                 <Outlet />
               </Box>
             </Grid>

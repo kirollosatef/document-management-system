@@ -1,11 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { register } from "./usersActions";
+import { createSlice } from "@reduxjs/toolkit";
+import { allUsers } from "./usersActions";
 
 //slices
 const usersSlices = createSlice({
   name: "users",
   initialState: {
-    user: JSON.parse(localStorage.getItem("userInfo")),
+    users:null,
     loading: false,
     error: false,
     components: {
@@ -21,15 +21,15 @@ const usersSlices = createSlice({
     },
   },
   extraReducers: (builder) => {
-    //register
-    builder.addCase(register.pending, (state, action) => {
+    //allUsers
+    builder.addCase(allUsers.pending, (state, action) => {
       state.loading = true;
     });
-    builder.addCase(register.fulfilled, (state, action) => {
+    builder.addCase(allUsers.fulfilled, (state, action) => {
       state.loading = false;
       state.user = action.payload;
     });
-    builder.addCase(register.rejected, (state, action) => {
+    builder.addCase(allUsers.rejected, (state, action) => {
       state.loading = false;
       state.error = state.payload;
     });
