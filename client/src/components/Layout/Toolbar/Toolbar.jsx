@@ -1,41 +1,83 @@
 import bell from "@assets/icons/1/bell.png";
 import { Menu } from "@mui/icons-material";
-import { Avatar, useTheme } from "@mui/material";
+import { Avatar, Button, Stack, useTheme } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import PrintIcon from "@mui/icons-material/Print";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 
 function Toolbar({ setOpenSidebar }) {
-  const theme = useTheme()
+  const theme = useTheme();
   const newNotification = true;
 
   const user = {
-    name:"Mohammed",
+    name: "Mohammed",
     username: "محمد رمضان",
-    avatar:""
-  }
+    avatar: "",
+  };
 
   return (
-    <div className="topNavbar">
-      <div className="topNavbar-burger" onClick={() => setOpenSidebar(true)}>
+    <div className="toolbar">
+      <div className="toolbar-burger" onClick={() => setOpenSidebar(true)}>
         <Menu />
       </div>
-      <div className="topNavbar-left">
-        <div
-          className={`topNavbar-bell ${newNotification ? "green-square" : ""}`}>
-          {/* <img src={bell} alt="bell" /> */}
-        </div>
-        <div className="topNavbar-user">
-          <div className="topNavbar-user-name">{user.username}</div>
-          <div className="topNavbar-user-img">
-          <Avatar
-              sx={{
-                bgcolor: theme.palette.role.superadmin,
-                width: 40,
-                height: 40,
-                fontSize:15
-              }}
+      <div className="toolbar-content">
+        <div className="toolbar-content-btns">
+          <Stack
+            direction="row"
+            gap={2}
+            alignItems={"center"}
+            justifyContent={"center"}
+            margin={"auto"}
+            width={"100%"}
+          >
+            <Button
+              variant="outlined"
+              color="success"
+              endIcon={<AddIcon />}
+              sx={{fontWeight:600,fontSize:12}}
+              dir="ltr"
             >
-              {user.name.slice(0, 2)}
-            </Avatar>
-          </div>
+              اضافة
+            </Button>
+            <Button
+              variant="outlined"
+              color="warning"
+              endIcon={<EditIcon />}
+              sx={{fontWeight:600,fontSize:12}}
+              dir="ltr"
+            >
+              تعديل
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              endIcon={<DeleteForeverIcon />}
+              sx={{fontWeight:600,fontSize:12}}
+              dir="ltr"
+            >
+              حذف
+            </Button>
+            <Button
+              variant="contained"
+              color="info"
+              endIcon={<PrintIcon />}
+              sx={{fontWeight:600,fontSize:12}}
+              dir="ltr"
+            >
+              طباعة
+            </Button>
+            <Button
+              variant="contained"
+              color="info"
+              endIcon={<TextSnippetIcon />}
+              sx={{fontWeight:600,fontSize:12}}
+              dir="ltr"
+            >
+              تعيين بيانات
+            </Button>
+          </Stack>
         </div>
       </div>
     </div>
