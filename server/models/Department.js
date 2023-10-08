@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-const departmentSchema = new mongoose.Schema({
+const departmentSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -9,6 +9,6 @@ const departmentSchema = new mongoose.Schema({
   description: String,
 });
 
-const Department = mongoose.model('Department', departmentSchema);
+const Department = model('Department', departmentSchema);
 
 export default Department;

@@ -5,6 +5,7 @@ dotenv.config();
 export const DB_URL = process.env.DB_URL;
 export const PORT = process.env.PORT || 8080;
 export const JWT_SECRET = process.env.JWT_SECRET;
+export const MAX_FILES = 5;
 
 export const MESSAGES = {
   youAreNotLoggedIn: 'انت غير مسجل دخول برجاء تسجيل الدخول',
@@ -16,4 +17,6 @@ export const MESSAGES = {
   noDepartmentFounded: 'لا يوجد قسم بهذا الاسم',
   roleIsRequired: 'الرجاء تحديد الدور',
   departmentNameAlreadyInUse: 'اسم القسم مستخدم بالفعل',
+  maxFiles: 'لا يمكن رفع اكثر من 5 ملفات',
 };
+
