@@ -12,4 +12,8 @@ export const MESSAGES = {
   wrongPassword: 'كلمة المرور غير صحيحة',
   usernameAlreadyInUse: 'اسم المستخدم مستخدم بالفعل',
   youAreNotAuthorized: 'لس لديك صلاحية للقيام بهذه العملية',
+  departmentNameIsRequired: 'اسم القسم مطلوب',
+  noDepartmentFounded: 'لا يوجد قسم بهذا الاسم',
+  roleIsRequired: 'الرجاء تحديد الدور',
+  departmentNameAlreadyInUse: 'اسم القسم مستخدم بالفعل',
 };
