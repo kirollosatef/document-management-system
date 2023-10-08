@@ -1,5 +1,6 @@
 import RequireAuth from "@components/Common/RequireAuth/RequireAuth";
 import Layout from "@components/Layout/Layout";
+import Departments from "@views/Departments/Departments";
 import Home from "@views/Home/Home";
 import Login from "@views/Login/Login";
 import Users from "@views/Users/Users";
@@ -21,6 +22,10 @@ function App() {
             {
               path: "users",
               element: <Users />,
+            },
+            {
+              path: "departments",
+              element: <Departments />,
             },
           ]
         },
