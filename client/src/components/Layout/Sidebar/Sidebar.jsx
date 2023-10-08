@@ -11,15 +11,12 @@ import {
 } from "@mui/material";
 import SkeletonLinks from "@components/Common/Skeleton/Sidebar/SkeletonLinks";
 import UniChip from "@components/Common/UniversalChip/UniChip";
+import { useSelector } from "react-redux";
 
 function Sidebar({ openSidebar, setOpenSidebar }) {
   const theme = useTheme();
+  const {user} = useSelector(state => state.auth)
   const loading = false;
-  const user = {
-    name: "Mohammed",
-    username: "mohammedramadan99",
-    role: "superadmin", //'superadmin', 'editor', 'viewer'
-  };
   return (
     <div className="sidebar">
       {/* top bar in mobile */}
@@ -33,7 +30,7 @@ function Sidebar({ openSidebar, setOpenSidebar }) {
           </div>
           <div className="sidebar-topBar-left">
             <div className="sidebar-topBar-user">
-              <div className="sidebar-topBar-user-name">{user.username}</div>
+              <div className="sidebar-topBar-user-name">{user?.username}</div>
             </div>
           </div>
         </div>
@@ -55,7 +52,7 @@ function Sidebar({ openSidebar, setOpenSidebar }) {
                 fontSize: 50,
               }}
             >
-              {user.name.slice(0, 2)}
+              {user?.name?.slice(0, 2)}
             </Avatar>
           )}
         </div>
@@ -63,14 +60,14 @@ function Sidebar({ openSidebar, setOpenSidebar }) {
           {loading ? (
             <Skeleton sx={{ width: 100 }} height={35} variant="text" />
           ) : (
-            <UniChip label={user.role} role={user.role}/>
+            <UniChip label={user?.role} role={user?.role}/>
           )}
         </div>
         <div className="sidebar-user-name">
           {loading ? (
             <Skeleton sx={{ width: 100 }} height={35} variant="text" />
           ) : (
-            <Typography> {user.username} </Typography>
+            <Typography> {user?.username} </Typography>
           )}
         </div>
       </div>
