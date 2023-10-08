@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Table,
   TableRow,
@@ -9,15 +8,14 @@ import {
   Paper,
   TablePagination,
   useTheme,
-  Checkbox,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import { sortTable } from "@src/utils/sortTable";
 import EnhancedTableHead from "./EnhancedTableHead/EnhancedTableHead";
 import { useTable } from "./useTable";
+import { useSelector } from "react-redux";
 
-const UniTable = ({ data = [], headers, title }) => {
+const UniTable = ({ data = [], headers, title,handleClick }) => {
   const {
     page,
     rowsPerPage,
@@ -28,18 +26,13 @@ const UniTable = ({ data = [], headers, title }) => {
     onSortClick,
   } = useTable();
   const theme = useTheme();
-
-  const [selected, setSelected] = useState(null); // State for selected row
-
-  const handleRowClick = (id) => {
-    setSelected(id === selected ? null : id); // Toggle selection on row click
-  };
-
+  const { components } = useSelector(state => state.users)
+  const {selectedUser} = components
   return (
     <>
       <Typography
         variant="h6"
-        mt={4}
+
         color={theme.palette.secondary[400]}
         border={`1px solid ${theme.palette.secondary[400]}`}
         borderBottom={"unset"}
@@ -47,16 +40,14 @@ const UniTable = ({ data = [], headers, title }) => {
         width="fit-content"
         px={2}
         py={1}
-        fontSize={12}
-      >
+        fontSize={12}>
         {title}
       </Typography>
       <Paper
         sx={{
           backgroundColor: theme.palette.primary[600],
           borderTop: `1px solid ${theme.palette.secondary[500]}`,
-        }}
-      >
+        }}>
         <TableContainer>
           <Table>
             <EnhancedTableHead
@@ -69,22 +60,17 @@ const UniTable = ({ data = [], headers, title }) => {
               {sortTable(data, order, orderBy)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((item) => {
-                  const isSelected = item.id === selected;
+                  const isSelected = item.id === selectedUser?.id;
 
                   return (
                     <TableRow
                       key={item.id}
                       selected={isSelected}
                       hover
-                      onClick={() => handleRowClick(item.id)}
-                    >
+                      onClick={() => handleClick(item)}>
                       {headers.map((header) => (
                         <TableCell key={header.id} align="right">
-                          {header.id === "id" ? (
-                            <Link to={`/dashboard/users/${item.id}`}>
-                              {item[header.id]}
-                            </Link>
-                          ) : header.id === "addedAt" ? (
+                          {header.id === "addedAt" ? (
                             dayjs(item[header.id]).format("DD-MM-YYYY")
                           ) : (
                             item[header.id]

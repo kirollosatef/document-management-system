@@ -8,7 +8,7 @@
     .toolbar {
       // @include flex($jc: flex-end);
       padding-inline:1rem;
-      padding-block: .5rem;
+      padding-top: 2rem;
       @include large {
         @include flex($jc: space-between);
       }
