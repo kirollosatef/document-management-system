@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 import connectToDB from './middlewares/db.conn.js';
 import indexRouter from './routes/index.routes.js';
 import testRouter from './routes/test.routes.js';
+import { createAdminUserIfNotExist } from './models/User.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -38,6 +39,9 @@ multer({
 // Routes
 app.use('/api/v0', indexRouter);
 app.use('/', testRouter);
+
+// Create admin user if not exist
+createAdminUserIfNotExist();
 
 app.listen(port, () => {
   console.log(`Server listening successfully on \n\t{ SERVER_URL::http://localhost:${port} }`);
