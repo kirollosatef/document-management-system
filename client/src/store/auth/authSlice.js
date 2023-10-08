@@ -11,12 +11,15 @@ export const login = createAsyncThunk(
         },
         body: JSON.stringify(actionData),
       });
-      const data = await response.json();
-      if (data.error) {
-        return rejectWithValue(data.error);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
       }
-      localStorage.setItem("user",data?.user)
-      localStorage.setItem("token",data?.token)
+
+      const data = await response.json();
+      localStorage.setItem("user", JSON.stringify(data?.user));
+      localStorage.setItem("token", JSON.stringify(data?.token));
       return data;
     } catch (error) {
       console.error(error);
@@ -27,6 +30,8 @@ export const login = createAsyncThunk(
   }
 );
 
+
+
 //slices
 const authSlice = createSlice({
   name: "auth",
@@ -34,6 +39,7 @@ const authSlice = createSlice({
     user: JSON.parse(localStorage.getItem("user")) || null,
     loading: false,
     error: false,
+    message:'',
     components: {
       selectedUser: null,
     },
@@ -41,6 +47,7 @@ const authSlice = createSlice({
   reducers: {
     reset: (state) => {
       state.error = false;
+      state.message = '';
     },
     setSelectedUser: (state, action) => {
       state.components.selectedUser = action.payload;
@@ -53,12 +60,14 @@ const authSlice = createSlice({
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.user = action.payload?.user;
     });
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
-      state.error = state.payload;
+      state.error = true;
+      state.message = action.payload
     });
+    
   },
 });
 
