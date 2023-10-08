@@ -2,6 +2,8 @@ import UniTable from "@components/Common/UniversalTable/UniTable";
 import { users } from "../../mockup/data";
 import { useDispatch } from "react-redux";
 import { setSelectedUser } from "@store/users/usersSlice";
+import { useEffect } from "react";
+import { getDepartments } from "@store/departments/departmentsSlice";
 function Departments() {
   const dispatch = useDispatch();
   const headers = [
@@ -24,6 +26,9 @@ function Departments() {
   const handleClick = (user) => {
     dispatch(setSelectedUser(user));
   };
+  useEffect(() => {
+    dispatch(getDepartments());
+  }, []);
   return (
     <div>
       <UniTable

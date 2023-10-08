@@ -1,10 +1,17 @@
+import { Suspense } from "react";
+import { lazy } from "react";
 import RequireAuth from "@components/Common/RequireAuth/RequireAuth";
 import Layout from "@components/Layout/Layout";
-import Departments from "@views/Departments/Departments";
 import Home from "@views/Home/Home";
 import Login from "@views/Login/Login";
-import Users from "@views/Users/Users";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+const users = {
+  Users: lazy(() => import("@views/Users/Users")),
+};
+const departments = {
+  Departments: lazy(() => import("@views/Departments/Departments")),
+};
 
 function App() {
   const router = createBrowserRouter([
@@ -13,7 +20,7 @@ function App() {
       element: <Layout />,
       children: [
         {
-          element: <RequireAuth/>,
+          element: <RequireAuth />,
           children: [
             {
               path: "/",
@@ -21,13 +28,21 @@ function App() {
             },
             {
               path: "users",
-              element: <Users />,
+              element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <users.Users />
+                </Suspense>
+              ),
             },
             {
               path: "departments",
-              element: <Departments />,
+              element: (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <departments.Departments />
+                </Suspense>
+              ),
             },
-          ]
+          ],
         },
       ],
     },
@@ -40,4 +55,4 @@ function App() {
   return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
