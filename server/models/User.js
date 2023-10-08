@@ -1,11 +1,11 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import Department from './Department.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import { JWT_SECRET, MESSAGES } from '../config.js';
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -90,7 +90,7 @@ userSchema.methods.comparePassword = async function (password) {
   }
 };
 
-const User = mongoose.model('User', userSchema);
+const User = model('User', userSchema);
 
 export const createAdminUserIfNotExist = async () => {
   let departmentId;
