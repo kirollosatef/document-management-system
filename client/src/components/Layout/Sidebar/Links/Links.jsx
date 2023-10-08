@@ -1,7 +1,10 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { userLinks } from "./LinksTypes";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { logout } from "@store/auth/authSlice";
+import { useDispatch } from "react-redux";
 function Links() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const location = useLocation();
   const links = userLinks;
@@ -23,8 +26,7 @@ function Links() {
                   ? `/dashboard/server/${id}/${item.link}`
                   : `${item.link}`
               );
-            }}
-          >
+            }}>
             <div className="sidebar-links-link-icon">
               <Icon />
             </div>
@@ -36,7 +38,11 @@ function Links() {
         <div className="sidebar-links-link-icon">
           <LogoutIcon />
         </div>
-        <div className="sidebar-links-link-text">تسجيل الخروج</div>
+        <div
+          className="sidebar-links-link-text"
+          onClick={() => dispatch(logout())}>
+          تسجيل الخروج
+        </div>
       </div>
     </div>
   );

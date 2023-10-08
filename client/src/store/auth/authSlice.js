@@ -52,6 +52,10 @@ const authSlice = createSlice({
     setSelectedUser: (state, action) => {
       state.components.selectedUser = action.payload;
     },
+    logout: (state) => {
+      localStorage.clear()
+      state.user = null
+    }
   },
   extraReducers: (builder) => {
     //login
@@ -61,6 +65,7 @@ const authSlice = createSlice({
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
       state.user = action.payload?.user;
+      state.token = action.payload?.token;
     });
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
@@ -71,6 +76,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { reset } = authSlice.actions;
+export const { reset,logout } = authSlice.actions;
 
 export default authSlice.reducer;
