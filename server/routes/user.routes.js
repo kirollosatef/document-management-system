@@ -5,10 +5,10 @@ import authorizate from '../middlewares/authorizate.js';
 
 const userRouter = Router();
 
-userRouter.post('/register', userController.register);
+userRouter.post('/register', authenticate, authorizate(0), userController.register);
 userRouter.post('/login', userController.login);
-userRouter.get('/list', authenticate, authorizate(0), userController.list);
-userRouter.get('/:id', authenticate, authorizate(0), userController.get);
+userRouter.get('/list', authenticate, authorizate(2), userController.list);
+userRouter.get('/:id', authenticate, authorizate(2), userController.get);
 userRouter.put('/:id', authenticate, authorizate(0), userController.update);
 userRouter.delete('/:id', authenticate, authorizate(0), userController.remove);
 

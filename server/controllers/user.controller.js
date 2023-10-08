@@ -1,8 +1,27 @@
 import User from '../models/User.js';
+import Department from '../models/Department.js';
 import { MESSAGES } from '../config.js';
 
 const register = async (req, res) => {
-  const { name, username, password, role } = req.body;
+  const { name, username, password, role, department } = req.body;
+
+  if (!role) {
+    return res.status(400).json({ message: MESSAGES.roleIsRequired });
+  }
+
+  if (!department) {
+    return res.status(400).json({ message: MESSAGES.departmentNameIsRequired });
+  }
+
+  const departmentFounded = await Department.findOne({ name: department });
+
+  if (!departmentFounded) {
+    return res.status(404).json({ message: MESSAGES.noDepartmentFounded });
+  }
+
+  if (await User.findOne({ username })) {
+    return res.status(400).json({ message: MESSAGES.usernameAlreadyInUse });
+  }
 
   try {
     const user = new User({
@@ -10,11 +29,8 @@ const register = async (req, res) => {
       username,
       password,
       role,
-    });
-
-    if (await User.findOne({ username })) {
-      return res.status(400).json({ message: MESSAGES.usernameAlreadyInUse });
-    }
+      department: departmentFounded._id,
+    }).populate('department');
 
     await user.save();
 
@@ -28,7 +44,7 @@ const register = async (req, res) => {
 
 const list = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().populate('department');
 
     res.status(200).json({ users });
   } catch (err) {
@@ -38,7 +54,7 @@ const list = async (req, res) => {
 
 const get = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).populate('department');
 
     if (!user) {
       return res.status(404).json({ message: MESSAGES.noUserFounded });
@@ -54,7 +70,7 @@ const login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).populate('department');
 
     if (!user) {
       return res.status(401).json({ message: MESSAGES.noUserFounded });
@@ -75,7 +91,21 @@ const login = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { name, username, password, role } = req.body;
+  const { name, username, password, role, department } = req.body;
+
+  if (username) {
+    if (await User.findOne({ username })) {
+      return res.status(400).json({ message: MESSAGES.usernameAlreadyInUse });
+    }
+  }
+
+  if (department) {
+    const departmentFounded = await Department.findOne({ name: department });
+
+    if (!departmentFounded) {
+      return res.status(404).json({ message: MESSAGES.noDepartmentFounded });
+    }
+  }
 
   try {
     const user = await User.findByIdAndUpdate(
@@ -85,13 +115,10 @@ const update = async (req, res) => {
         username,
         password,
         role,
+        department,
       },
       { new: true }
-    );
-
-    if (!user) {
-      return res.status(404).json({ message: MESSAGES.noUserFounded });
-    }
+    ).populate('department');
 
     res.status(200).json({ user });
   } catch (err) {
@@ -101,7 +128,7 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const user = await User.findByIdAndDelete(req.params.id).populate('department');
 
     if (!user) {
       return res.status(404).json({ message: MESSAGES.noUserFounded });
