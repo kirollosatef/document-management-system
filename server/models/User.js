@@ -1,4 +1,5 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+import Department from './Department.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -23,6 +24,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 8,
     maxlength: 20,
+  },
+  department: {
+    type: Schema.Types.ObjectId,
+    ref: 'Department',
   },
   role: {
     type: String,
@@ -86,5 +91,43 @@ userSchema.methods.comparePassword = async function (password) {
 };
 
 const User = mongoose.model('User', userSchema);
+
+export const createAdminUserIfNotExist = async () => {
+  let departmentId;
+
+  try {
+    const department = await Department.findOne({ name: 'مدير' });
+
+    if (!department) {
+      const department = new Department({
+        name: 'مدير',
+        description: 'مدير',
+      });
+
+      const data = await department.save();
+
+      departmentId = data._id;
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+  try {
+    const user = await User.findOne({ username: 'admin' });
+
+    if (!user) {
+      const admin = new User({
+        name: 'admin',
+        username: 'admin',
+        password: 'admin1234',
+        role: 'superadmin',
+        department: departmentId,
+      });
+
+      await admin.save();
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 
 export default User;
