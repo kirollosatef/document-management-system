@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const register = createAsyncThunk(
-  "users/register",
+export const login = createAsyncThunk(
+  "auth/login",
   async (actionData, { rejectWithValue, getState }) => {
     try {
-      const response = await fetch(`/api/v0/users`, {
+      const response = await fetch(`/api/v0/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -15,6 +15,8 @@ export const register = createAsyncThunk(
       if (data.error) {
         return rejectWithValue(data.error);
       }
+      localStorage.setItem("user",data?.user)
+      localStorage.setItem("token",data?.token)
       return data;
     } catch (error) {
       console.error(error);
@@ -29,7 +31,7 @@ export const register = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: JSON.parse(localStorage.getItem("userInfo")) || {},
+    user: JSON.parse(localStorage.getItem("user")) || null,
     loading: false,
     error: false,
     components: {
@@ -45,15 +47,15 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    //register
-    builder.addCase(register.pending, (state, action) => {
+    //login
+    builder.addCase(login.pending, (state, action) => {
       state.loading = true;
     });
-    builder.addCase(register.fulfilled, (state, action) => {
+    builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
       state.user = action.payload;
     });
-    builder.addCase(register.rejected, (state, action) => {
+    builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
       state.error = state.payload;
     });
