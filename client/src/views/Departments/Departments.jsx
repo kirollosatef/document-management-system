@@ -1,39 +1,38 @@
 import UniTable from "@components/Common/UniversalTable/UniTable";
 import { users } from "../../mockup/data";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "@store/users/usersSlice";
 import { useEffect } from "react";
-import { getDepartments } from "@store/departments/departmentsSlice";
+import {
+  getDepartments,
+  setSelectedDepartment,
+} from "@store/departments/departmentsSlice";
 function Departments() {
   const dispatch = useDispatch();
+  const {allDepartments} = useSelector(state => state.departments)
   const headers = [
-    { id: "id", label: "ID" },
-    { id: "fullName", label: "الاسم الكامل" },
+    { id: "_id", label: "ID" },
+    { id: "name", label: "الاسم" },
     {
-      id: "username",
-      label: "اسم المستخدم",
+      id: "description",
+      label: "الوصف",
     },
-    {
-      id: "password",
-      label: "كلمة المرور",
-    },
-    {
-      id: "department",
-      label: "القسم",
-    },
-    { id: "addedAt", label: "تاريخ الاضافة" },
+    // {
+    //   id: "createdAt",
+    //   label: "تاريخ الاضافة",
+    // },
   ];
-  const handleClick = (user) => {
-    dispatch(setSelectedUser(user));
+  const handleClick = (obj) => {
+    dispatch(setSelectedDepartment(obj));
   };
   useEffect(() => {
     dispatch(getDepartments());
-  }, []);
+  }, [dispatch]);
   return (
     <div>
       <UniTable
         headers={headers}
-        data={users}
+        data={allDepartments || []}
         title="الاقسام"
         handleClick={handleClick}
       />

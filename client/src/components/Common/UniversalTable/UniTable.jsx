@@ -32,7 +32,6 @@ const UniTable = ({ data = [], headers, title,handleClick }) => {
     <>
       <Typography
         variant="h6"
-
         color={theme.palette.secondary[400]}
         border={`1px solid ${theme.palette.secondary[400]}`}
         borderBottom={"unset"}
@@ -60,11 +59,11 @@ const UniTable = ({ data = [], headers, title,handleClick }) => {
               {sortTable(data, order, orderBy)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((item) => {
-                  const isSelected = item.id === selectedUser?.id;
+                  const isSelected = item._id === selectedUser?._id;
 
                   return (
                     <TableRow
-                      key={item.id}
+                      key={item._id}
                       selected={isSelected}
                       hover
                       onClick={() => handleClick(item)}>

@@ -39,12 +39,17 @@ const departmentsSlice = createSlice({
     loading: false,
     error: false,
     message: "",
-    components: {},
+    components: {
+      selectedDepartment:null,
+    },
   },
   reducers: {
     reset: (state) => {
       state.error = false;
       state.message = "";
+    },
+    setSelectedDepartment: (state, { payload }) => {
+      state.selectedDepartment = payload;
     },
   },
   extraReducers: (builder) => {
@@ -64,6 +69,6 @@ const departmentsSlice = createSlice({
   },
 });
 
-export const { reset } = departmentsSlice.actions;
+export const { reset,setSelectedDepartment } = departmentsSlice.actions;
 
 export default departmentsSlice.reducer;
