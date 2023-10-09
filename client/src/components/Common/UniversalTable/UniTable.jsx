@@ -15,7 +15,7 @@ import EnhancedTableHead from "./EnhancedTableHead/EnhancedTableHead";
 import { useTable } from "./useTable";
 import { useSelector } from "react-redux";
 
-const UniTable = ({ data = [], headers, title,handleClick }) => {
+const UniTable = ({ data = [], headers, title,handleClick,selectedItem }) => {
   const {
     page,
     rowsPerPage,
@@ -26,8 +26,6 @@ const UniTable = ({ data = [], headers, title,handleClick }) => {
     onSortClick,
   } = useTable();
   const theme = useTheme();
-  const { components } = useSelector(state => state.users)
-  const {selectedUser} = components
   return (
     <>
       <Typography
@@ -59,7 +57,7 @@ const UniTable = ({ data = [], headers, title,handleClick }) => {
               {sortTable(data, order, orderBy)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((item) => {
-                  const isSelected = item._id === selectedUser?._id;
+                  const isSelected = item._id === selectedItem?._id;
 
                   return (
                     <TableRow

@@ -49,7 +49,7 @@ const departmentsSlice = createSlice({
       state.message = "";
     },
     setSelectedDepartment: (state, { payload }) => {
-      state.selectedDepartment = payload;
+      state.components.selectedDepartment = payload;
     },
   },
   extraReducers: (builder) => {

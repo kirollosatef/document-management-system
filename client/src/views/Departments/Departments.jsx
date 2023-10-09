@@ -1,15 +1,21 @@
 import UniTable from "@components/Common/UniversalTable/UniTable";
-import { users } from "../../mockup/data";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedUser } from "@store/users/usersSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   getDepartments,
   setSelectedDepartment,
 } from "@store/departments/departmentsSlice";
+import AddDepartmentDialog from "@components/Departments/AddDepartmentDialog/AddDepartmentDialog";
+
 function Departments() {
   const dispatch = useDispatch();
-  const {allDepartments} = useSelector(state => state.departments)
+  const { allDepartments, components } = useSelector(
+    (state) => state.departments
+  );
+  const { add } = useSelector(
+    (state) => state.toolsbar
+  );
+  const { selectedDepartment } = components;
   const headers = [
     { id: "_id", label: "ID" },
     { id: "name", label: "الاسم" },
@@ -28,6 +34,7 @@ function Departments() {
   useEffect(() => {
     dispatch(getDepartments());
   }, [dispatch]);
+
   return (
     <div>
       <UniTable
@@ -35,7 +42,9 @@ function Departments() {
         data={allDepartments || []}
         title="الاقسام"
         handleClick={handleClick}
+        selectedItem={selectedDepartment}
       />
+      <AddDepartmentDialog open={add} />
     </div>
   );
 }
