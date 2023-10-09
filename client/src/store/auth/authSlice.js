@@ -30,8 +30,6 @@ export const login = createAsyncThunk(
   }
 );
 
-
-
 //slices
 const authSlice = createSlice({
   name: "auth",
@@ -39,7 +37,7 @@ const authSlice = createSlice({
     user: JSON.parse(localStorage.getItem("user")) || null,
     loading: false,
     error: false,
-    message:'',
+    message: "",
     components: {
       selectedUser: null,
     },
@@ -47,15 +45,15 @@ const authSlice = createSlice({
   reducers: {
     reset: (state) => {
       state.error = false;
-      state.message = '';
+      state.message = "";
     },
     setSelectedUser: (state, action) => {
       state.components.selectedUser = action.payload;
     },
     logout: (state) => {
-      localStorage.clear()
-      state.user = null
-    }
+      localStorage.clear();
+      state.user = null;
+    },
   },
   extraReducers: (builder) => {
     //login
@@ -70,12 +68,11 @@ const authSlice = createSlice({
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
       state.error = true;
-      state.message = action.payload
+      state.message = action.payload;
     });
-    
   },
 });
 
-export const { reset,logout } = authSlice.actions;
+export const { reset, logout } = authSlice.actions;
 
 export default authSlice.reducer;

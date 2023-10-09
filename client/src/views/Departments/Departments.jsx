@@ -2,10 +2,10 @@ import UniTable from "@components/Common/UniversalTable/UniTable";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
-  getDepartments,
   setSelectedDepartment,
 } from "@store/departments/departmentsSlice";
 import AddDepartmentDialog from "@components/Departments/AddDepartmentDialog/AddDepartmentDialog";
+import { getDepartments } from "@store/departments/departmentActions";
 
 function Departments() {
   const dispatch = useDispatch();
