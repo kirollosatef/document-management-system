@@ -10,17 +10,22 @@ import { Box, Button, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import UniInput from "@components/Common/UniversalInput/UniInput";
-import { setAdd, setUpdate } from "@store/toolsbar/toolsbarSlice";
+import {
+  resetSelectedItem,
+  setAdd,
+  setUpdate,
+} from "@store/toolsbar/toolsbarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createDepartment,
   updateDepartment,
 } from "@store/departments/departmentActions";
 import { useEffect } from "react";
+import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { reset } from "@store/departments/departmentsSlice";
 import { toast } from "react-toastify";
 
-export default function AddDepartmentDialog({ open, setOpen, footer }) {
+export default function DepartmentDialog({ open, setOpen, footer }) {
   const dispatch = useDispatch();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -32,6 +37,7 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
   const handleClose = () => {
     add ? dispatch(setAdd(false)) : dispatch(setUpdate(false));
     formik.resetForm();
+    dispatch(resetToolbar());
   };
   const formik = useFormik({
     initialValues: {
@@ -58,12 +64,14 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
       toast.success("تمت اضافة قسم جديد");
       dispatch(setAdd(false));
       dispatch(reset());
+      dispatch(resetSelectedItem());
       formik.resetForm();
     }
     if (updated) {
       toast.success(`تم تعديل قسم ${selectedItem?.item?.name}`);
       dispatch(setUpdate(false));
       dispatch(reset());
+      dispatch(resetSelectedItem());
       formik.resetForm();
     }
     if (error) {

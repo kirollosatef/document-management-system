@@ -1,22 +1,18 @@
 import UniTable from "@components/Common/UniversalTable/UniTable";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-  reset,
-} from "@store/departments/departmentsSlice";
-import AddDepartmentDialog from "@components/Departments/AddDepartmentDialog/AddDepartmentDialog";
+
+import DepartmentDialog from "@components/Departments/DepartmentDialog/DepartmentDialog";
 import { getDepartments } from "@store/departments/departmentActions";
 import Loading from "@components/Common/Loading/Loading";
-import { setSelectedItem } from "@store/toolsbar/toolsbarSlice";
+import {  setSelectedItem } from "@store/toolsbar/toolsbarSlice";
 
 function Departments() {
   const dispatch = useDispatch();
   const { allDepartments, components, loading } = useSelector(
     (state) => state.departments
   );
-  const { selectedItem  } = useSelector(
-    (state) => state.toolsbar.components
-  );
+  const { selectedItem } = useSelector((state) => state.toolsbar.components);
   const headers = [
     { id: "_id", label: "ID" },
     { id: "name", label: "الاسم" },
@@ -32,10 +28,10 @@ function Departments() {
   const handleClick = (obj) => {
     // dispatch(reset());
     dispatch(setSelectedItem({ type: "department", item: obj }));
-    
   };
   useEffect(() => {
     dispatch(getDepartments());
+    // dispatch(resetToolbar());
   }, [dispatch]);
 
   return (
@@ -51,7 +47,7 @@ function Departments() {
           selectedItem={selectedItem?.item}
         />
       )}
-      <AddDepartmentDialog />
+      <DepartmentDialog />
     </div>
   );
 }

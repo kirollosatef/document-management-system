@@ -9,7 +9,7 @@ const toolsbarSlice = createSlice({
     components: { selectedItem: { type: "", item: {} } },
   },
   reducers: {
-    reset: (state) => {
+    resetToolbar: (state) => {
       state.add = false;
       state.update = false;
       state.delete = false;
@@ -30,11 +30,15 @@ const toolsbarSlice = createSlice({
     setSelectedItem: (state, action) => {
       state.components.selectedItem = action.payload;
     },
+    resetSelectedItem: (state, action) => {
+      state.components.selectedItem = { type: "", item: {} };
+    },
   },
 });
 
 export const {
-  reset,
+  resetToolbar,
+  resetSelectedItem,
   setAdd,
   setUpdate,
   setDelete,

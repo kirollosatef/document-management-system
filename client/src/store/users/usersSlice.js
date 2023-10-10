@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUsers } from "./usersActions";
+import { createUser, getUsers, updateUser } from "./usersActions";
 
 //slices
 const usersSlices = createSlice({
@@ -9,13 +9,30 @@ const usersSlices = createSlice({
     loading: false,
     actionsLoading: false,
     error: false,
+    created: false,
+    updated: false,
   },
   reducers: {
     reset: (state) => {
       state.error = false;
+      state.created = false;
+      state.updated = false;
     },
   },
   extraReducers: (builder) => {
+    // create
+    builder.addCase(createUser.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(createUser.fulfilled, (state, action) => {
+      state.actionsLoading = false;
+      state.allUsers.push(action.payload.user);
+      state.created = true;
+    });
+    builder.addCase(createUser.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = state.payload;
+    });
     //getUsers
     builder.addCase(getUsers.pending, (state, action) => {
       state.loading = true;
@@ -27,6 +44,23 @@ const usersSlices = createSlice({
     builder.addCase(getUsers.rejected, (state, action) => {
       state.loading = false;
       state.error = state.payload;
+    });
+    // Update
+    builder.addCase(updateUser.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      const userIndex = state.allUsers.findIndex(
+        (item) => item._id === action.payload?.user?._id
+      );
+      state.actionsLoading = false;
+      state.allUsers[userIndex] = action.payload.user;
+      state.updated = true;
+    });
+    builder.addCase(updateUser.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
     });
   },
 });

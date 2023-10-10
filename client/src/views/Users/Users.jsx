@@ -2,10 +2,15 @@ import UniTable from "@components/Common/UniversalTable/UniTable";
 // import { users } from "../../mockup/data";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { setSelectedItem } from "@store/toolsbar/toolsbarSlice";
+import {
+  resetSelectedItem,
+  resetToolbar,
+  setSelectedItem,
+} from "@store/toolsbar/toolsbarSlice";
 import { getUsers } from "@store/users/usersActions";
 import Loading from "@components/Common/Loading/Loading";
 import { Grid } from "@mui/material";
+import UsersDialog from "@components/Users/UsersDialog/UsersDialog";
 
 function Users() {
   const dispatch = useDispatch();
@@ -34,6 +39,8 @@ function Users() {
   };
   useEffect(() => {
     dispatch(getUsers());
+    // dispatch(resetToolbar())
+    dispatch(resetSelectedItem());
   }, [dispatch]);
 
   return (
@@ -53,6 +60,7 @@ function Users() {
           </Grid>
         </Grid>
       )}
+      <UsersDialog />
     </div>
   );
 }
