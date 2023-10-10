@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import PrintIcon from "@mui/icons-material/Print";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
-import { setAdd } from "@store/toolsbar/toolsbarSlice";
+import { setAdd, setUpdate } from "@store/toolsbar/toolsbarSlice";
 import { useDispatch } from "react-redux";
 
 function Toolbar({ setOpenSidebar }) {
@@ -39,7 +39,8 @@ function Toolbar({ setOpenSidebar }) {
               color="warning"
               endIcon={<EditIcon />}
               sx={{ fontWeight: 600, fontSize: 12 }}
-              dir="ltr">
+              dir="ltr"
+              onClick={() => dispatch(setUpdate(true))}>
               تعديل
             </Button>
             <Button

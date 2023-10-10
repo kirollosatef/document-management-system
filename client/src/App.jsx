@@ -5,6 +5,7 @@ import Layout from "@components/Layout/Layout";
 import Home from "@views/Home/Home";
 import Login from "@views/Login/Login";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Loading from "@components/Common/Loading/Loading";
 
 const users = {
   Users: lazy(() => import("@views/Users/Users")),
@@ -29,7 +30,7 @@ function App() {
             {
               path: "users",
               element: (
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<Loading/>}>
                   <users.Users />
                 </Suspense>
               ),
@@ -37,7 +38,7 @@ function App() {
             {
               path: "departments",
               element: (
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<Loading/>}>
                   <departments.Departments />
                 </Suspense>
               ),

@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createDepartment, getDepartments } from "./departmentActions";
+import {
+  createDepartment,
+  getDepartments,
+  updateDepartment,
+} from "./departmentActions";
 
 //slices
 const departmentsSlice = createSlice({
@@ -8,8 +12,10 @@ const departmentsSlice = createSlice({
     allDepartments: null,
     departmentDetails: null,
     loading: false,
+    actionsLoading:false,
     error: false,
     created: false,
+    updated: false,
     message: "",
     components: {
       selectedDepartment: null,
@@ -19,6 +25,7 @@ const departmentsSlice = createSlice({
     reset: (state) => {
       state.error = false;
       state.created = false;
+      state.updated = false;
       state.message = "";
     },
     setSelectedDepartment: (state, { payload }) => {
@@ -41,15 +48,32 @@ const departmentsSlice = createSlice({
     });
     // create
     builder.addCase(createDepartment.pending, (state, action) => {
-      state.loading = true;
+      state.actionsLoading = true;
     });
     builder.addCase(createDepartment.fulfilled, (state, action) => {
-      state.loading = false;
+      state.actionsLoading = false;
       state.allDepartments.push(action.payload?.department);
       state.created = true;
     });
     builder.addCase(createDepartment.rejected, (state, action) => {
-      state.loading = false;
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // Update
+    builder.addCase(updateDepartment.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(updateDepartment.fulfilled, (state, action) => {
+      const departmentIndex = state.allDepartments.findIndex(
+        (item) => item._id === action.payload?.department?._id
+      );
+      state.actionsLoading = false;
+      state.allDepartments[departmentIndex] = action.payload.department;
+      state.updated = true;
+    });
+    builder.addCase(updateDepartment.rejected, (state, action) => {
+      state.actionsLoading = false;
       state.error = true;
       state.message = action.payload;
     });

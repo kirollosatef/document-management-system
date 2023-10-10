@@ -3,6 +3,7 @@ import * as React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
@@ -10,12 +11,9 @@ import { Box, Button, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import UniInput from "@components/Common/UniversalInput/UniInput";
-import { setAdd, setUpdate } from "@store/toolsbar/toolsbarSlice";
+import { setAdd } from "@store/toolsbar/toolsbarSlice";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createDepartment,
-  updateDepartment,
-} from "@store/departments/departmentActions";
+import { createDepartment } from "@store/departments/departmentActions";
 import { useEffect } from "react";
 import { reset } from "@store/departments/departmentsSlice";
 import { toast } from "react-toastify";
@@ -25,14 +23,11 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const { add, update } = useSelector((state) => state.toolsbar);
-  const { created, error, message, components, updated,actionsLoading } = useSelector(
-    (state) => state.departments
-  );
-  const { selectedDepartment } = components;
+  const { created, error,message } = useSelector((state) => state.departments);
   const handleClose = () => {
-    add ? dispatch(setAdd(false)) : dispatch(setUpdate(false));
-    formik.resetForm();
+    dispatch(setAdd(false));
+    formik.resetForm()
+
   };
   const formik = useFormik({
     initialValues: {
@@ -44,42 +39,21 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
       description: yup.string().required("هذا الحقل مطلوب"),
     }),
     onSubmit(values) {
-      add && dispatch(createDepartment(values));
-      update &&
-        dispatch(
-          updateDepartment({
-            data: values,
-            params: { id: selectedDepartment?._id },
-          })
-        );
+      dispatch(createDepartment(values));
     },
   });
   useEffect(() => {
     if (created) {
-      toast.success("تمت اضافة قسم جديد");
+      toast.success("تمت اضافة قسم جديد")
       dispatch(setAdd(false));
       dispatch(reset());
-      formik.resetForm();
-    }
-    if (updated) {
-      toast.success(`تم تعديل قسم ${selectedDepartment?.name}`);
-      dispatch(setUpdate(false));
-      dispatch(reset());
-      formik.resetForm();
+      formik.resetForm()
     }
     if (error) {
       toast.error(message);
       dispatch(reset());
     }
-  }, [created, updated, error]);
-
-  useEffect(() => {
-    if (update) {
-      const { name, description } = selectedDepartment;
-      formik.setFieldValue("name", name);
-      formik.setFieldValue("description", description);
-    }
-  }, [update]);
+  }, [created,error]);
   return (
     <div>
       {/* <Button
@@ -90,16 +64,10 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
       <Dialog
         fullScreen={fullScreen}
         fullWidth={true}
-        open={add || update}
+        open={open}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title">
-        <DialogTitle id="responsive-dialog-title">
-          {add
-            ? "اضافة قسم"
-            : update
-            ? `تعديل قسم ${selectedDepartment?.name}`
-            : ""}
-        </DialogTitle>
+        <DialogTitle id="responsive-dialog-title">اضافة قسم</DialogTitle>
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
             {/* <DialogContentText sx={{marginBottom:"2rem" }}> قم باضافة اسم القسم والوصف الخاص به </DialogContentText> */}
@@ -136,8 +104,8 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
                 color="error">
                 غلق
               </Button>
-              <Button type="submit" variant="outlined" disabled={actionsLoading}>
-                {add ? "اضافة" : update ? "تعديل" : ""}
+              <Button type="submit" variant="outlined">
+                اضافة
               </Button>
             </Stack>
           </DialogActions>
