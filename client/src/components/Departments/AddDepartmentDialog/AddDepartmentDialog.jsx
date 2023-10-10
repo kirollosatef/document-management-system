@@ -26,17 +26,16 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const { add, update } = useSelector((state) => state.toolsbar);
-  const { created, error, message, components, updated,actionsLoading } = useSelector(
-    (state) => state.departments
-  );
-  const { selectedDepartment } = components;
+  const { created, error, message, components, updated, actionsLoading } =
+    useSelector((state) => state.departments);
+  const { selectedItem } = useSelector((state) => state.toolsbar.components);
   const handleClose = () => {
     add ? dispatch(setAdd(false)) : dispatch(setUpdate(false));
     formik.resetForm();
   };
   const formik = useFormik({
     initialValues: {
-      name: "",
+      name: update ? selectedItem.item.name : "",
       description: "",
     },
     validationSchema: yup.object({
@@ -49,7 +48,7 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
         dispatch(
           updateDepartment({
             data: values,
-            params: { id: selectedDepartment?._id },
+            params: { id: selectedItem?.item?._id },
           })
         );
     },
@@ -62,7 +61,7 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
       formik.resetForm();
     }
     if (updated) {
-      toast.success(`تم تعديل قسم ${selectedDepartment?.name}`);
+      toast.success(`تم تعديل قسم ${selectedItem?.item?.name}`);
       dispatch(setUpdate(false));
       dispatch(reset());
       formik.resetForm();
@@ -75,7 +74,7 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
 
   useEffect(() => {
     if (update) {
-      const { name, description } = selectedDepartment;
+      const { name, description } = selectedItem.item;
       formik.setFieldValue("name", name);
       formik.setFieldValue("description", description);
     }
@@ -97,7 +96,7 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
           {add
             ? "اضافة قسم"
             : update
-            ? `تعديل قسم ${selectedDepartment?.name}`
+            ? `تعديل قسم ${selectedItem?.item?.name}`
             : ""}
         </DialogTitle>
         <form onSubmit={formik.handleSubmit}>
@@ -136,7 +135,10 @@ export default function AddDepartmentDialog({ open, setOpen, footer }) {
                 color="error">
                 غلق
               </Button>
-              <Button type="submit" variant="outlined" disabled={actionsLoading}>
+              <Button
+                type="submit"
+                variant="outlined"
+                disabled={actionsLoading}>
                 {add ? "اضافة" : update ? "تعديل" : ""}
               </Button>
             </Stack>

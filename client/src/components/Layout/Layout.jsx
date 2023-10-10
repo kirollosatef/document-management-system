@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Box, Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Grid, Stack, useMediaQuery, useTheme } from "@mui/material";
 import Sidebar from "./Sidebar/Sidebar";
 import "./Layout.scss";
 import { useEffect, useState } from "react";
@@ -14,39 +14,39 @@ function Layout() {
     }
   }, [isLargeScreen]);
 
-  return ( 
+  return (
     <div className="app">
-        <main className="app-main">
-          <Grid container className="admin" sx={{ height: "100vh" }}>
-            <Grid
-              sx={{
-                flex: "0 0 18rem",
-                display: isLargeScreen || openSidebar ? "flex" : "none",
-                height: "100%",
-                position: openSidebar ? "fixed" : "relative",
-                right: 0,
-                width: "100%",
-                backgroundColor: openSidebar
-                  ? theme.palette.background.default
-                  : "unset",
-                zIndex: 999,
-              }}
-            >
-              <Sidebar
-                openSidebar={openSidebar}
-                setOpenSidebar={setOpenSidebar}
-              />
-            </Grid>
-            <Grid flex={1} sx={{ height: "100%" }}>
-              <Toolbar
-                setOpenSidebar={setOpenSidebar}
-              />
-              <Box px={4} py={2}>
-                <Outlet />
-              </Box>
-            </Grid>
+      <main className="app-main">
+        <Grid
+          container
+          className="admin"
+          sx={{ height: "100vh", flexWrap: "nowrap" }}>
+          <Grid
+            sx={{
+              flex: "0 0 18rem",
+              display: isLargeScreen || openSidebar ? "flex" : "none",
+              height: "100%",
+              position: openSidebar ? "fixed" : "relative",
+              right: 0,
+              width: "100%",
+              backgroundColor: openSidebar
+                ? theme.palette.background.default
+                : "unset",
+              zIndex: 999,
+            }}>
+            <Sidebar
+              openSidebar={openSidebar}
+              setOpenSidebar={setOpenSidebar}
+            />
           </Grid>
-        </main>
+          <Grid sx={{ flex:1,height: "100%",overflow:"hidden" }}>
+            <Toolbar setOpenSidebar={setOpenSidebar} />
+            <Stack px={4} py={2}>
+              <Outlet />
+            </Stack>
+          </Grid>
+        </Grid>
+      </main>
     </div>
   );
 }

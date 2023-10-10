@@ -13,9 +13,9 @@ import dayjs from "dayjs";
 import { sortTable } from "@src/utils/sortTable";
 import EnhancedTableHead from "./EnhancedTableHead/EnhancedTableHead";
 import { useTable } from "./useTable";
-import { useSelector } from "react-redux";
+import HiddenPassword from "@components/Users/HiddenPassword/HiddenPassword";
 
-const UniTable = ({ data = [], headers, title,handleClick,selectedItem }) => {
+const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
   const {
     page,
     rowsPerPage,
@@ -46,39 +46,48 @@ const UniTable = ({ data = [], headers, title,handleClick,selectedItem }) => {
           borderTop: `1px solid ${theme.palette.secondary[500]}`,
         }}>
         <TableContainer>
-          <Table>
-            <EnhancedTableHead
-              headers={headers}
-              order={order}
-              orderBy={orderBy}
-              onSortClick={onSortClick}
-            />
-            <TableBody>
-              {sortTable(data, order, orderBy)
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((item) => {
-                  const isSelected = item._id === selectedItem?._id;
+          <div style={{ overflowX: "auto", maxWidth: "100%", width: "100%" }}>
+            <Table>
+              <EnhancedTableHead
+                headers={headers}
+                order={order}
+                orderBy={orderBy}
+                onSortClick={onSortClick}
+              />
+              <TableBody>
+                {sortTable(data, order, orderBy)
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((item) => {
+                    const isSelected = item._id === selectedItem?._id;
 
-                  return (
-                    <TableRow
-                      key={item._id}
-                      selected={isSelected}
-                      hover
-                      onClick={() => handleClick(item)}>
-                      {headers.map((header) => (
-                        <TableCell key={header.id} align="right">
-                          {header.id === "addedAt" ? (
-                            dayjs(item[header.id]).format("DD-MM-YYYY")
-                          ) : (
-                            item[header.id]
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
+                    return (
+                      <TableRow
+                        key={item._id}
+                        selected={isSelected}
+                        hover
+                        onClick={() => handleClick(item)}>
+                        {headers.map((header) => (
+                          <TableCell
+                            key={header.id}
+                            align="right"
+                            sx={{ whiteSpace: "break-spaces" }}>
+                            {header.id === "addedAt" ? (
+                              dayjs(item[header.id]).format("DD-MM-YYYY")
+                            ) : header.id === "password" ? (
+                              <>
+                                <HiddenPassword password={item[header.id]} />
+                              </>
+                            ) : (
+                              item[header.id]
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </div>
           <TablePagination
             component={"div"}
             count={data.length}

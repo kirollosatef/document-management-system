@@ -70,3 +70,11 @@ h2#swal2-title {
   color: #000 !important;
 }
 
+
+// TAble cell
+.table-cell-ellipsis {
+  max-width: 100px; /* Adjust the value to your desired maximum width */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
