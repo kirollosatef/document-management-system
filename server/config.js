@@ -18,5 +18,7 @@ export const MESSAGES = {
   roleIsRequired: 'الرجاء تحديد الدور',
   departmentNameAlreadyInUse: 'اسم القسم مستخدم بالفعل',
   maxFiles: 'لا يمكن رفع اكثر من 5 ملفات',
+  departmentRemoved: 'تم حذف القسم بنجاح',
+  userRemoved: 'تم حذف المستخدم بنجاح',
 };
 

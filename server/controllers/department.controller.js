@@ -78,15 +78,13 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    const department = await Department.findById(req.params.id);
+    const department = await Department.findByIdAndDelete(req.params.id);
 
     if (!department) {
       return res.status(404).json({ message: MESSAGES.noDepartmentFounded });
     }
 
-    await department.remove();
-
-    res.status(200).json({ message: 'Department deleted successfully' });
+    res.status(200).json({ message: MESSAGES.departmentRemoved });
   } catch (err) {
     res.status(400).json({ message: err.message, error: err });
   }
