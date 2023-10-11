@@ -13,6 +13,15 @@ const users = {
 const departments = {
   Departments: lazy(() => import("@views/Departments/Departments")),
 };
+const archive = {
+  Archive: lazy(() => import("@views/Archive/Archive")),
+};
+const settings = {
+  Settings: lazy(() => import("@views/Settings/Settings")),
+};
+const help = {
+  Help: lazy(() => import("@views/Help/Help")),
+};
 
 function App() {
   const router = createBrowserRouter([
@@ -30,7 +39,7 @@ function App() {
             {
               path: "users",
               element: (
-                <Suspense fallback={<Loading/>}>
+                <Suspense fallback={<Loading />}>
                   <users.Users />
                 </Suspense>
               ),
@@ -38,8 +47,32 @@ function App() {
             {
               path: "departments",
               element: (
-                <Suspense fallback={<Loading/>}>
+                <Suspense fallback={<Loading />}>
                   <departments.Departments />
+                </Suspense>
+              ),
+            },
+            {
+              path: "archive",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <archive.Archive />
+                </Suspense>
+              ),
+            },
+            {
+              path: "settings",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <settings.Settings />
+                </Suspense>
+              ),
+            },
+            {
+              path: "help",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <help.Help />
                 </Suspense>
               ),
             },

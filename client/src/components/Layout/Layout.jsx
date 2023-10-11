@@ -40,10 +40,10 @@ function Layout() {
             />
           </Grid>
           <Grid sx={{ flex:1,height: "100%",overflow:"hidden" }}>
-            <Toolbar setOpenSidebar={setOpenSidebar} />
-            <Stack px={4} py={2}>
+            <Stack px={4} py={2} height={"90vh"}>
               <Outlet />
             </Stack>
+            <Toolbar setOpenSidebar={setOpenSidebar} />
           </Grid>
         </Grid>
       </main>

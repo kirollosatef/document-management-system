@@ -48,7 +48,8 @@ function Toolbar({ setOpenSidebar }) {
               color="error"
               endIcon={<DeleteForeverIcon />}
               sx={{ fontWeight: 600, fontSize: 12 }}
-              dir="ltr">
+              dir="ltr"
+            disabled>
               حذف
             </Button>
             <Button
@@ -56,7 +57,8 @@ function Toolbar({ setOpenSidebar }) {
               color="info"
               endIcon={<PrintIcon />}
               sx={{ fontWeight: 600, fontSize: 12 }}
-              dir="ltr">
+              dir="ltr"
+              disabled>
               طباعة
             </Button>
             <Button
@@ -64,7 +66,8 @@ function Toolbar({ setOpenSidebar }) {
               color="info"
               endIcon={<TextSnippetIcon />}
               sx={{ fontWeight: 600, fontSize: 12 }}
-              dir="ltr">
+              dir="ltr"
+              disabled>
               تعيين بيانات
             </Button>
           </Stack>
