@@ -30,7 +30,7 @@ const register = async (req, res) => {
       password,
       role,
       department: departmentFounded._id,
-    }).populate('department');
+    });
 
     await user.save();
 
