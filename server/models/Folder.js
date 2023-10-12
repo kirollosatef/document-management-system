@@ -16,6 +16,10 @@ const folderSchema = new Schema({
       ref: 'Archive',
     },
   ],
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });
 
 const Folder = model('Folder', folderSchema);

@@ -7,6 +7,10 @@ const departmentSchema = new Schema({
     unique: true,
   },
   description: String,
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });
 
 const Department = model('Department', departmentSchema);

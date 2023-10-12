@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import { MAX_FILES, MESSAGES } from '../config';
 
 const archiveSchema = new Schema({
   title: {
@@ -33,6 +32,10 @@ const archiveSchema = new Schema({
       ref: 'File',
     },
   ],
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });
 
 const Archive = model('Archive', archiveSchema);

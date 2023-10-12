@@ -18,6 +18,10 @@ const fileSchema = new Schema({
     type: Number,
     required: true,
   },
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });
 
 const Department = model('File', fileSchema);
