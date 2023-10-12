@@ -5,13 +5,13 @@ export const createUser = createAsyncThunk(
   async (actionData, { rejectWithValue, getState }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
-      const response = await fetch(`/api/v0/users`, {
+      const response = await fetch(`/api/v0/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-
           Authorization: `Bearer ${token}`,
         },
+        body: actionData.data,
       });
       const data = await response.json();
       if (data.error) {

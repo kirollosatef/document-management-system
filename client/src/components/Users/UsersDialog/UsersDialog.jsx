@@ -10,7 +10,11 @@ import { Box, Button, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import UniInput from "@components/Common/UniversalInput/UniInput";
-import { resetSelectedItem, setAdd, setUpdate } from "@store/toolsbar/toolsbarSlice";
+import {
+  resetSelectedItem,
+  setAdd,
+  setUpdate,
+} from "@store/toolsbar/toolsbarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createDepartment,
@@ -30,22 +34,23 @@ export default function UsersDialog({ open, setOpen, footer }) {
   const { add, update } = useSelector((state) => state.toolsbar);
   const { created, error, message, components, updated, actionsLoading } =
     useSelector((state) => state.users);
+
   const { selectedItem } = useSelector((state) => state.toolsbar.components);
-  const handleClose = () => {
-    add ? dispatch(setAdd(false)) : dispatch(setUpdate(false));
-    formik.resetForm();
-    dispatch(resetToolbar());
-  };
+
   const formik = useFormik({
     initialValues: {
       name: "",
       username: "",
       password: "",
+      role: "",
+      department: "",
     },
     validationSchema: yup.object({
       name: yup.string().required("هذا الحقل مطلوب"),
       username: yup.string().required("هذا الحقل مطلوب"),
       password: yup.string().required("هذا الحقل مطلوب"),
+      role: yup.string().required("هذا الحقل مطلوب"),
+      department: yup.string().required("هذا الحقل مطلوب"),
     }),
     onSubmit(values) {
       add && dispatch(createUser(values));
@@ -58,6 +63,12 @@ export default function UsersDialog({ open, setOpen, footer }) {
         );
     },
   });
+
+  const handleClose = () => {
+    add ? dispatch(setAdd(false)) : dispatch(setUpdate(false));
+    formik.resetForm();
+    dispatch(resetToolbar());
+  };
   useEffect(() => {
     if (created) {
       toast.success("تمت اضافة مستخدم جديد");
@@ -65,7 +76,6 @@ export default function UsersDialog({ open, setOpen, footer }) {
       dispatch(reset());
       dispatch(resetSelectedItem());
       formik.resetForm();
-
     }
     if (updated) {
       toast.success(`تم تعديل بيانات المستخدم ${selectedItem?.item?.name}`);
@@ -88,13 +98,9 @@ export default function UsersDialog({ open, setOpen, footer }) {
       formik.setFieldValue("password", password);
     }
   }, [update]);
+
   return (
     <div>
-      {/* <Button
-        variant="contained"
-        onClick={handleClickOpen}
-        className="btnFooter"
-      >اضافة</Button> */}
       <Dialog
         fullScreen={fullScreen}
         fullWidth={true}
