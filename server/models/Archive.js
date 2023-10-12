@@ -27,22 +27,12 @@ const archiveSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Folder',
   },
-  files: {
-    type: [
-      {
-        name: String,
-        path: String,
-        mimetype: String,
-        size: Number,
-      },
-    ],
-    validate: [
-      (val) => {
-        return val.length <= MAX_FILES;
-      },
-      MESSAGES.maxFiles,
-    ],
-  },
+  files: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'File',
+    },
+  ],
 });
 
 const Archive = model('Archive', archiveSchema);
