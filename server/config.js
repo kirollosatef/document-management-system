@@ -20,5 +20,9 @@ export const MESSAGES = {
   maxFiles: 'لا يمكن رفع اكثر من 5 ملفات',
   departmentRemoved: 'تم حذف القسم بنجاح',
   userRemoved: 'تم حذف المستخدم بنجاح',
+  folderNameIsRequired: 'اسم المجلد مطلوب',
+  folderDescriptionIsRequired: 'وصف المجلد مطلوب',
+  noFolderFounded: 'لا يوجد مجلد بهذا الاسم',
+  folderAlreadyInUse: 'اسم المجلد مستخدم بالفعل',
 };
 
