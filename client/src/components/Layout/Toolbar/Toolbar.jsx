@@ -5,12 +5,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import PrintIcon from "@mui/icons-material/Print";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
-import { setAdd, setUpdate } from "@store/toolsbar/toolsbarSlice";
-import { useDispatch } from "react-redux";
+import { setAdd, setRemove, setUpdate } from "@store/toolsbar/toolsbarSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function Toolbar({ setOpenSidebar }) {
   const dispatch = useDispatch();
-
+  const { selectedItem } = useSelector((state) => state.toolsbar.components);
+  
   return (
     <div className="toolbar">
       <div className="toolbar-burger" onClick={() => setOpenSidebar(true)}>
@@ -31,7 +32,8 @@ function Toolbar({ setOpenSidebar }) {
               endIcon={<AddIcon />}
               sx={{ fontWeight: 600, fontSize: 12 }}
               dir="ltr"
-              onClick={() => dispatch(setAdd(true))}>
+              onClick={() => dispatch(setAdd(true))}
+            >
               اضافة
             </Button>
             <Button
@@ -40,7 +42,8 @@ function Toolbar({ setOpenSidebar }) {
               endIcon={<EditIcon />}
               sx={{ fontWeight: 600, fontSize: 12 }}
               dir="ltr"
-              onClick={() => dispatch(setUpdate(true))}>
+              onClick={() => dispatch(setUpdate(true))}
+              disabled={!selectedItem?.item?._id}>
               تعديل
             </Button>
             <Button
@@ -49,7 +52,8 @@ function Toolbar({ setOpenSidebar }) {
               endIcon={<DeleteForeverIcon />}
               sx={{ fontWeight: 600, fontSize: 12 }}
               dir="ltr"
-            disabled>
+              onClick={() => dispatch(setRemove(true))}
+              disabled={!selectedItem?.item?._id}>
               حذف
             </Button>
             <Button

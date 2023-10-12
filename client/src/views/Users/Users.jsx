@@ -11,6 +11,7 @@ import { getUsers } from "@store/users/usersActions";
 import Loading from "@components/Common/Loading/Loading";
 import { Grid } from "@mui/material";
 import UsersDialog from "@components/Users/UsersDialog/UsersDialog";
+import UniAlertDialog from "@components/Users/UniversalAlertDialog/UniAlertDialog";
 
 function Users() {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ function Users() {
         </Grid>
       )}
       <UsersDialog />
+      <UniAlertDialog />
     </div>
   );
 }
