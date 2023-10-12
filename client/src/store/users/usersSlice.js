@@ -31,7 +31,7 @@ const usersSlices = createSlice({
     });
     builder.addCase(createUser.rejected, (state, action) => {
       state.actionsLoading = false;
-      state.error = state.payload;
+      state.error = state.payload.message;
     });
     //getUsers
     builder.addCase(getUsers.pending, (state, action) => {
@@ -43,7 +43,7 @@ const usersSlices = createSlice({
     });
     builder.addCase(getUsers.rejected, (state, action) => {
       state.loading = false;
-      state.error = state.payload;
+      state.error = state.payload.message;
     });
     // Update
     builder.addCase(updateUser.pending, (state, action) => {

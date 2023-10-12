@@ -1,55 +1,50 @@
-@use "../../../globals.scss" as *;
-
-
+@use "../../../theme/globals.scss" as *;
 // to put the label in the position of the white space
-.css-1lmhu5v-MuiFormLabel-root-MuiInputLabel-root,
-.css-fpt7f8-MuiFormLabel-root-MuiInputLabel-root,
-.css-1brtryw-MuiFormLabel-root-MuiInputLabel-root {
-  color: $smallTxt_color !important;
+.MuiInputLabel-root {
+  color: #000 !important;
   right: 1.8rem !important; /* Your custom styles here */
   transform-origin: top right !important;
+  font-size: 1rem;
+  
 }
+
 // white space under the label
-.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+.MuiOutlinedInput-notchedOutline {
   text-align: right !important;
-}
-
-// move arrow up/down to left
-.css-dcbk9-MuiSvgIcon-root-MuiSelect-icon,
-.css-1yiguwv-MuiSvgIcon-root-MuiSelect-icon {
-  left: 7px !important;
-  right: unset !important;
-  color: #fff !important;
-
-  svg {
-    color: #fff !important;
-  }
-}
-// reset the space of the arrow old position, to make the text start from the right place
-.css-zbhh1g-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-zbhh1g-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-zbhh1g-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
-  padding-right: 1rem !important;
-}
-
-// update the border color to be white normally and also on focus.
-.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
-  border-color: transparent !important;
+  border-color: #ddd !important;
+  // background-color: #f9f9f9;
+  color: #000 !important;
   border-radius: 20px !important;
 }
+.uni-select{
+  // move arrow up/down to left
 
-.css-s6dk7l-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused
-  .MuiOutlinedInput-notchedOutline {
-  border-color: $main_color !important;
+  .MuiSelect-icon {
+    left: 7px !important;
+    right: unset !important;
+    // color: #fff !important;
+  
+    svg {
+      // color: #fff !important;
+    }
+  }
+
 }
 
 
+.MuiInputLabel-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  // border-color: #fff !important;
+}
+
 // Change the bg color of the options box
-.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{
-  background-color: $bg_color !important;
-  color:#fff !important;
-} 
+.MuiPaper-root {
+  li {
+    color: #000 !important;
+  }
+}
 
 .Mui-disabled {
-  -webkit-text-fill-color: #c0c2d5 !important;
+  // -webkit-text-fill-color: #c0c2d5 !important;
 }
 .Mui-disabled:hover {
   cursor: not-allowed !important;

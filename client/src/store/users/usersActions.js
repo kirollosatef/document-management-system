@@ -11,12 +11,14 @@ export const createUser = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: actionData.data,
+        body: JSON.stringify(actionData),
       });
-      const data = await response.json();
-      if (data.error) {
-        return rejectWithValue(data.error);
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
       }
+
+      const data = await response.json();
       return data;
     } catch (error) {
       console.error(error);
@@ -39,10 +41,12 @@ export const getUsers = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      const data = await response.json();
-      if (data.error) {
-        return rejectWithValue(data.error);
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
       }
+
+      const data = await response.json();
       return data;
     } catch (error) {
       console.error(error);
@@ -65,10 +69,12 @@ export const updateUser = createAsyncThunk(
         },
         body: JSON.stringify(actionData.data),
       });
-      const data = await response.json();
-      if (data.error) {
-        return rejectWithValue(data.error);
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
       }
+
+      const data = await response.json();
       return data;
     } catch (error) {
       console.error(error);
@@ -90,10 +96,12 @@ export const deleteUser = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      const data = await response.json();
-      if (data.error) {
-        return rejectWithValue(data.error);
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
       }
+
+      const data = await response.json();
       return data;
     } catch (error) {
       console.error(error);

@@ -25,6 +25,8 @@ import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { reset } from "@store/users/usersSlice";
 import { toast } from "react-toastify";
 import { createUser, updateUser } from "@store/users/usersActions";
+import { getDepartments } from "@store/departments/departmentActions";
+import UniversalSelect from "@components/Common/UniversalSelect/UniversalSelect";
 
 export default function UsersDialog({ open, setOpen, footer }) {
   const dispatch = useDispatch();
@@ -34,9 +36,28 @@ export default function UsersDialog({ open, setOpen, footer }) {
   const { add, update } = useSelector((state) => state.toolsbar);
   const { created, error, message, components, updated, actionsLoading } =
     useSelector((state) => state.users);
+  const { allDepartments } = useSelector((state) => state.departments);
 
   const { selectedItem } = useSelector((state) => state.toolsbar.components);
-
+  // ------ Select options
+  const options = [
+    {
+      name: "superadmin",
+      label: "ادمن",
+    },
+    {
+      name: "editor",
+      label: "محرر",
+    },
+    {
+      name: "viewer",
+      label: "مشاهد",
+    },
+  ];
+  const departmentsOptions = allDepartments?.map((item) => {
+    return { name: item.name, label: item.name };
+  });
+  // ------ Formik & Yup
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -53,6 +74,7 @@ export default function UsersDialog({ open, setOpen, footer }) {
       department: yup.string().required("هذا الحقل مطلوب"),
     }),
     onSubmit(values) {
+      console.log({ values });
       add && dispatch(createUser(values));
       update &&
         dispatch(
@@ -63,7 +85,7 @@ export default function UsersDialog({ open, setOpen, footer }) {
         );
     },
   });
-
+  // ------ Functionalities
   const handleClose = () => {
     add ? dispatch(setAdd(false)) : dispatch(setUpdate(false));
     formik.resetForm();
@@ -92,12 +114,22 @@ export default function UsersDialog({ open, setOpen, footer }) {
 
   useEffect(() => {
     if (update) {
-      const { name, username, password } = selectedItem.item;
+      const { name, username, password, role, department } = selectedItem.item;
       formik.setFieldValue("name", name);
       formik.setFieldValue("username", username);
       formik.setFieldValue("password", password);
+      formik.setFieldValue("role", role);
+      formik.setFieldValue("department", department.name);
     }
   }, [update]);
+
+  useEffect(() => {
+    if (add || update) {
+      if (!allDepartments) {
+        dispatch(getDepartments());
+      }
+    }
+  }, [add, update]);
 
   return (
     <div>
@@ -146,6 +178,20 @@ export default function UsersDialog({ open, setOpen, footer }) {
                 onChange={formik.handleChange}
                 error={Boolean(formik.errors.password)}
                 helperText={formik.errors.password}
+              />
+              <UniversalSelect
+                name="department"
+                title="القسم"
+                value={formik.values.department}
+                formik={formik}
+                options={departmentsOptions}
+              />
+              <UniversalSelect
+                name="role"
+                title="صلاحية الوصول"
+                value={formik.values.role}
+                formik={formik}
+                options={options}
               />
             </Box>
           </DialogContent>

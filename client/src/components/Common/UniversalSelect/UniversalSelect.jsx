@@ -15,14 +15,29 @@ import { useTheme } from "@mui/material";
  * @param {function} props.setValue - A function to handle value changes.
  * @returns {JSX.Element} - The rendered UniversalSelect component.
  */
-export default function UniversalSelect({ disabled, title, options, value, setValue, onClick, ...rest }) {
-  const theme = useTheme()
+export default function UniversalSelect({
+  disabled,
+  name,
+  title,
+  options,
+  value,
+  setValue,
+  onClick,
+  formik,
+  ...rest
+}) {
+  const theme = useTheme();
   const handleChange = (event) => {
+    const selectedOption = options.find(
+      (option) => option.name === event.target.value
+    );
+    if (selectedOption) {
+      formik.setFieldValue(name, selectedOption.name); // Call the onRoleChange callback
+    }
     setValue(event.target.value);
   };
-
   return (
-    <div>
+    <div className="uni-select">
       <FormControl
         {...rest}
         sx={{
@@ -38,40 +53,45 @@ export default function UniversalSelect({ disabled, title, options, value, setVa
           "& .MuiInputBase-root": {
             border: "none", // Hide the border
           },
-        }}
-      >
+        }}>
         <InputLabel id="demo-simple-select-helper-label">{title}</InputLabel>
         <Select
           {...rest}
           sx={{
             cursor: "pointer",
             "&.Mui-disabled": {
-              color: "#fff !important"
-            }
+              color: "#fff !important",
+            },
           }}
           disabled={disabled}
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
+          name={"role"}
           value={value}
           label={title}
-          onChange={handleChange}
-          onClick={onClick}
-        >
+          onChange={(e) => {
+            handleChange(e);
+          }}>
           {/* <MenuItem value="">
             <em>None</em>
           </MenuItem> */}
-          {options.map((item, i) => (
-            <MenuItem key={i} style={{ color: "#fff !important"}} value={item.value} sx={{
-              color: "#fff !important",
-              // disabled color #fff
-              "&.Mui-disabled": {
-                color: "#fff !important"
-              },
-              "&.MuiSelect-nativeInput": {
-                color: "#fff !important"
-              }
-            }}>
-              {item.name}
+          {options?.map((item, i) => (
+            <MenuItem
+              key={i}
+              style={{ color: "#fff !important" }}
+              value={item.name}
+              defaultValue={options[0]?.label}
+              sx={{
+                color: "#000 !important",
+                // disabled color #fff
+                "&.Mui-disabled": {
+                  color: "#000 !important",
+                },
+                "&.MuiSelect-nativeInput": {
+                  color: "#000 !important",
+                },
+              }}>
+              {item.label}
             </MenuItem>
           ))}
         </Select>
