@@ -106,11 +106,7 @@ export default function UsersDialog({ open, setOpen, footer }) {
       dispatch(resetSelectedItem());
       formik.resetForm();
     }
-    if (error) {
-      toast.error(message);
-      dispatch(reset());
-    }
-  }, [created, updated, error]);
+  }, [created, updated]);
 
   useEffect(() => {
     if (update) {

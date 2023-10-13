@@ -13,10 +13,14 @@ import Loading from "@components/Common/Loading/Loading";
 import { Grid } from "@mui/material";
 import UsersDialog from "@components/Users/UsersDialog/UsersDialog";
 import UniAlertDialog from "@components/Common/UniversalAlertDialog/UniAlertDialog";
+import { toast } from "react-toastify";
+import { reset } from "@store/users/usersSlice";
 
 function Users() {
   const dispatch = useDispatch();
-  const { allUsers, loading } = useSelector((state) => state.users);
+  const { allUsers, loading, error, message } = useSelector(
+    (state) => state.users
+  );
   const { selectedItem } = useSelector((state) => state.toolsbar.components);
   const headers = [
     { id: "_id", label: "ID" },
@@ -52,6 +56,13 @@ function Users() {
     dispatch(setRemove(false));
     dispatch(resetToolbar());
   };
+  useEffect(() => {
+    if (error) {
+      toast.error(message);
+      dispatch(reset());
+    }
+  }, [error]);
+
   return (
     <div>
       {loading ? (

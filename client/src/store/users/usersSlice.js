@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser, getUsers, updateUser } from "./usersActions";
+import { createUser, deleteUser, getUsers, updateUser } from "./usersActions";
 
 //slices
 const usersSlices = createSlice({
@@ -11,12 +11,17 @@ const usersSlices = createSlice({
     error: false,
     created: false,
     updated: false,
+    deleted: false,
+    message: "",
   },
   reducers: {
     reset: (state) => {
       state.error = false;
       state.created = false;
       state.updated = false;
+      state.deleted = false;
+      state.error = false;
+      state.message = "";
     },
   },
   extraReducers: (builder) => {
@@ -58,6 +63,23 @@ const usersSlices = createSlice({
       state.updated = true;
     });
     builder.addCase(updateUser.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // Delete
+    builder.addCase(deleteUser.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(deleteUser.fulfilled, (state, action) => {
+      const newUsers = state.allUsers.filter(
+        (item) => item._id !== action.payload?.user?._id
+      );
+      state.actionsLoading = false;
+      state.allUsers = newUsers;
+      state.deleted = true;
+    });
+    builder.addCase(deleteUser.rejected, (state, action) => {
       state.actionsLoading = false;
       state.error = true;
       state.message = action.payload;

@@ -7,8 +7,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { Alert, Button, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { resetToolbar, setRemove } from "@store/toolsbar/toolsbarSlice";
+import {
+  resetSelectedItem,
+  resetToolbar,
+  setRemove,
+} from "@store/toolsbar/toolsbarSlice";
 import { deleteUser } from "@store/users/usersActions";
+import { toast } from "react-toastify";
+import { reset } from "@store/users/usersSlice";
+import { useEffect } from "react";
 // import Button from "../Button/Button";
 
 export default function UniAlertDialog({
@@ -22,6 +29,15 @@ export default function UniAlertDialog({
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { remove } = useSelector((state) => state.toolsbar);
+  const { deleted, error, message } = useSelector((state) => state.users);
+  useEffect(() => {
+    if (deleted) {
+      toast.success("تم حذف المستخدم بنجاح");
+      dispatch(setRemove(false));
+      dispatch(reset());
+      dispatch(resetSelectedItem());
+    }
+  }, [deleted]);
 
   return (
     <div>
@@ -33,16 +49,20 @@ export default function UniAlertDialog({
         aria-labelledby="responsive-dialog-title">
         <DialogTitle id="responsive-dialog-title">{header}</DialogTitle>
         <DialogContent>
-          <Alert variant="outlined" severity="error" sx={{
-            gap: 2, border: "none", paddingRight: 0,
-            '.MuiAlert-icon': {
-              marginRight: 0,
-              
-            },
-            '.MuiAlert-message': {
-              fontWeight:700
-            }
-          }}>
+          <Alert
+            variant="outlined"
+            severity="error"
+            sx={{
+              gap: 2,
+              border: "none",
+              paddingRight: 0,
+              ".MuiAlert-icon": {
+                marginRight: 0,
+              },
+              ".MuiAlert-message": {
+                fontWeight: 700,
+              },
+            }}>
             كن حذرا, هذا الاجراء لا رجعة فيه
           </Alert>
           {text && (
@@ -58,7 +78,7 @@ export default function UniAlertDialog({
             <Button variant="outlined" color="success" onClick={handleConfirm}>
               نعم
             </Button>
-            <Button variant="outlined" color="error">
+            <Button variant="outlined" color="error" onClick={handleClose}>
               لا
             </Button>
           </Stack>
