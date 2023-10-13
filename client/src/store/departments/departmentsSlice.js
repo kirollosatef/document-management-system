@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   createDepartment,
+  deleteDepartment,
   getDepartments,
   updateDepartment,
 } from "./departmentActions";
@@ -16,6 +17,7 @@ const departmentsSlice = createSlice({
     error: false,
     created: false,
     updated: false,
+    deleted: false,
     message: "",
     components: {
       selectedDepartment: null,
@@ -26,6 +28,7 @@ const departmentsSlice = createSlice({
       state.error = false;
       state.created = false;
       state.updated = false;
+      state.deleted = false;
       state.message = "";
     },
     setSelectedDepartment: (state, { payload }) => {
@@ -73,6 +76,23 @@ const departmentsSlice = createSlice({
       state.updated = true;
     });
     builder.addCase(updateDepartment.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // Delete
+    builder.addCase(deleteDepartment.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(deleteDepartment.fulfilled, (state, action) => {
+      const newDepartments = state.allDepartments.filter(
+        (item) => item._id !== action.payload?.department
+      );
+      state.actionsLoading = false;
+      state.allDepartments = newDepartments;
+      state.deleted = true;
+    });
+    builder.addCase(deleteDepartment.rejected, (state, action) => {
       state.actionsLoading = false;
       state.error = true;
       state.message = action.payload;

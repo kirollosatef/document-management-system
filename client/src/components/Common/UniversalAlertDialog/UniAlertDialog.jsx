@@ -30,14 +30,7 @@ export default function UniAlertDialog({
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { remove } = useSelector((state) => state.toolsbar);
   const { deleted, error, message } = useSelector((state) => state.users);
-  useEffect(() => {
-    if (deleted) {
-      toast.success("تم حذف المستخدم بنجاح");
-      dispatch(setRemove(false));
-      dispatch(reset());
-      dispatch(resetSelectedItem());
-    }
-  }, [deleted]);
+  
 
   return (
     <div>

@@ -3,16 +3,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import DepartmentDialog from "@components/Departments/DepartmentDialog/DepartmentDialog";
-import { getDepartments } from "@store/departments/departmentActions";
+import {
+  deleteDepartment,
+  getDepartments,
+} from "@store/departments/departmentActions";
 import Loading from "@components/Common/Loading/Loading";
-import {  setSelectedItem } from "@store/toolsbar/toolsbarSlice";
+import {
+  resetSelectedItem,
+  resetToolbar,
+  setRemove,
+  setSelectedItem,
+} from "@store/toolsbar/toolsbarSlice";
+import { toast } from "react-toastify";
+import { reset } from "@store/departments/departmentsSlice";
+import UniAlertDialog from "@components/Common/UniversalAlertDialog/UniAlertDialog";
 
 function Departments() {
   const dispatch = useDispatch();
-  const { allDepartments, components, loading } = useSelector(
-    (state) => state.departments
-  );
+  const { allDepartments, loading, error, message, deleted } =
+    useSelector((state) => state.departments);
   const { selectedItem } = useSelector((state) => state.toolsbar.components);
+
   const headers = [
     { id: "_id", label: "ID" },
     { id: "name", label: "الاسم" },
@@ -25,14 +36,45 @@ function Departments() {
     //   label: "تاريخ الاضافة",
     // },
   ];
-  const handleClick = (obj) => {
-    // dispatch(reset());
-    dispatch(setSelectedItem({ type: "department", item: obj }));
-  };
+  // ------ Main Request --> Get Departments
   useEffect(() => {
     dispatch(getDepartments());
-    // dispatch(resetToolbar());
+    dispatch(resetSelectedItem());
   }, [dispatch]);
+
+  // ------ Select Item
+  const handleClick = (obj) => {
+    dispatch(setSelectedItem({ type: "department", item: obj }));
+  };
+
+  // ------ Update Dialog
+  const alertHandleConfirm = () => {
+    dispatch(deleteDepartment(selectedItem?.item?._id));
+  };
+
+  // ------ Remove Dialog
+  const alertHandleClose = () => {
+    dispatch(setRemove(false));
+    dispatch(resetToolbar());
+  };
+
+  // ------ Remove Dialog --> 1. deleted successfully
+  useEffect(() => {
+    if (deleted) {
+      toast.success("تم حذف القسم بنجاح");
+      dispatch(setRemove(false));
+      dispatch(reset());
+      dispatch(resetSelectedItem());
+    }
+  }, [deleted]);
+
+  // ------ Remove Dialog --> 2. The process failed
+  useEffect(() => {
+    if (error) {
+      toast.error(message);
+      dispatch(reset());
+    }
+  }, [error]);
 
   return (
     <div>
@@ -48,6 +90,11 @@ function Departments() {
         />
       )}
       <DepartmentDialog />
+      <UniAlertDialog
+        handleClose={alertHandleClose}
+        handleConfirm={alertHandleConfirm}
+        text={`هل تريد حذف القسم ${selectedItem?.item?.name}؟`}
+      />
     </div>
   );
 }
