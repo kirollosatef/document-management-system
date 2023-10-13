@@ -5,13 +5,14 @@ import { useEffect } from "react";
 import {
   resetSelectedItem,
   resetToolbar,
+  setRemove,
   setSelectedItem,
 } from "@store/toolsbar/toolsbarSlice";
-import { getUsers } from "@store/users/usersActions";
+import { deleteUser, getUsers } from "@store/users/usersActions";
 import Loading from "@components/Common/Loading/Loading";
 import { Grid } from "@mui/material";
 import UsersDialog from "@components/Users/UsersDialog/UsersDialog";
-import UniAlertDialog from "@components/Users/UniversalAlertDialog/UniAlertDialog";
+import UniAlertDialog from "@components/Common/UniversalAlertDialog/UniAlertDialog";
 
 function Users() {
   const dispatch = useDispatch();
@@ -43,7 +44,14 @@ function Users() {
     // dispatch(resetToolbar())
     dispatch(resetSelectedItem());
   }, [dispatch]);
+  const alertHandleConfirm = () => {
+    dispatch(deleteUser(selectedItem?.item?._id));
+  };
 
+  const alertHandleClose = () => {
+    dispatch(setRemove(false));
+    dispatch(resetToolbar());
+  };
   return (
     <div>
       {loading ? (
@@ -62,7 +70,11 @@ function Users() {
         </Grid>
       )}
       <UsersDialog />
-      <UniAlertDialog />
+      <UniAlertDialog
+        handleClose={alertHandleClose}
+        handleConfirm={alertHandleConfirm}
+        text={`هل تريد حذف الـمستخدم ${selectedItem?.item?.username}؟`}
+      />
     </div>
   );
 }
