@@ -17,13 +17,11 @@ const userSchema = new Schema({
     lowercase: true,
     trim: true,
     minlength: 3,
-    maxlength: 20,
   },
   password: {
     type: String,
     required: true,
     minlength: 8,
-    maxlength: 20,
   },
   department: {
     type: Schema.Types.ObjectId,
