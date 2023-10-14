@@ -39,7 +39,11 @@
     }
   }
   &-logo {
+    @include flex();
+    gap: 1rem;
     padding-block: 1rem;
+    font-size: .8rem;
+    font-weight: 800;
     @include large {
       display: none;
     }

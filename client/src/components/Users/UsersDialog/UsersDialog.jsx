@@ -55,7 +55,7 @@ export default function UsersDialog({ open, setOpen, footer }) {
     },
   ];
   const departmentsOptions = allDepartments?.map((item) => {
-    return { name: item.name, label: item.name };
+    return { name: item?.name, label: item.name };
   });
   // ------ Formik & Yup
   const formik = useFormik({
@@ -67,11 +67,11 @@ export default function UsersDialog({ open, setOpen, footer }) {
       department: "",
     },
     validationSchema: yup.object({
-      name: yup.string().required("هذا الحقل مطلوب"),
-      username: yup.string().required("هذا الحقل مطلوب"),
-      password: yup.string().required("هذا الحقل مطلوب"),
-      role: yup.string().required("هذا الحقل مطلوب"),
-      department: yup.string().required("هذا الحقل مطلوب"),
+      name: add ? yup.string().required("هذا الحقل مطلوب") : yup.string(),
+      username: add ? yup.string().required("هذا الحقل مطلوب") : yup.string(),
+      password: add ? yup.string().required("هذا الحقل مطلوب") : yup.string(),
+      role: add ? yup.string().required("هذا الحقل مطلوب") : yup.string(),
+      department: add ? yup.string().required("هذا الحقل مطلوب") : yup.string(),
     }),
     onSubmit(values) {
       console.log({ values });
@@ -115,7 +115,7 @@ export default function UsersDialog({ open, setOpen, footer }) {
       formik.setFieldValue("username", username);
       formik.setFieldValue("password", password);
       formik.setFieldValue("role", role);
-      formik.setFieldValue("department", department.name);
+      formik.setFieldValue("department", department?.name);
     }
   }, [update]);
 

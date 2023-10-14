@@ -12,6 +12,7 @@ import {
 import SkeletonLinks from "@components/Common/Skeleton/Sidebar/SkeletonLinks";
 import UniChip from "@components/Common/UniversalChip/UniChip";
 import { useSelector } from "react-redux";
+import logo from "@assets/logo.png";
 
 function Sidebar({ openSidebar, setOpenSidebar }) {
   const theme = useTheme();
@@ -37,7 +38,8 @@ function Sidebar({ openSidebar, setOpenSidebar }) {
       )}
       {/* User-Info Code */}
       <div className="sidebar-logo">
-        لوجو
+        <img src={logo} alt="logo" width={50} />
+        مديرية بلدية السماوة/شعبة الاملاك
       </div>
       <div className="sidebar-user">
         <div className="sidebar-user-img">
