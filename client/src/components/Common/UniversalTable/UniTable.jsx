@@ -14,8 +14,12 @@ import { sortTable } from "@src/utils/sortTable";
 import EnhancedTableHead from "./EnhancedTableHead/EnhancedTableHead";
 import { useTable } from "./useTable";
 import HiddenPassword from "@components/Users/HiddenPassword/HiddenPassword";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setPosition } from "@store/toolsbar/toolsbarSlice";
 
 const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
+  const dispatch = useDispatch();
   const {
     page,
     rowsPerPage,
@@ -26,6 +30,18 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
     onSortClick,
   } = useTable();
   const theme = useTheme();
+  useEffect(() => {
+    switch (rowsPerPage) {
+      case 20:
+        dispatch(setPosition("top"));
+        break;
+
+      default:
+        dispatch(setPosition("bottom"));
+        break;
+    }
+  }, [rowsPerPage]);
+
   return (
     <>
       <Typography

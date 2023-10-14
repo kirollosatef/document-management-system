@@ -4,10 +4,12 @@ import Sidebar from "./Sidebar/Sidebar";
 import "./Layout.scss";
 import { useEffect, useState } from "react";
 import Toolbar from "./Toolbar/Toolbar";
+import { useSelector } from "react-redux";
 function Layout() {
   const theme = useTheme();
   const isLargeScreen = useMediaQuery("(min-width: 992px)");
   const [openSidebar, setOpenSidebar] = useState(false);
+  const { toolbarPosition } = useSelector((state) => state.toolsbar.components);
   useEffect(() => {
     if (isLargeScreen) {
       setOpenSidebar(false);
@@ -39,11 +41,16 @@ function Layout() {
               setOpenSidebar={setOpenSidebar}
             />
           </Grid>
-          <Grid sx={{ flex:1,height: "100%",overflow:"hidden" }}>
-            <Stack px={4} py={2} height={"90vh"}>
+          <Grid sx={{ flex: 1, height: "100%" }}>
+            {toolbarPosition === "top" && (
+              <Toolbar setOpenSidebar={setOpenSidebar} />
+            )}
+            <Stack px={4} py={2} minHeight={"90vh"}>
               <Outlet />
             </Stack>
-            <Toolbar setOpenSidebar={setOpenSidebar} />
+            {toolbarPosition === "bottom" && (
+              <Toolbar setOpenSidebar={setOpenSidebar} />
+            )}
           </Grid>
         </Grid>
       </main>

@@ -6,7 +6,10 @@ const toolsbarSlice = createSlice({
     update: false,
     remove: false,
     print: false,
-    components: { selectedItem: { type: "", item: {} } },
+    components: {
+      selectedItem: { type: "", item: {} },
+      toolbarPosition: "bottom",
+    },
   },
   reducers: {
     resetToolbar: (state) => {
@@ -30,8 +33,14 @@ const toolsbarSlice = createSlice({
     setSelectedItem: (state, action) => {
       state.components.selectedItem = action.payload;
     },
+    setPosition: (state, action) => {
+      state.components.toolbarPosition = action.payload;
+    },
     resetSelectedItem: (state, action) => {
       state.components.selectedItem = { type: "", item: {} };
+    },
+    resetToolbarPosition: (state, action) => {
+      state.components.toolbarPosition = "bottom";
     },
   },
 });
@@ -43,6 +52,7 @@ export const {
   setUpdate,
   setRemove,
   setPrint,
+  setPosition,
   setSelectedItem,
 } = toolsbarSlice.actions;
 
