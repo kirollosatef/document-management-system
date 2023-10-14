@@ -109,7 +109,7 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
             count={data.length}
             rowsPerPage={rowsPerPage}
             page={page}
-            rowsPerPageOptions={[5, 10, 20]}
+            rowsPerPageOptions={data?.length >= 20 ? [5, 10, 20] : [5, 10]}
             onPageChange={(e, page) => {
               setPage(page);
             }}
