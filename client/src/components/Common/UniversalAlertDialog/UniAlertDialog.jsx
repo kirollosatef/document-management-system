@@ -25,12 +25,9 @@ export default function UniAlertDialog({
   handleClose,
   handleConfirm,
 }) {
-  const dispatch = useDispatch();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { remove } = useSelector((state) => state.toolsbar);
-  const { deleted, error, message } = useSelector((state) => state.users);
-  
 
   return (
     <div>
