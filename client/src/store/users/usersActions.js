@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const createUser = createAsyncThunk(
   "users/create",
-  async (actionData, { rejectWithValue, getState }) => {
+  async (actionData, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       const response = await fetch(`/api/v0/users/register`, {

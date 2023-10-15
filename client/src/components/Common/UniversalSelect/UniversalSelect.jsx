@@ -34,7 +34,7 @@ export default function UniversalSelect({
     if (selectedOption) {
       formik.setFieldValue(name, selectedOption.name); // Call the onRoleChange callback
     }
-    setValue(event.target.value);
+    // setValue(event.target.value);
   };
   return (
     <div className="uni-select">

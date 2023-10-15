@@ -13,7 +13,6 @@ export const createDepartment = createAsyncThunk(
         },
         body: JSON.stringify(actionData),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         return rejectWithValue(errorData.message);
