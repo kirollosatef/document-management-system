@@ -19,7 +19,7 @@ function FoldersItem({ folder, handleClick }) {
           <img src={folderIcon} alt="folder" width={100} />
         </div>
         <div>
-          <Typography sx={{ fontWeight: 700 }}> {name} </Typography>
+          <Typography className="smallTxt" sx={{ fontWeight: 700 }}> {name} </Typography>
           <Typography
             variant="body2"
             sx={{ maxWidth: "150px" }}

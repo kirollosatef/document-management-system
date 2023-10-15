@@ -64,6 +64,14 @@ function App() {
               ),
             },
             {
+              path: "folder",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <folders.Folders />
+                </Suspense>
+              ),
+            },
+            {
               path: "settings",
               element: (
                 <Suspense fallback={<Loading />}>
