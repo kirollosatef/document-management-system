@@ -8,14 +8,6 @@ function Folders() {
       <Typography variant="h6">المجلدات</Typography>
       <Grid container spacing={4}> 
         <FoldersItem/>
-        <FoldersItem/>
-        <FoldersItem/>
-        <FoldersItem/>
-        <FoldersItem/>
-        <FoldersItem/>
-        <FoldersItem/>
-        <FoldersItem/>
-        <FoldersItem/>
       </Grid>
     </div>
   );
