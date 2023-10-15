@@ -24,6 +24,7 @@ import { useEffect } from "react";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { reset } from "@store/departments/departmentsSlice";
 import { toast } from "react-toastify";
+import { createFolder, updateFolder } from "@store/folders/foldersActions";
 
 export default function FoldersDialog({ open, setOpen, footer }) {
   const dispatch = useDispatch();
@@ -50,10 +51,10 @@ export default function FoldersDialog({ open, setOpen, footer }) {
       description: yup.string().required("هذا الحقل مطلوب"),
     }),
     onSubmit(values) {
-      add && dispatch(createDepartment(values));
+      add && dispatch(createFolder(values));
       update &&
         dispatch(
-          updateDepartment({
+          updateFolder({
             data: values,
             params: { id: selectedItem?.item?._id },
           })
@@ -88,11 +89,6 @@ export default function FoldersDialog({ open, setOpen, footer }) {
 
   return (
     <div>
-      {/* <Button
-        variant="contained"
-        onClick={handleClickOpen}
-        className="btnFooter"
-      >اضافة</Button> */}
       <Dialog
         fullScreen={fullScreen}
         fullWidth={true}
