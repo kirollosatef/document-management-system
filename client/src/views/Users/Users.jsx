@@ -39,36 +39,36 @@ function Users() {
     // },
     // { id: "addedAt", label: "تاريخ الاضافة" },
   ];
+  //  ========== Actions ==========
   const handleClick = (obj) => {
-    // dispatch(reset());
     dispatch(setSelectedItem({ type: "user", item: obj }));
   };
-  useEffect(() => {
-    dispatch(getUsers());
-    // dispatch(resetToolbar())
-    dispatch(resetSelectedItem());
-  }, [dispatch]);
-  const alertHandleConfirm = () => {
-    dispatch(deleteUser(selectedItem?.item?._id));
-  };
-
   const alertHandleClose = () => {
     dispatch(setRemove(false));
     dispatch(resetToolbar());
   };
+  const alertHandleConfirm = () => {
+    dispatch(deleteUser(selectedItem?.item?._id));
+  };
+
+  //  ========== Fetch Data ==========
+  useEffect(() => {
+    dispatch(getUsers());
+    dispatch(resetSelectedItem());
+  }, [dispatch]);
+  //  ========== Displaying Any Error  ==========
   useEffect(() => {
     if (error) {
       toast.error(message);
       dispatch(reset());
     }
   }, [error]);
-
   return (
     <div>
       {loading ? (
         <Loading />
       ) : (
-        <Grid container >
+        <Grid container>
           <Grid item xs={12} sx={{ overflow: "hidden" }}>
             <UniTable
               headers={headers}

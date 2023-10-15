@@ -1,15 +1,20 @@
 import { Grid, Stack, Typography } from "@mui/material";
-import folderIcon from '@assets/images/folder-primary.png'
+import folderIcon from "@assets/images/folder-primary.png";
+import { useSelector } from "react-redux";
 
-function FoldersItem({folder}) {
-    const {name,description,creator} = folder
+function FoldersItem({ folder, handleClick }) {
+  const { name, description, creator, _id } = folder;
+  const { selectedItem } = useSelector((state) => state.toolsbar.components);
+
   return (
-    <Grid item>
+    <Grid item onClick={() => handleClick(folder)}>
       <Stack
         direction={"row"}
         gap={5}
         alignItems={"center"}
-        className="folders-item">
+        className={`folders-item ${
+          selectedItem.item._id === _id ? "active" : ""
+        } `}>
         <div className="flex-center folders-item-img">
           <img src={folderIcon} alt="folder" width={100} />
         </div>

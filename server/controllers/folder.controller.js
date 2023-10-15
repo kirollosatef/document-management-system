@@ -73,7 +73,6 @@ const update = async (req, res) => {
     if (!folder) {
       return res.status(404).json({ message: MESSAGES.noFolderFounded });
     }
-
     res.status(200).json({ folder });
   } catch (err) {
     res.status(400).json({ message: err.message, error: err });

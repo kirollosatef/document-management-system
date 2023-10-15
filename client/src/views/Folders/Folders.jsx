@@ -1,5 +1,4 @@
 import { Grid, Typography } from "@mui/material";
-import './folders.scss'
 import FoldersItem from "@components/Folders/FoldersItem/FoldersItem";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +8,7 @@ import { toast } from "react-toastify";
 import { reset } from "@store/folders/foldersSlice";
 import FoldersDialog from "@components/Folders/FoldersDialog/FoldersDialog";
 import UniAlertDialog from "@components/Common/UniversalAlertDialog/UniAlertDialog";
+import './Folders.scss'
 
 function Folders() {
   const dispatch = useDispatch()
@@ -16,6 +16,9 @@ function Folders() {
   const { selectedItem } = useSelector((state) => state.toolsbar.components);
   
   //  ========== Actions ==========
+  const handleClick = (obj) => {
+    dispatch(setSelectedItem({ type: "user", item: obj }));
+  };
   const alertHandleClose = () => {
     dispatch(setRemove(false));
     dispatch(resetToolbar());
@@ -44,7 +47,7 @@ function Folders() {
       <Typography variant="h6">المجلدات</Typography>
       {/* ======= Folders Items ======= */}
       <Grid container spacing={4}> 
-        {allFolders?.map(item => <FoldersItem key={item._id} folder={item} />)}
+        {allFolders?.map(item => <FoldersItem key={item._id} folder={item} handleClick={handleClick} />)}
       </Grid>
       <FoldersDialog />
       <UniAlertDialog

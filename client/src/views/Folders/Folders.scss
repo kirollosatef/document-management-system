@@ -7,7 +7,8 @@
     border: 1px solid #ddd;
     width: 300px;
     // width: 100%;
-    &:hover {
+
+    &:hover,&.active {
       background-color: #eee;
       border-color: transparent;
       .folders-item-img {

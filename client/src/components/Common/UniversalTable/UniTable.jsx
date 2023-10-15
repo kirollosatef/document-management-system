@@ -30,6 +30,8 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
     onSortClick,
   } = useTable();
   const theme = useTheme();
+  
+  // Change the position of the Toolbar accordion to the count of rows
   useEffect(() => {
     switch (rowsPerPage) {
       case 20:
