@@ -29,4 +29,11 @@ export const MESSAGES = {
   noArchiveFounded: 'لا يوجد ارشيف بهذا الاسم',
   archiveCreated: 'تم انشاء الارشيف بنجاح',
   archiveUpdated: 'تم تعديل الارشيف بنجاح',
+  fileUploadError: 'حدث خطأ اثناء رفع الملف',
+  fileUploaded: 'تم رفع الملف بنجاح',
+  noFileUploaded: 'الرجاء اختيار ملف',
+  folderNotFound: 'لا يوجد مجلد بهذا الاسم',
+  fileNotFound: 'لا يوجد ملف بهذا الاسم',
+  fileUpdated: 'تم تعديل الملف بنجاح',
+  fileRemoved: 'تم حذف الملف بنجاح',
 };

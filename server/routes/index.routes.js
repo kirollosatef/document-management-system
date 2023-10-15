@@ -3,6 +3,8 @@ import userRouter from './user.routes.js';
 import departmentRouter from './department.routes.js';
 import folderRouter from './folder.routes.js';
 import archiveRouter from './archive.routes.js';
+import fileRouter from './file.routes.js';
+import statisticsRouter from './statistics.routes.js';
 
 const indexRouter = Router();
 
@@ -14,5 +16,9 @@ indexRouter.use('/departments', departmentRouter);
 indexRouter.use('/folders', folderRouter);
 // Mount the archive router under the /archives path
 indexRouter.use('/archives', archiveRouter);
+// Mount the file router under the /files path
+indexRouter.use('/files', fileRouter);
+// Mount the file router under the /statistics path
+indexRouter.use('/statistics', statisticsRouter);
 
 export default indexRouter;

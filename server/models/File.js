@@ -5,17 +5,20 @@ const fileSchema = new Schema({
     type: String,
     required: true,
   },
+  uuidv4: {
+    type: String,
+    required: true,
+  },
   path: {
     type: String,
     required: true,
-    unique: true,
   },
   mimetype: {
     type: String,
     required: true,
   },
   size: {
-    type: Number,
+    type: String,
     required: true,
   },
   creator: {
