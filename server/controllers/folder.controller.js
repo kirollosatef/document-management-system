@@ -68,13 +68,15 @@ const update = async (req, res) => {
     const folder = await Folder.findByIdAndUpdate(req.params.id, {
       name,
       description,
-    }).populate('creator');
+    });
 
     if (!folder) {
       return res.status(404).json({ message: MESSAGES.noFolderFounded });
     }
 
-    res.status(200).json({ folder });
+    const updatedFolder = await Folder.findById(req.params.id).populate('creator');
+
+    res.status(200).json({ folder: updatedFolder });
   } catch (err) {
     res.status(400).json({ message: err.message, error: err });
   }
