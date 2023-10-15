@@ -13,8 +13,11 @@ const users = {
 const departments = {
   Departments: lazy(() => import("@views/Departments/Departments")),
 };
+const folders = {
+  Folders: lazy(() => import("@views/Folders/Folders")),
+};
 const archive = {
-  Archive: lazy(() => import("@views/Archive/Archive")),
+  Archive: lazy(() => import("@views/Folders/Folders")),
 };
 const settings = {
   Settings: lazy(() => import("@views/Settings/Settings")),
@@ -53,10 +56,10 @@ function App() {
               ),
             },
             {
-              path: "archive",
+              path: "folders",
               element: (
                 <Suspense fallback={<Loading />}>
-                  <archive.Archive />
+                  <folders.Folders />
                 </Suspense>
               ),
             },
