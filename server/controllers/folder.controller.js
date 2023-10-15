@@ -44,7 +44,12 @@ const list = async (req, res) => {
 
 const get = async (req, res) => {
   try {
-    const folder = await Folder.findById(req.params.id).populate('creator')
+    const folder = await Folder.findById(req.params.id)
+      .populate({
+        path: 'archives',
+        model: 'Archive',
+      })
+      .populate('creator');
 
     if (!folder) {
       return res.status(404).json({ message: MESSAGES.noFolderFounded });

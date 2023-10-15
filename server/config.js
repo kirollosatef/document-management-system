@@ -24,5 +24,9 @@ export const MESSAGES = {
   folderDescriptionIsRequired: 'وصف المجلد مطلوب',
   noFolderFounded: 'لا يوجد مجلد بهذا الاسم',
   folderAlreadyInUse: 'اسم المجلد مستخدم بالفعل',
+  invalidFields: 'الرجاء ادخال جميع الحقول المطلوبة',
+  archiveRemoved: 'تم حذف الارشيف بنجاح',
+  noArchiveFounded: 'لا يوجد ارشيف بهذا الاسم',
+  archiveCreated: 'تم انشاء الارشيف بنجاح',
+  archiveUpdated: 'تم تعديل الارشيف بنجاح',
 };
-

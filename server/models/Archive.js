@@ -5,7 +5,7 @@ const archiveSchema = new Schema({
     type: String,
     required: true,
   },
-  theNumber: {
+  issueNumber: {
     type: String,
     required: true,
   },
@@ -22,10 +22,6 @@ const archiveSchema = new Schema({
     required: true,
   },
   description: String,
-  folder: {
-    type: Schema.Types.ObjectId,
-    ref: 'Folder',
-  },
   files: [
     {
       type: Schema.Types.ObjectId,
