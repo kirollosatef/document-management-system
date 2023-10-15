@@ -5,11 +5,13 @@ import usersSlice from "./users/usersSlice";
 import departmentsSlice from "./departments/departmentsSlice";
 import authSlice from "./auth/authSlice";
 import toolsbarSlice from "./toolsbar/toolsbarSlice";
+import foldersSlice from "./folders/foldersSlice";
 
 const rootReducer = combineReducers({
   auth: authSlice,
   users: usersSlice,
   departments: departmentsSlice,
+  folders: foldersSlice,
   toolsbar: toolsbarSlice,
 });
 

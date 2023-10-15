@@ -1,0 +1,24 @@
+.folders {
+  &-item {
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: .8rem;
+    transition: 0.3s ease;
+    border: 1px solid #ddd;
+    width: 300px;
+    // width: 100%;
+    &:hover {
+      background-color: #eee;
+      border-color: transparent;
+      .folders-item-img {
+        opacity: 0.8;
+      }
+    }
+    &-img {
+      transition: 0.6s ease;
+    }
+    &-creator {
+      margin-top: 0.7rem;
+    }
+  }
+}

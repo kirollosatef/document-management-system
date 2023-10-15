@@ -10,7 +10,7 @@ function HiddenPassword({ password }) {
       <div>
         <VisibilityIcon onClick={() => setHide(!hide)} sx={{width:20}} />
       </div>
-      <div className="table-cell-ellipsis">
+      <div className="smallTxt" style={{maxWidth:"100px"}}>
         {!hide
           ? [...Array(5)].map((_, i) => <CircleIcon key={i} sx={{width:10}} />)
           : password}

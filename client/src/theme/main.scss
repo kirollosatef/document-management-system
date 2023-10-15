@@ -53,7 +53,12 @@ input {
 .flex-center {
   @include flex();
 }
-
+.flex-items-center{
+  @include flex($jc:flex-start);
+}
+.gap-1{
+  gap: .6rem;
+}
 /* SWAL */
 //.swal2-icon-warning.swal2-show
 .swal2-popup.swal2-modal {
@@ -72,8 +77,7 @@ h2#swal2-title {
 
 
 // TAble cell
-.table-cell-ellipsis {
-  max-width: 100px; /* Adjust the value to your desired maximum width */
+.smallTxt {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

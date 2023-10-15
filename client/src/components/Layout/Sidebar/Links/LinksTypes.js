@@ -1,5 +1,5 @@
 import CategoryIcon from '@mui/icons-material/Category';
-import ArchiveIcon from '@mui/icons-material/Archive';
+import FolderIcon from '@mui/icons-material/Folder';
 import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -22,9 +22,9 @@ export const userLinks = [
   },
   {
     id: Math.floor(Math.random() * 1000000) + 1,
-    text: "الارشيف",
-    icon: ArchiveIcon,
-    link: "/archive",
+    text: "المجلدات",
+    icon: FolderIcon,
+    link: "/folders",
   },
   {
     id: Math.floor(Math.random() * 1000000) + 1,

@@ -68,8 +68,8 @@ function Users() {
       {loading ? (
         <Loading />
       ) : (
-        <Grid container>
-          <Grid xs={12} sx={{ overflowX: "auto" }}>
+        <Grid container >
+          <Grid item xs={12} sx={{ overflow: "hidden" }}>
             <UniTable
               headers={headers}
               data={allUsers || []}

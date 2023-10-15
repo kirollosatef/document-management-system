@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const createDepartment = createAsyncThunk(
-  "departments/add",
+export const createFolder = createAsyncThunk(
+  "folders/create",
   async (actionData, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
-      const response = await fetch(`/api/v0/departments`, {
+      const response = await fetch(`/api/v0/folders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -17,7 +17,6 @@ export const createDepartment = createAsyncThunk(
         const errorData = await response.json();
         return rejectWithValue(errorData.message);
       }
-
       const data = await response.json();
       return data;
     } catch (error) {
@@ -28,23 +27,45 @@ export const createDepartment = createAsyncThunk(
     }
   }
 );
-export const updateDepartment = createAsyncThunk(
-  "departments/update",
-  async (actionData, { rejectWithValue }) => {
+export const getFolders = createAsyncThunk(
+  "folders/all",
+  async (actionData, { rejectWithValue, getState }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
-      const response = await fetch(
-        `/api/v0/departments/${actionData.params.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(actionData.data),
-        }
-      );
-
+      const response = await fetch(`/api/v0/folders`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
+export const updateFolder = createAsyncThunk(
+  "folders/update",
+  async (actionData, { rejectWithValue, getState }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const response = await fetch(`/api/v0/folders/${actionData.params.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(actionData.data),
+      });
       if (!response.ok) {
         const errorData = await response.json();
         return rejectWithValue(errorData.message);
@@ -60,48 +81,18 @@ export const updateDepartment = createAsyncThunk(
     }
   }
 );
-export const deleteDepartment = createAsyncThunk(
-  "departments/delete",
-  async (id, { rejectWithValue }) => {
+export const deleteFolder = createAsyncThunk(
+  "folders/delete",
+  async (id, { rejectWithValue, getState }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
-      const response = await fetch(`/api/v0/departments/${id}`, {
+      const response = await fetch(`/api/v0/folders/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        return rejectWithValue(errorData.message);
-      }
-
-      const data = await response.json();
-      return { data, department: id };
-    } catch (error) {
-      console.error(error);
-      return rejectWithValue({
-        message: "An unknown error occurred. Please try again later.",
-      });
-    }
-  }
-);
-export const getDepartments = createAsyncThunk(
-  "departments/all",
-  async (actionData, { rejectWithValue, getState }) => {
-    try {
-      const token = JSON.parse(localStorage.getItem("token"));
-      const response = await fetch(`/api/v0/departments`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(actionData),
-      });
-
       if (!response.ok) {
         const errorData = await response.json();
         return rejectWithValue(errorData.message);
