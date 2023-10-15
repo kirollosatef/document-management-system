@@ -1,7 +1,8 @@
 import { Grid, Stack, Typography } from "@mui/material";
 import folderIcon from '@assets/images/folder-primary.png'
 
-function FoldersItem() {
+function FoldersItem({folder}) {
+    const {name,description,creator} = folder
   return (
     <Grid item>
       <Stack
@@ -13,20 +14,19 @@ function FoldersItem() {
           <img src={folderIcon} alt="folder" width={100} />
         </div>
         <div>
-          <Typography sx={{ fontWeight: 700 }}>اسم المجلد</Typography>
+          <Typography sx={{ fontWeight: 700 }}> {name} </Typography>
           <Typography
             variant="body2"
             sx={{ maxWidth: "150px" }}
             className="smallTxt">
-            الوصف الخاص بيالوصف الخاص بيالوصف الخاص بيالوصف الخاص بيالوصف الخاص
-            بي
+            {description}
           </Typography>
           <div className="folders-item-creator">
             <Typography sx={{ fontSize: 10, fontWeight: 700, color: "#999" }}>
               تم الانشاء من قبل:
             </Typography>
             <Typography sx={{ fontSize: 10, fontWeight: 600 }}>
-              mohammed
+              {creator.name}
             </Typography>
           </div>
         </div>
