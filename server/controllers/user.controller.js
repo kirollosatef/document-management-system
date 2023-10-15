@@ -96,7 +96,7 @@ const update = async (req, res) => {
 
   const userFounded = await User.findById(req.params.id);
 
-  if (username) {
+  if (username && username !== userFounded.username) {
     if (await User.findOne({ username })) {
       return res.status(400).json({ message: MESSAGES.usernameAlreadyInUse });
     }
