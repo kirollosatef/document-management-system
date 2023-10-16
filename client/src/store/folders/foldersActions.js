@@ -108,6 +108,34 @@ export const updateFolder = createAsyncThunk(
     }
   }
 );
+export const updateArchive = createAsyncThunk(
+  "folders/archive/update",
+  async (actionData, { rejectWithValue, getState }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const response = await fetch(`/api/v0/archives/${actionData.params.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(actionData.data),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
 export const deleteFolder = createAsyncThunk(
   "folders/delete",
   async (id, { rejectWithValue, getState }) => {

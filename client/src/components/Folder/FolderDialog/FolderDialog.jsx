@@ -20,7 +20,7 @@ import { useEffect } from "react";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { reset } from "@store/departments/departmentsSlice";
 import { toast } from "react-toastify";
-import { createArchive, folderDetails, updateFolder } from "@store/folders/foldersActions";
+import { createArchive, folderDetails, updateArchive, updateFolder } from "@store/folders/foldersActions";
 
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
@@ -63,8 +63,8 @@ export default function FolderDialog() {
       add && dispatch(createArchive({data:values,params:{folderId: folder?._id}}));
       update &&
         dispatch(
-          updateFolder({
-            data: values,
+          updateArchive({
+            data: {...values,folderId:folder?._id},
             params: { id: selectedItem?.item?._id },
           })
         );
@@ -166,7 +166,7 @@ export default function FolderDialog() {
               />
               <DatePicker
                 label="التاريخ"
-                value={dayjs(formik.values.date) || ''}
+                value={formik.values.date ? dayjs(formik.values.date) : null}
                 onChange={(value) => formik.setFieldValue("date", value)}
               />
             </Box>

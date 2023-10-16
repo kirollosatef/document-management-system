@@ -5,6 +5,7 @@ import {
   deleteFolder,
   folderDetails,
   getFolders,
+  updateArchive,
   updateFolder,
 } from "./foldersActions";
 
@@ -117,6 +118,23 @@ const foldersSlices = createSlice({
       state.created = true;
     });
     builder.addCase(createArchive.rejected, (state, action) => {
+      state.loading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // ===== Update Archive =====
+    builder.addCase(updateArchive.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(updateArchive.fulfilled, (state, action) => {
+      const archiveIndex = state.folderDetails.archives.findIndex(
+        (item) => item._id === action.payload?.archive?._id
+      );
+      state.loading = false;
+      state.folderDetails.archives[archiveIndex]=action.payload.archive;
+      state.updated = true;
+    });
+    builder.addCase(updateArchive.rejected, (state, action) => {
       state.loading = false;
       state.error = true;
       state.message = action.payload;

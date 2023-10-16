@@ -30,7 +30,17 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
     onSortClick,
   } = useTable();
   const theme = useTheme();
-  
+  const cellContentHandler = ({ header, item }) => {
+    if (header.id === "addedAt") {
+      return dayjs(item[header.id]).format("DD-MM-YYYY");
+    } else if (header.id === "password") {
+      return <HiddenPassword password={item[header.id]} />;
+    } else if (header.id === "creator") {
+      return item[header.id].name
+    } else {
+      return item[header.id];
+    }
+  };
   // Change the position of the Toolbar accordion to the count of rows
   useEffect(() => {
     switch (rowsPerPage) {
@@ -89,15 +99,7 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
                             key={header.id}
                             align="right"
                             sx={{ whiteSpace: "break-spaces" }}>
-                            {header.id === "addedAt" ? (
-                              dayjs(item[header.id]).format("DD-MM-YYYY")
-                            ) : header.id === "password" ? (
-                              <>
-                                <HiddenPassword password={item[header.id]} />
-                              </>
-                            ) : (
-                              item[header.id]
-                            )}
+                            {cellContentHandler({ header, item })}
                           </TableCell>
                         ))}
                       </TableRow>
