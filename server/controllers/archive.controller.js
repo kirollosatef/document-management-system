@@ -28,7 +28,7 @@ const create = async (req, res) => {
   });
 
   try {
-    await archive.save();
+    await (await archive.save()).populate('creator');
 
     folder.archives.push(archive._id);
 
