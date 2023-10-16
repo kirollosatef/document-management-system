@@ -119,7 +119,7 @@ const remove = async (req, res) => {
       return res.status(404).json({ message: MESSAGES.noArchiveFounded });
     }
 
-    const folder = await Folder.findById(archive.folder);
+    const folder = await Folder.findOne({ archives: archiveId });
 
     folder.archives = folder.archives.filter((id) => id.toString() !== archiveId);
 
