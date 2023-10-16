@@ -25,7 +25,7 @@ const create = async (req, res) => {
       creator: userId,
     });
 
-    await folder.save();
+    await (await folder.save()).populate('creator')
 
     res.status(201).json({ folder });
   } catch (err) {
@@ -48,6 +48,10 @@ const get = async (req, res) => {
       .populate({
         path: 'archives',
         model: 'Archive',
+        populate: {
+          path: 'creator',
+          model: 'User'
+        }
       })
       .populate('creator');
 

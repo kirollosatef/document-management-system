@@ -42,6 +42,10 @@ const uploadFile = async (file, folderName, archiveName) => {
   return data;
 };
 
+const downloadFile = async (req, res) => {
+  
+}
+
 const create = async (req, res) => {
   const archiveId = req.params.archiveId;
   const folder = await Folder.findOne({ archives: archiveId }).select('_id');
