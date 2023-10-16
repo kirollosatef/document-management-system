@@ -18,12 +18,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
-import { reset } from "@store/departments/departmentsSlice";
 import { toast } from "react-toastify";
-import { createArchive, folderDetails, updateArchive, updateFolder } from "@store/folders/foldersActions";
+import { createArchive, updateArchive } from "@store/folders/foldersActions";
 
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
+import { reset } from "@store/folders/foldersSlice";
 
 export default function FolderDialog() {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export default function FolderDialog() {
   const formik = useFormik({
     initialValues: {
       title: "",
-      description: "",
+      description: "", 
       exporter: "",
       importer: "",
       date: "",

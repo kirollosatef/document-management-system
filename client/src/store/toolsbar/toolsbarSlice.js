@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const toolsbarSlice = createSlice({
   name: "toolsbar",
   initialState: {
+    open:false,
     add: false,
     update: false,
     remove: false,
@@ -9,6 +10,7 @@ const toolsbarSlice = createSlice({
     components: {
       selectedItem: { type: "", item: {} },
       toolbarPosition: "bottom",
+      pageName: "",
     },
   },
   reducers: {
@@ -17,6 +19,13 @@ const toolsbarSlice = createSlice({
       state.update = false;
       state.remove = false;
       state.print = false;
+      state.open = false;
+    },
+    setPageName: (state, { payload }) => {
+      state.components.pageName = payload;
+    },
+    setOpen: (state, { payload }) => {
+      state.open = payload;
     },
     setAdd: (state, { payload }) => {
       state.add = payload;
@@ -48,6 +57,8 @@ const toolsbarSlice = createSlice({
 export const {
   resetToolbar,
   resetSelectedItem,
+  setPageName,
+  setOpen,
   setAdd,
   setUpdate,
   setRemove,

@@ -5,13 +5,16 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import PrintIcon from "@mui/icons-material/Print";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
-import { setAdd, setRemove, setUpdate } from "@store/toolsbar/toolsbarSlice";
+import { setAdd, setOpen, setRemove, setUpdate } from "@store/toolsbar/toolsbarSlice";
 import { useDispatch, useSelector } from "react-redux";
+import AdsClickIcon from "@mui/icons-material/AdsClick";
 
 function Toolbar({ setOpenSidebar }) {
   const dispatch = useDispatch();
-  const { selectedItem } = useSelector((state) => state.toolsbar.components);
-  
+  const { selectedItem, pageName } = useSelector(
+    (state) => state.toolsbar.components
+  );
+
   return (
     <div className="toolbar">
       <div className="toolbar-burger" onClick={() => setOpenSidebar(true)}>
@@ -26,14 +29,24 @@ function Toolbar({ setOpenSidebar }) {
             justifyContent={"center"}
             margin={"auto"}
             width={"100%"}>
+            {pageName === "folderDetails" && (
+              <Button
+                variant="contained"
+                color="info"
+                endIcon={<AdsClickIcon />}
+                sx={{ fontWeight: 600, fontSize: 12 }}
+                dir="ltr"
+                onClick={() => dispatch(setOpen(true))}>
+                فتح
+              </Button>
+            )}
             <Button
               variant="outlined"
               color="success"
               endIcon={<AddIcon />}
               sx={{ fontWeight: 600, fontSize: 12 }}
               dir="ltr"
-              onClick={() => dispatch(setAdd(true))}
-            >
+              onClick={() => dispatch(setAdd(true))}>
               اضافة
             </Button>
             <Button

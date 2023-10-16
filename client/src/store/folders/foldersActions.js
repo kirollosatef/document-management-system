@@ -56,7 +56,7 @@ export const createArchive = createAsyncThunk(
 );
 export const getFolders = createAsyncThunk(
   "folders/all",
-  async (actionData, { rejectWithValue, getState }) => {
+  async (actionData, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       const response = await fetch(`/api/v0/folders`, {
@@ -82,7 +82,7 @@ export const getFolders = createAsyncThunk(
 );
 export const updateFolder = createAsyncThunk(
   "folders/update",
-  async (actionData, { rejectWithValue, getState }) => {
+  async (actionData, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       const response = await fetch(`/api/v0/folders/${actionData.params.id}`, {
@@ -110,7 +110,7 @@ export const updateFolder = createAsyncThunk(
 );
 export const updateArchive = createAsyncThunk(
   "folders/archive/update",
-  async (actionData, { rejectWithValue, getState }) => {
+  async (actionData, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       const response = await fetch(`/api/v0/archives/${actionData.params.id}`, {
@@ -138,7 +138,7 @@ export const updateArchive = createAsyncThunk(
 );
 export const deleteFolder = createAsyncThunk(
   "folders/delete",
-  async (id, { rejectWithValue, getState }) => {
+  async (id, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       const response = await fetch(`/api/v0/folders/${id}`, {
@@ -163,12 +163,66 @@ export const deleteFolder = createAsyncThunk(
     }
   }
 );
+export const deleteArchive = createAsyncThunk(
+  "folders/archive/delete",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const response = await fetch(`/api/v0/archives/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
 export const folderDetails = createAsyncThunk(
   "folders/details",
-  async (id, { rejectWithValue, getState }) => {
+  async (id, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       const response = await fetch(`/api/v0/folders/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
+export const archiveDetails = createAsyncThunk(
+  "folders/archive/details",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const response = await fetch(`/api/v0/archives/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

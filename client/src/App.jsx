@@ -18,7 +18,7 @@ const folders = {
   Folder: lazy(() => import("@views/Folder/Folder")),
 };
 const archive = {
-  Archive: lazy(() => import("@views/Folders/Folders")),
+  Archive: lazy(() => import("@views/Archive/Archive")),
 };
 const settings = {
   Settings: lazy(() => import("@views/Settings/Settings")),
@@ -57,6 +57,14 @@ function App() {
               ),
             },
             {
+              path: "archives/:id",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <archive.Archive />
+                </Suspense>
+              ),
+            },
+            {
               path: "folders",
               element: (
                 <Suspense fallback={<Loading />}>
@@ -72,6 +80,7 @@ function App() {
                 </Suspense>
               ),
             },
+            
             {
               path: "settings",
               element: (

@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setPosition } from "@store/toolsbar/toolsbarSlice";
 
-const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
+const UniTable = ({ data = [], headers, title, handleClick, selectedItem,noDataMsg }) => {
   const dispatch = useDispatch();
   const {
     page,
@@ -30,13 +30,15 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
     onSortClick,
   } = useTable();
   const theme = useTheme();
+
+  // Cell Content Func for custom content
   const cellContentHandler = ({ header, item }) => {
-    if (header.id === "addedAt") {
+    if (header.id === "addedAt" || header.id === "date") {
       return dayjs(item[header.id]).format("DD-MM-YYYY");
     } else if (header.id === "password") {
       return <HiddenPassword password={item[header.id]} />;
     } else if (header.id === "creator") {
-      return item[header.id].name
+      return item[header.id].name;
     } else {
       return item[header.id];
     }
@@ -83,6 +85,7 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
                 onSortClick={onSortClick}
               />
               <TableBody>
+                {data.length < 1 && <Typography sx={{textAlign:"center",py:4, color:"#999"}} > {noDataMsg}  </Typography>}
                 {sortTable(data, order, orderBy)
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((item) => {
@@ -98,7 +101,7 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
                           <TableCell
                             key={header.id}
                             align="right"
-                            sx={{ whiteSpace: "break-spaces" }}>
+                            sx={{maxWidth:"200px" }} className="smallTxt">
                             {cellContentHandler({ header, item })}
                           </TableCell>
                         ))}
@@ -106,7 +109,7 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
                     );
                   })}
               </TableBody>
-            </Table>
+            </Table> 
           </div>
           <TablePagination
             component={"div"}

@@ -3,7 +3,7 @@ import FoldersItem from "@components/Folders/FoldersItem/FoldersItem";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteFolder, getFolders } from "@store/folders/foldersActions";
-import { resetSelectedItem, resetToolbar, setRemove, setSelectedItem } from "@store/toolsbar/toolsbarSlice";
+import { resetSelectedItem, resetToolbar, setPageName, setRemove, setSelectedItem } from "@store/toolsbar/toolsbarSlice";
 import { toast } from "react-toastify";
 import { reset } from "@store/folders/foldersSlice";
 import FoldersDialog from "@components/Folders/FoldersDialog/FoldersDialog";
@@ -34,6 +34,8 @@ function Folders() {
   useEffect(() => {
     dispatch(getFolders())
     dispatch(resetSelectedItem());
+    dispatch(setPageName("folders"));
+
   }, [dispatch]);
   
   //  ========== Displaying Any Error  ==========

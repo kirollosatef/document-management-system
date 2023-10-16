@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  archiveDetails,
   createArchive,
   createFolder,
+  deleteArchive,
   deleteFolder,
   folderDetails,
   getFolders,
@@ -15,6 +17,8 @@ const foldersSlices = createSlice({
   initialState: {
     allFolders: null,
     folderDetails: null,
+    archives:null,
+    archiveDetails:{},
     loading: false,
     actionsLoading: false,
     error: false,
@@ -110,31 +114,61 @@ const foldersSlices = createSlice({
     });
     // ===== Create Archive =====
     builder.addCase(createArchive.pending, (state, action) => {
-      state.loading = true;
+      state.actionsLoading = true;
     });
     builder.addCase(createArchive.fulfilled, (state, action) => {
-      state.loading = false;
+      state.actionsLoading = false;
       state.folderDetails.archives.push(action.payload.archive);
       state.created = true;
     });
     builder.addCase(createArchive.rejected, (state, action) => {
-      state.loading = false;
+      state.actionsLoading = false;
       state.error = true;
       state.message = action.payload;
     });
     // ===== Update Archive =====
     builder.addCase(updateArchive.pending, (state, action) => {
-      state.loading = true;
+      state.actionsLoading = true;
     });
     builder.addCase(updateArchive.fulfilled, (state, action) => {
       const archiveIndex = state.folderDetails.archives.findIndex(
         (item) => item._id === action.payload?.archive?._id
       );
-      state.loading = false;
-      state.folderDetails.archives[archiveIndex]=action.payload.archive;
+      state.actionsLoading = false;
+      state.folderDetails.archives[archiveIndex] = action.payload.archive;
       state.updated = true;
     });
     builder.addCase(updateArchive.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // ===== Delete Archive =====
+    builder.addCase(deleteArchive.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(deleteArchive.fulfilled, (state, action) => {
+      const newArchives = state.allFolders.archives.filter(
+        (item) => item._id !== action.payload?.archive?._id
+      );
+      state.actionsLoading = false;
+      state.folderDetails.archives = newArchives;
+      state.deleted = true;
+    });
+    builder.addCase(deleteArchive.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // ===== Archive Details =====
+    builder.addCase(archiveDetails.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(archiveDetails.fulfilled, (state, action) => {
+      state.loading = false;
+      state.archiveDetails = action.payload.archive;
+    });
+    builder.addCase(archiveDetails.rejected, (state, action) => {
       state.loading = false;
       state.error = true;
       state.message = action.payload;

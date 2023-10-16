@@ -11,6 +11,7 @@ import Loading from "@components/Common/Loading/Loading";
 import {
   resetSelectedItem,
   resetToolbar,
+  setPageName,
   setRemove,
   setSelectedItem,
 } from "@store/toolsbar/toolsbarSlice";
@@ -40,6 +41,7 @@ function Departments() {
   useEffect(() => {
     dispatch(getDepartments());
     dispatch(resetSelectedItem());
+    dispatch(setPageName("departments"));
   }, [dispatch]);
 
   // ------ Select Item

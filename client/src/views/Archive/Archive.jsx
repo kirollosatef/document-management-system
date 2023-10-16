@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteArchive, folderDetails } from "@store/folders/foldersActions";
+import { archiveDetails, deleteArchive, folderDetails } from "@store/folders/foldersActions";
 import UniTable from "@components/Common/UniversalTable/UniTable";
 import {
   resetToolbar,
@@ -10,11 +10,10 @@ import {
   setRemove,
   setSelectedItem,
 } from "@store/toolsbar/toolsbarSlice";
-import { deleteUser } from "@store/users/usersActions";
 import UniAlertDialog from "@components/Common/UniversalAlertDialog/UniAlertDialog";
 import FolderDialog from "@components/Folder/FolderDialog/FolderDialog";
 
-function Folder() {
+function Archive() {
   const navigate = useNavigate()
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -54,14 +53,13 @@ function Folder() {
     dispatch(deleteArchive(selectedItem?.item?._id));
   };
   useEffect(() => {
-    dispatch(setPageName("folderDetails"));
-    dispatch(folderDetails(id));
+    dispatch(setPageName("archiveDetails"));
+    dispatch(archiveDetails(id));
   }, []);
 
   useEffect(() => {
     if (open) {
       navigate(`/archives/${selectedItem.item._id}`)
-      dispatch(resetToolbar())
     }
   }, [open])
   
@@ -74,14 +72,14 @@ function Folder() {
         <Typography variant="body1">{folder?.description}</Typography>
       </Box>
       <Box>
-        <UniTable
+        {/* <UniTable
           headers={headers}
           data={folder?.archives || []}
           title="الارشيف"
           handleClick={handleClick}
           selectedItem={selectedItem?.item}
           noDataMsg={"لا يوجد بيانات حتي الان"}
-        />
+        /> */}
       </Box>
       <FolderDialog />
       <UniAlertDialog
@@ -93,4 +91,4 @@ function Folder() {
   );
 }
 
-export default Folder;
+export default Archive;

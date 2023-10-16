@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import {
   resetSelectedItem,
   resetToolbar,
+  setPageName,
   setRemove,
   setSelectedItem,
 } from "@store/toolsbar/toolsbarSlice";
@@ -55,6 +56,7 @@ function Users() {
   useEffect(() => {
     dispatch(getUsers());
     dispatch(resetSelectedItem());
+    dispatch(setPageName("users"));
   }, [dispatch]);
   //  ========== Displaying Any Error  ==========
   useEffect(() => {
