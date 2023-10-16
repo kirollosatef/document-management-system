@@ -20,7 +20,10 @@ import { useEffect } from "react";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { reset } from "@store/departments/departmentsSlice";
 import { toast } from "react-toastify";
-import { createArchive, createFolder, updateFolder } from "@store/folders/foldersActions";
+import { createArchive, folderDetails, updateFolder } from "@store/folders/foldersActions";
+
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs from "dayjs";
 
 export default function FolderDialog() {
   const dispatch = useDispatch();
@@ -46,7 +49,6 @@ export default function FolderDialog() {
       description: "",
       exporter: "",
       importer: "",
-      creator: "",
       date: "",
     },
     validationSchema: yup.object({
@@ -54,12 +56,11 @@ export default function FolderDialog() {
       description: yup.string().required("هذا الحقل مطلوب"),
       exporter: yup.string().required("هذا الحقل مطلوب"),
       importer: yup.string().required("هذا الحقل مطلوب"),
-      creator: yup.string().required("هذا الحقل مطلوب"),
       issueNumber: yup.string().required("هذا الحقل مطلوب"),
       date: yup.string().required("هذا الحقل مطلوب"),
     }),
     onSubmit(values) {
-      add && dispatch(createArchive(values));
+      add && dispatch(createArchive({data:values,params:{folderId: folder?._id}}));
       update &&
         dispatch(
           updateFolder({
@@ -89,7 +90,7 @@ export default function FolderDialog() {
   // ======== Set the default values ========
   useEffect(() => {
     if (update) {
-      const { title, description, exporter, importer, creator, issueNumber } =
+      const { title, description, exporter, importer, creator, issueNumber,date } =
         selectedItem.item;
       formik.setFieldValue("title", title);
       formik.setFieldValue("description", description);
@@ -97,6 +98,7 @@ export default function FolderDialog() {
       formik.setFieldValue("importer", importer);
       formik.setFieldValue("creator", creator);
       formik.setFieldValue("issueNumber", issueNumber);
+      formik.setFieldValue("date", date);
     }
   }, [update]);
 
@@ -155,12 +157,17 @@ export default function FolderDialog() {
                 helperText={formik.errors.importer}
               />
               <UniInput
-                name="name"
-                label="رقم القضية"
+                name="issueNumber"
+                label="عدد الاصدار"
                 value={formik.values.issueNumber}
                 error={Boolean(formik.errors.issueNumber)}
                 onChange={formik.handleChange}
                 helperText={formik.errors.issueNumber}
+              />
+              <DatePicker
+                label="التاريخ"
+                value={dayjs(formik.values.date) || ''}
+                onChange={(value) => formik.setFieldValue("date", value)}
               />
             </Box>
           </DialogContent>
