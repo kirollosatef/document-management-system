@@ -64,7 +64,7 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem }) => {
           borderTop: `1px solid ${theme.palette.secondary[500]}`,
         }}>
         <TableContainer>
-          <div style={{ overflowX: "auto", maxWidth: "100%", width: "100%" }}>
+          <div style={{ overflowX: "auto", width: "100%" }}>
             <Table>
               <EnhancedTableHead
                 headers={headers}

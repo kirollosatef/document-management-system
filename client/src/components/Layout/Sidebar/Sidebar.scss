@@ -1,13 +1,15 @@
 @use "../../../theme/globals.scss" as *;
 
 .sidebar {
-  width: 100%;
+  position: relative;
+  // width: 100%;
   height: 100%;
   border-left: 2px solid #9991;
   transition: $normal-speed;
   padding-inline:2rem;
   background-color: $sidebar_color;
   box-shadow: 0 0 10px 10px #f1f1f1;
+  z-index: 1000;
   &-topBar {
     @include flex($jc: space-between);
     padding: 1rem;

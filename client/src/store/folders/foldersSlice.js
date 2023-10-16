@@ -1,11 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createFolder, deleteFolder, getFolders, updateFolder } from "./foldersActions";
+import {
+  createArchive,
+  createFolder,
+  deleteFolder,
+  folderDetails,
+  getFolders,
+  updateFolder,
+} from "./foldersActions";
 
 //slices
 const foldersSlices = createSlice({
   name: "users",
   initialState: {
     allFolders: null,
+    folderDetails: null,
     loading: false,
     actionsLoading: false,
     error: false,
@@ -83,6 +91,33 @@ const foldersSlices = createSlice({
     });
     builder.addCase(deleteFolder.rejected, (state, action) => {
       state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // GET Folder
+    builder.addCase(folderDetails.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(folderDetails.fulfilled, (state, action) => {
+      state.loading = false;
+      state.folderDetails = action.payload.folder;
+    });
+    builder.addCase(folderDetails.rejected, (state, action) => {
+      state.loading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // ===== Create Archive =====
+    builder.addCase(createArchive.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(createArchive.fulfilled, (state, action) => {
+      state.loading = false;
+      state.folderDetails.archives.push(action.payload.archive);
+      state.created = true;
+    });
+    builder.addCase(createArchive.rejected, (state, action) => {
+      state.loading = false;
       state.error = true;
       state.message = action.payload;
     });

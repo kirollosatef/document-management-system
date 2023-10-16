@@ -25,12 +25,11 @@ function Layout() {
           sx={{ height: "100vh", flexWrap: "nowrap" }}>
           <Grid
             sx={{
-              flex: "0 0 18rem",
+              width: "25%",
               display: isLargeScreen || openSidebar ? "flex" : "none",
               position: openSidebar ? "fixed" : "sticky",
               top: 0,
               right: 0,
-              width: "100%",
               height: "0",
               backgroundColor: openSidebar
                 ? theme.palette.background.default
@@ -43,7 +42,7 @@ function Layout() {
             />
           </Grid>
 
-          <Grid sx={{ flex: 1, height: "100%" }}>
+          <Grid sx={{ flex: 1, width: "75%", height: "100%" }}>
             {toolbarPosition === "top" && (
               <Toolbar setOpenSidebar={setOpenSidebar} />
             )}

@@ -15,6 +15,7 @@ const departments = {
 };
 const folders = {
   Folders: lazy(() => import("@views/Folders/Folders")),
+  Folder: lazy(() => import("@views/Folder/Folder")),
 };
 const archive = {
   Archive: lazy(() => import("@views/Folders/Folders")),
@@ -64,10 +65,10 @@ function App() {
               ),
             },
             {
-              path: "folder",
+              path: "folders/:id",
               element: (
                 <Suspense fallback={<Loading />}>
-                  <folders.Folders />
+                  <folders.Folder />
                 </Suspense>
               ),
             },
