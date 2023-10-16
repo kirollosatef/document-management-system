@@ -91,7 +91,7 @@ const update = async (req, res) => {
         return res.status(404).json({ message: MESSAGES.noFolderFounded });
       }
 
-      const oldFolder = await Folder.findOne({ archives: archiveId })
+      const oldFolder = await Folder.findOne({ archives: archiveId });
 
       oldFolder.archives = oldFolder.archives.filter((id) => id.toString() !== archiveId);
 
@@ -101,7 +101,9 @@ const update = async (req, res) => {
       await folder.save();
     }
 
-    res.status(200).json({ archive, message: MESSAGES.archiveUpdated });
+    const updatedArchive = await Archive.findById(archiveId).populate('creator');
+
+    res.status(200).json({ archive: updatedArchive, message: MESSAGES.archiveUpdated });
   } catch (err) {
     res.status(400).json({ message: err.message, error: err });
   }
