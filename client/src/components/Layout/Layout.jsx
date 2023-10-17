@@ -5,17 +5,24 @@ import "./Layout.scss";
 import { useEffect, useState } from "react";
 import Toolbar from "./Toolbar/Toolbar";
 import { useSelector } from "react-redux";
+import { setOpen } from "@store/toolsbar/toolsbarSlice";
 function Layout() {
   const theme = useTheme();
   const isLargeScreen = useMediaQuery("(min-width: 992px)");
   const [openSidebar, setOpenSidebar] = useState(false);
-  const { toolbarPosition } = useSelector((state) => state.toolsbar.components);
+  const { toolbarPosition, pageName } = useSelector(
+    (state) => state.toolsbar.components
+  );
   useEffect(() => {
     if (isLargeScreen) {
       setOpenSidebar(false);
     }
   }, [isLargeScreen]);
-
+  useEffect(() => {
+    if (pageName !== "archiveDetails") {
+      setOpen(false);
+    }
+  }, [pageName]);
   return (
     <div className="app">
       <main className="app-main">

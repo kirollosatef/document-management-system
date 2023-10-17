@@ -22,11 +22,11 @@ import {
 } from "@store/departments/departmentActions";
 import { useEffect } from "react";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
+import { reset } from "@store/departments/departmentsSlice";
 import { toast } from "react-toastify";
 import { createFolder, updateFolder } from "@store/folders/foldersActions";
-import { reset } from "@store/folders/foldersSlice";
 
-export default function FoldersDialog({ open, setOpen, footer }) {
+export default function ArchiveDialog({ open, setOpen, footer }) {
   const dispatch = useDispatch();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -70,7 +70,6 @@ export default function FoldersDialog({ open, setOpen, footer }) {
       formik.resetForm();
     }
     if (updated) {
-      console.log("updated")
       toast.success(`تم تعديل مجلد ${selectedItem?.item?.name}`);
       dispatch(setUpdate(false));
       dispatch(reset());

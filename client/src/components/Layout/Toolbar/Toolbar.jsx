@@ -5,7 +5,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import PrintIcon from "@mui/icons-material/Print";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
-import { setAdd, setOpen, setRemove, setUpdate } from "@store/toolsbar/toolsbarSlice";
+import {
+  setAdd,
+  setOpen,
+  setRemove,
+  setUpdate,
+} from "@store/toolsbar/toolsbarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AdsClickIcon from "@mui/icons-material/AdsClick";
 
@@ -14,7 +19,8 @@ function Toolbar({ setOpenSidebar }) {
   const { selectedItem, pageName } = useSelector(
     (state) => state.toolsbar.components
   );
-
+  const openBtnItems = ["archive", "folder"];
+  const showOpenBtnPages = ["folderDetails", "folders"];
   return (
     <div className="toolbar">
       <div className="toolbar-burger" onClick={() => setOpenSidebar(true)}>
@@ -29,14 +35,15 @@ function Toolbar({ setOpenSidebar }) {
             justifyContent={"center"}
             margin={"auto"}
             width={"100%"}>
-            {pageName === "folderDetails" && (
+            {showOpenBtnPages.includes(pageName) && (
               <Button
                 variant="contained"
                 color="info"
                 endIcon={<AdsClickIcon />}
                 sx={{ fontWeight: 600, fontSize: 12 }}
                 dir="ltr"
-                onClick={() => dispatch(setOpen(true))}>
+                onClick={() => dispatch(setOpen(true))}
+                disabled={!openBtnItems.includes(selectedItem.type)}>
                 فتح
               </Button>
             )}
