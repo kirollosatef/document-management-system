@@ -10,15 +10,18 @@ import {
   setRemove,
   setSelectedItem,
 } from "@store/toolsbar/toolsbarSlice";
-import { deleteUser } from "@store/users/usersActions";
+import BeenhereIcon from "@mui/icons-material/Beenhere";
 import UniAlertDialog from "@components/Common/UniversalAlertDialog/UniAlertDialog";
 import FolderDialog from "@components/Folder/FolderDialog/FolderDialog";
+import "./Folder.scss";
+import { reset } from "@store/folders/foldersSlice";
+import { toast } from "react-toastify";
 
 function Folder() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { folderDetails: folder } = useSelector((state) => state.folders);
+  const { folderDetails: folder,deleted } = useSelector((state) => state.folders);
   const { open, components } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
   const headers = [
@@ -60,18 +63,41 @@ function Folder() {
 
   useEffect(() => {
     if (open) {
-      navigate(`/archives/${selectedItem.item._id}`)
-      dispatch(resetToolbar())
+      navigate(`/archives/${selectedItem.item._id}`);
+      dispatch(resetToolbar());
     }
-  }, [open])
-  
+    if (deleted) {
+      toast.success("تم حذف الارشيف بنجاح")
+      dispatch(reset());
+      dispatch(resetToolbar());
+    }
+  }, [open,deleted]);
+
   return (
     <div>
-      <Box mb={5}>
-        <Typography variant="h4" sx={{ fontWeight: 800 }}>
-          {folder?.name}
-        </Typography>
-        <Typography variant="body1">{folder?.description}</Typography>
+      <Box
+        mb={5}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}>
+        <div style={{ flex: 10 }}>
+          {" "}
+          <Typography variant="h4" sx={{ fontWeight: 800 }}>
+            {folder?.name}
+          </Typography>
+          <Typography variant="body1">{folder?.description}</Typography>
+        </div>
+        <div style={{ flex: 2 }} className="creator">
+          <Typography
+            sx={{ fontSize: 12, fontWeight: 800, color: "#999", gap: 1 }}
+            className="flex-items-center">
+            <BeenhereIcon sx={{ fontSize: 12 }} />
+            <span> منشئ المجلد: </span>
+          </Typography>
+          <Typography sx={{ fontSize: 15 }}>{folder?.creator?.name}</Typography>
+        </div>
       </Box>
       <Box>
         <UniTable

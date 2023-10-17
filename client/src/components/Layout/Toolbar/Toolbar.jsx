@@ -39,7 +39,8 @@ function Toolbar({ setOpenSidebar }) {
             alignItems={"center"}
             justifyContent={"center"}
             margin={"auto"}
-            width={"100%"}>
+            width={"100%"}
+            flexWrap={"wrap"}>
             {showOpenBtnPages.includes(pageName) && (
               <Button
                 variant="contained"

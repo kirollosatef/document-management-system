@@ -19,6 +19,11 @@
         &:hover {
           background-color: #222;
         }
+        &-content{
+          &-btn{
+            flex-wrap: wrap;
+          }
+        }
         &.green-square {
           position: relative;
           &::before {

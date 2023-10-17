@@ -1,4 +1,5 @@
 import { Grid, Typography } from "@mui/material";
+
 import FoldersItem from "@components/Folders/FoldersItem/FoldersItem";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,15 +17,17 @@ import FoldersDialog from "@components/Folders/FoldersDialog/FoldersDialog";
 import UniAlertDialog from "@components/Common/UniversalAlertDialog/UniAlertDialog";
 import "./Folders.scss";
 import { useNavigate } from "react-router-dom";
+import Loading from "@components/Common/Loading/Loading";
+import NoDataMsg from "@components/Common/NoDataMsg/NoDataMsg";
 
 function Folders() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { allFolders, error, message, loading, actionsLoading,deleted } = useSelector(
+  const { allFolders, error, message, loading, deleted } = useSelector(
     (state) => state.folders
   );
-  const { components,open } = useSelector((state) => state.toolsbar);
-  const { selectedItem } = components
+  const { components, open } = useSelector((state) => state.toolsbar);
+  const { selectedItem } = components;
 
   //  ========== Actions ==========
   const handleClick = (obj) => {
@@ -59,26 +62,38 @@ function Folders() {
       dispatch(resetSelectedItem());
     }
     if (deleted) {
-      dispatch(reset())
+      dispatch(reset());
       dispatch(resetToolbar());
     }
-  }, [open,deleted]);
+  }, [open, deleted]);
 
   return (
     <div className="folders">
       <Typography variant="h6">المجلدات</Typography>
-      {/* ======= Folders Items ======= */}
-      <Grid container spacing={2}>
-        {allFolders?.map((item) => (
-          <FoldersItem key={item._id} folder={item} handleClick={handleClick} />
-        ))}
-      </Grid>
-      <FoldersDialog />
-      <UniAlertDialog
-        handleClose={alertHandleClose}
-        handleConfirm={alertHandleConfirm}
-        text={`هل تريد حذف الـمستخدم ${selectedItem?.item?.name}؟`}
-      />
+      {loading ? (
+        <Loading />
+      ) : allFolders.length < 1 ? (
+        <NoDataMsg msg="لا يوجد مجلدات" />
+      ) : (
+        <>
+          {/* ======= Folders Items ======= */}
+          <Grid container spacing={2}>
+            {allFolders?.map((item) => (
+              <FoldersItem
+                key={item._id}
+                folder={item}
+                handleClick={handleClick}
+              />
+            ))}
+          </Grid>
+          <FoldersDialog />
+          <UniAlertDialog
+            handleClose={alertHandleClose}
+            handleConfirm={alertHandleConfirm}
+            text={`هل تريد حذف الـمستخدم ${selectedItem?.item?.name}؟`}
+          />
+        </>
+      )}
     </div>
   );
 }

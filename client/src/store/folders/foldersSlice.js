@@ -148,7 +148,7 @@ const foldersSlices = createSlice({
       state.actionsLoading = true;
     });
     builder.addCase(deleteArchive.fulfilled, (state, action) => {
-      const newArchives = state.allFolders.archives.filter(
+      const newArchives = state.folderDetails.archives.filter(
         (item) => item._id !== action.payload?.archive?._id
       );
       state.actionsLoading = false;

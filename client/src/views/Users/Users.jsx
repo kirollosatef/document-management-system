@@ -19,7 +19,7 @@ import { reset } from "@store/users/usersSlice";
 
 function Users() {
   const dispatch = useDispatch();
-  const { allUsers, loading, error, message } = useSelector(
+  const { allUsers, loading, error, message, deleted } = useSelector(
     (state) => state.users
   );
   const { selectedItem } = useSelector((state) => state.toolsbar.components);
@@ -64,7 +64,13 @@ function Users() {
       toast.error(message);
       dispatch(reset());
     }
-  }, [error]);
+    if (deleted) {
+      toast.success("تم حذف المستخدم بنجاح");
+      dispatch(reset());
+      dispatch(resetToolbar());
+
+    }
+  }, [error, deleted]);
   return (
     <div>
       {loading ? (
