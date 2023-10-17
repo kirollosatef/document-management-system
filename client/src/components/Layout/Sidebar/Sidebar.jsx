@@ -27,13 +27,13 @@ function Sidebar({ openSidebar, setOpenSidebar }) {
             className="sidebar-topBar-burger"
             onClick={() => setOpenSidebar(false)}
           >
-            <Close />
+            <Close sx={{fontSize:"1.5rem"}} />
           </div>
-          <div className="sidebar-topBar-left">
+          {/* <div className="sidebar-topBar-left">
             <div className="sidebar-topBar-user">
               <div className="sidebar-topBar-user-name">{user?.username}</div>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
       {/* User-Info Code */}
@@ -74,7 +74,7 @@ function Sidebar({ openSidebar, setOpenSidebar }) {
         </div>
       </div>
       {/* Links Component */}
-      {!loading ? <Links /> : <SkeletonLinks />}
+      {!loading ? <Links setOpenSidebar={setOpenSidebar} /> : <SkeletonLinks />}
     </div>
   );
 }

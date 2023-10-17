@@ -3,7 +3,7 @@ import { userLinks } from "./LinksTypes";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { logout } from "@store/auth/authSlice";
 import { useDispatch } from "react-redux";
-function Links() {
+function Links({setOpenSidebar}) {
   const dispatch = useDispatch();
   const { id } = useParams();
   const location = useLocation();
@@ -26,6 +26,7 @@ function Links() {
                   ? `/dashboard/server/${id}/${item.link}`
                   : `${item.link}`
               );
+              setOpenSidebar(false)
             }}>
             <div className="sidebar-links-link-icon">
               <Icon />

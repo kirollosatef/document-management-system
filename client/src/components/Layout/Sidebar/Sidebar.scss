@@ -148,3 +148,16 @@
     }
   }
 }
+
+@include large {
+ .sidebar {
+  width: 100%;
+  &-links{
+    width: 100%;
+
+    &-link{
+      width: 100%;
+    }
+  }
+ }
+}

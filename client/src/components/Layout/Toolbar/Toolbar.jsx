@@ -19,8 +19,13 @@ function Toolbar({ setOpenSidebar }) {
   const { selectedItem, pageName } = useSelector(
     (state) => state.toolsbar.components
   );
+  // For Open Btn
   const openBtnItems = ["archive", "folder"];
   const showOpenBtnPages = ["folderDetails", "folders"];
+  // For Print Btn
+  const handlePrintClick = () => {
+    window.print();
+  };
   return (
     <div className="toolbar">
       <div className="toolbar-burger" onClick={() => setOpenSidebar(true)}>
@@ -78,11 +83,11 @@ function Toolbar({ setOpenSidebar }) {
             </Button>
             <Button
               variant="contained"
-              color="info"
+              color="secondary"
               endIcon={<PrintIcon />}
               sx={{ fontWeight: 600, fontSize: 12 }}
               dir="ltr"
-              disabled>
+              onClick={handlePrintClick}>
               طباعة
             </Button>
             <Button

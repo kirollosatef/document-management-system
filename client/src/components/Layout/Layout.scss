@@ -4,10 +4,10 @@
   main,
   &-main {
     min-height: 93dvh;
-    
+
     .toolbar {
       // @include flex($jc: flex-end);
-      padding-inline:1rem;
+      padding-inline: 1rem;
       padding-top: 2rem;
       @include large {
         @include flex($jc: space-between);
@@ -38,14 +38,14 @@
       }
       &-user {
         @include flex();
-        gap: .7rem;
+        gap: 0.7rem;
         &-img {
           width: 3.5rem;
           position: relative;
           &::before {
             content: "";
             position: absolute;
-            bottom: .5rem;
+            bottom: 0.5rem;
             width: 0.9rem;
             height: 0.9rem;
             border-radius: 50%;
@@ -62,7 +62,13 @@
       &-burger {
         order: 1;
         display: none;
-        @include large{
+        position: fixed;
+        top: .5rem;
+        left: .8rem;
+        svg{
+          font-size: 1.5rem;
+        }
+        @include large {
           display: block;
         }
       }
