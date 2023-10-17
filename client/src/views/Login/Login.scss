@@ -18,6 +18,7 @@
     // backdrop-filter: blur(10px);
     z-index: 1;
   }
+  
   &-box {
     position: relative;
     z-index: 2;
@@ -28,6 +29,15 @@
     padding: 3rem;
     text-align: center;
     border-radius: 1rem;
+    &-logo {
+      @include flex($dir:column);
+      gap: 1rem;
+      padding-block: 1rem;
+      font-size: .8rem;
+      font-weight: 800;
+      img {
+      }
+    }
     &-form {
       margin-top: 2rem;
       .uniInput {

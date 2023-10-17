@@ -6,14 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, TextField, Alert } from "@mui/material";
 import "./Login.scss";
-import { login,reset } from "@store/auth/authSlice";
+import { login, reset } from "@store/auth/authSlice";
 import UniInput from "@components/Common/UniversalInput/UniInput";
 import { toast } from "react-toastify";
+import logo from "@assets/logo.png";
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { error, user,message } = useSelector((state) => state.auth);
+  const { error, user, message } = useSelector((state) => state.auth);
 
   const formik = useFormik({
     initialValues: {},
@@ -38,8 +39,10 @@ function Login() {
   return (
     <div className="login">
       <div className="login-box">
-        <div className="login-box-logo">logo</div>
-        <div className="login-box-text">تسجيل الدخول للنظام</div>
+        <div className="login-box-logo">
+          <img src={logo} alt="logo" width={50} />
+          <span>مديرية بلدية السماوة/شعبة الاملاك</span>
+        </div>
         <form onSubmit={formik.handleSubmit} className="login-box-form">
           <Box
             display={"flex"}
