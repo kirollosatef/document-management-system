@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 function Folders() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { allFolders, error, message, loading, actionsLoading } = useSelector(
+  const { allFolders, error, message, loading, actionsLoading,deleted } = useSelector(
     (state) => state.folders
   );
   const { components,open } = useSelector((state) => state.toolsbar);
@@ -50,7 +50,6 @@ function Folders() {
     if (error) {
       toast.error(message);
     }
-
     dispatch(reset());
   }, [error]);
   useEffect(() => {
@@ -59,7 +58,11 @@ function Folders() {
       dispatch(resetToolbar());
       dispatch(resetSelectedItem());
     }
-  }, [open]);
+    if (deleted) {
+      dispatch(reset())
+      dispatch(resetToolbar());
+    }
+  }, [open,deleted]);
 
   return (
     <div className="folders">
@@ -74,7 +77,7 @@ function Folders() {
       <UniAlertDialog
         handleClose={alertHandleClose}
         handleConfirm={alertHandleConfirm}
-        text={`هل تريد حذف الـمستخدم ${selectedItem?.item?.username}؟`}
+        text={`هل تريد حذف الـمستخدم ${selectedItem?.item?.name}؟`}
       />
     </div>
   );

@@ -70,7 +70,6 @@ export default function FoldersDialog({ open, setOpen, footer }) {
       formik.resetForm();
     }
     if (updated) {
-      console.log("updated")
       toast.success(`تم تعديل مجلد ${selectedItem?.item?.name}`);
       dispatch(setUpdate(false));
       dispatch(reset());
