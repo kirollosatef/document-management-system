@@ -43,7 +43,7 @@ const uploadFile = async (file, folderName, archiveName) => {
 
   const data = {
     name: originalname,
-    path: `${__dirname}/uploads/${folderName}/${archiveName}/${fileName}.${extension}`,
+    path: `${folderName}/${archiveName}/${fileName}.${extension}`,
     mimetype,
     uuidv4: fileName,
     size: sizeFormatted,
@@ -53,7 +53,7 @@ const uploadFile = async (file, folderName, archiveName) => {
 };
 
 const removeFile = async (filePath) => {
-  const filePathInFolder = path.join(filePath);
+  const filePathInFolder = path.join(__dirname, `uploads/${filePath}`);
 
   if (fs.existsSync(filePathInFolder)) {
     fs.unlinkSync(filePathInFolder);
@@ -101,7 +101,7 @@ const downloadFile = async (filePath, res) => {
 const create = async (req, res) => {
   const archiveId = req.params.archiveId;
   const folder = await Folder.findOne({ archives: archiveId }).select('_id');
-  const folderId = folder._id;
+  const folderId = folder?._id;
 
   if (!folderId) {
     return res.status(404).json({
