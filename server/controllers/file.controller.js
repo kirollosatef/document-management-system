@@ -43,7 +43,7 @@ const uploadFile = async (file, folderName, archiveName) => {
 
   const data = {
     name: originalname,
-    path: `/uploads/${folderName}/${archiveName}/${fileName}.${extension}`,
+    path: `${folderName}/${archiveName}/${fileName}.${extension}`,
     mimetype,
     uuidv4: fileName,
     size: sizeFormatted,
@@ -53,7 +53,7 @@ const uploadFile = async (file, folderName, archiveName) => {
 };
 
 const removeFile = async (filePath) => {
-  const filePathInFolder = path.join(__dirname, filePath);
+  const filePathInFolder = path.join(__dirname, `uploads/${filePath}`);
 
   if (fs.existsSync(filePathInFolder)) {
     fs.unlinkSync(filePathInFolder);

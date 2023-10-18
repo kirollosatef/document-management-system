@@ -26,6 +26,7 @@ app.use(helmet()); // Enhance security by setting various HTTP headers
 app.use(morgan('dev')); // Log HTTP requests
 app.use(bodyParser.json()); // Parse request bodies for JSON
 app.use(bodyParser.urlencoded({ extended: true })); // Parse request bodies for x-www-form-urlencoded
+app.use(express.static('uploads')); // Make uploads folder static
 
 // Routes
 app.use('/api/v0', indexRouter);
