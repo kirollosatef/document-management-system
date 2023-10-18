@@ -54,7 +54,16 @@ const get = async (req, res) => {
   const archiveId = req.params.id;
 
   try {
-    const archive = await Archive.findById(archiveId).populate('creator');
+    const archive = await Archive.findById(archiveId)
+      .populate('creator')
+      .populate({
+        path: 'files',
+        model: 'File',
+        populate: {
+          path: 'creator',
+          model: 'User',
+        },
+      });
 
     if (!archive) {
       return res.status(404).json({ message: MESSAGES.noArchiveFounded });
