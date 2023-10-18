@@ -22,6 +22,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     minlength: 8,
+    message: MESSAGES.passwordLength,
   },
   department: {
     type: Schema.Types.ObjectId,

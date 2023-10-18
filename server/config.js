@@ -36,4 +36,7 @@ export const MESSAGES = {
   fileNotFound: 'لا يوجد ملف بهذا الاسم',
   fileUpdated: 'تم تعديل الملف بنجاح',
   fileRemoved: 'تم حذف الملف بنجاح',
+  fileNotRemoved: 'حدث خطأ اثناء حذف الملف',
+  fileNotUploaded: 'حدث خطأ اثناء رفع الملف',
+  passwordLength: 'كلمة المرور يجب ان تكون اكثر من 8 حروف',
 };

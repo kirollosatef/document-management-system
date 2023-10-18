@@ -38,7 +38,6 @@ const register = async (req, res) => {
 
     res.status(201).json({ user, token });
   } catch (err) {
-    console.log(err);
     res.status(400).json({ message: err.message, error: err });
   }
 };
@@ -93,13 +92,18 @@ const login = async (req, res) => {
 
 const update = async (req, res) => {
   const { name, username, password, role, department } = req.body;
+  const userId = req.params.id;
 
-  const userFounded = await User.findById(req.params.id);
+  const userFounded = await User.findById(userId);
 
   if (username && username !== userFounded.username) {
     if (await User.findOne({ username })) {
       return res.status(400).json({ message: MESSAGES.usernameAlreadyInUse });
     }
+  }
+
+  if (password && password.length < 8) {
+    return res.status(400).json({ message: MESSAGES.passwordLength });
   }
 
   if (department) {

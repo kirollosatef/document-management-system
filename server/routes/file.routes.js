@@ -12,5 +12,6 @@ fileRouter.get('/:id', authenticate, authorizate(2), fileController.get);
 fileRouter.get('/', authenticate, authorizate(2), fileController.list);
 fileRouter.put('/:id', authenticate, authorizate(1), fileController.update);
 fileRouter.delete('/:id', authenticate, authorizate(0), fileController.remove);
+fileRouter.get('/download/:id', authenticate, authorizate(2), fileController.download);
 
 export default fileRouter;
