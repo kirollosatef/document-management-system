@@ -63,14 +63,14 @@ export default function ArchiveDialog({ open, setOpen, footer }) {
   });
   useEffect(() => {
     if (created) {
-      toast.success("تمت اضافة مجلد جديد");
+      toast.success("تمت اضافة ملف جديد");
       dispatch(setAdd(false));
       dispatch(reset());
       dispatch(resetSelectedItem());
       formik.resetForm();
     }
     if (updated) {
-      toast.success(`تم تعديل مجلد ${selectedItem?.item?.name}`);
+      toast.success(`تم تعديل ملف ${selectedItem?.item?.name}`);
       dispatch(setUpdate(false));
       dispatch(reset());
       dispatch(resetSelectedItem());
@@ -97,14 +97,14 @@ export default function ArchiveDialog({ open, setOpen, footer }) {
         aria-labelledby="responsive-dialog-title">
         <DialogTitle id="responsive-dialog-title">
           {add
-            ? "اضافة مجلد"
+            ? "اضافة ملف"
             : update
-            ? `تعديل مجلد ${selectedItem?.item?.name}`
+            ? `تعديل ملف ${selectedItem?.item?.name}`
             : ""}
         </DialogTitle>
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
-            {/* <DialogContentText sx={{marginBottom:"2rem" }}> قم باضافة اسم المجلد والوصف الخاص به </DialogContentText> */}
+            {/* <DialogContentText sx={{marginBottom:"2rem" }}> قم باضافة اسم الملف والوصف الخاص به </DialogContentText> */}
 
             <Box
               display={"flex"}
@@ -113,7 +113,7 @@ export default function ArchiveDialog({ open, setOpen, footer }) {
               marginBottom={2}>
               <UniInput
                 name="name"
-                label="اسم المجلد"
+                label="اسم الملف"
                 value={formik.values.name}
                 error={Boolean(formik.errors.name)}
                 onChange={formik.handleChange}

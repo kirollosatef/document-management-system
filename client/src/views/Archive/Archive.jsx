@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   archiveDetails,
   deleteArchive,
-  folderDetails,
 } from "@store/folders/foldersActions";
 import BeenhereIcon from "@mui/icons-material/Beenhere";
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
@@ -19,6 +18,7 @@ import {
 import UniAlertDialog from "@components/Common/UniversalAlertDialog/UniAlertDialog";
 import FolderDialog from "@components/Folder/FolderDialog/FolderDialog";
 import "./Archive.scss";
+import ArchiveDialog from "@components/Archive/ArchiveDialog/ArchiveDialog";
 
 function Archive() {
   const navigate = useNavigate();
@@ -140,7 +140,13 @@ function Archive() {
           </div>
         </Grid>
       </Grid>
-      <FolderDialog />
+      {/* Files List */}
+      <Grid container>
+        <Grid item>
+
+        </Grid>
+      </Grid>
+      <ArchiveDialog />
       <UniAlertDialog
         handleClose={alertHandleClose}
         handleConfirm={alertHandleConfirm}

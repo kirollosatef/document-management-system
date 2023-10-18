@@ -101,7 +101,7 @@ const downloadFile = async (filePath, res) => {
 const create = async (req, res) => {
   const archiveId = req.params.archiveId;
   const folder = await Folder.findOne({ archives: archiveId }).select('_id');
-  const folderId = folder._id;
+  const folderId = folder?._id;
 
   if (!folderId) {
     return res.status(404).json({

@@ -72,7 +72,7 @@ function Folders() {
       <Typography variant="h6">المجلدات</Typography>
       {loading ? (
         <Loading />
-      ) : allFolders.length < 1 ? (
+      ) : allFolders?.length < 1 ? (
         <NoDataMsg msg="لا يوجد مجلدات" />
       ) : (
         <>
@@ -86,14 +86,14 @@ function Folders() {
               />
             ))}
           </Grid>
-          <FoldersDialog />
-          <UniAlertDialog
-            handleClose={alertHandleClose}
-            handleConfirm={alertHandleConfirm}
-            text={`هل تريد حذف الـمستخدم ${selectedItem?.item?.name}؟`}
-          />
         </>
       )}
+      <FoldersDialog />
+      <UniAlertDialog
+        handleClose={alertHandleClose}
+        handleConfirm={alertHandleConfirm}
+        text={`هل تريد حذف الـمستخدم ${selectedItem?.item?.name}؟`}
+      />
     </div>
   );
 }
