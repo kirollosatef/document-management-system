@@ -5,6 +5,7 @@ import {
   createFile,
   createFolder,
   deleteArchive,
+  deleteFile,
   deleteFolder,
   folderDetails,
   getFolders,
@@ -183,6 +184,7 @@ const foldersSlices = createSlice({
     builder.addCase(createFile.fulfilled, (state, action) => {
       state.actionsLoading = false;
       state.archiveDetails.files.push(action.payload.data);
+      state.created = true
     });
     builder.addCase(createFile.rejected, (state, action) => {
       state.actionsLoading = false;
@@ -195,13 +197,30 @@ const foldersSlices = createSlice({
     });
     builder.addCase(updateFile.fulfilled, (state, action) => {
       const fileIndex = state.archiveDetails.files.findIndex(
-        (item) => item._id === action.payload?.folder?._id
+        (item) => item._id === action.payload?.data?._id
       );
       state.actionsLoading = false;
-      state.archiveDetails.files[fileIndex] = action.payload.folder;
+      state.archiveDetails.files[fileIndex] = action.payload.data;
       state.updated = true;
     });
     builder.addCase(updateFile.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // Delete
+    builder.addCase(deleteFile.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(deleteFile.fulfilled, (state, action) => {
+      const newFiles = state.archiveDetails.files.filter(
+        (item) => item._id !== action.payload?.data?._id
+      );
+      state.actionsLoading = false;
+      state.archiveDetails.files = newFiles;
+      state.deleted = true;
+    });
+    builder.addCase(deleteFile.rejected, (state, action) => {
       state.actionsLoading = false;
       state.error = true;
       state.message = action.payload;

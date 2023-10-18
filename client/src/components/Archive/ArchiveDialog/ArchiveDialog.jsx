@@ -18,13 +18,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
-import { reset } from "@store/departments/departmentsSlice";
 import { toast } from "react-toastify";
 import { createFile, updateFile } from "@store/folders/foldersActions";
 import { AddAPhoto } from "@mui/icons-material";
 import emptyImage from "@assets/emptyImage.webp";
+import { reset } from "@store/folders/foldersSlice";
 
-export default function ArchiveDialog({ open, setOpen, footer }) {
+export default function ArchiveDialog() {
   const dispatch = useDispatch();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -42,17 +42,16 @@ export default function ArchiveDialog({ open, setOpen, footer }) {
   };
   const formik = useFormik({
     initialValues: {
-      image: {},
+      name:"",
     },
-    // validationSchema: yup.object({
-    //   image: yup.object().required("هذا الحقل مطلوب"),
-    // }),
+    validationSchema: yup.object({
+      name: yup.string().required("هذا الحقل مطلوب"),
+    }),
     onSubmit(values) {
       const actionData = {
         params: { archiveId: archiveDetails?._id },
-        data: {tempPhoto},
+        data: { tempPhoto },
       };
-      console.log({tempPhoto})
       add && dispatch(createFile(actionData));
       update &&
         dispatch(
@@ -139,41 +138,47 @@ export default function ArchiveDialog({ open, setOpen, footer }) {
                 helperText={formik.errors.name}
               />
             </Box>
-            <Box
-              component="div"
-              sx={{
-                width: "100%",
-                height: "100%",
-                border: `1px solid ${
-                  !Boolean(formik.errors.image) ? `#dedede` : "red"
-                }`,
-                borderRadius: 3,
-                position: "relative",
-                p: 3,
-              }}>
-              <img
-                id="photo"
-                src={formik.values.photo || emptyImage}
-                style={{ height: "200px", width: "100%", objectFit: "contain" }}
-              />
-              <label
-                style={{
-                  position: "absolute",
-                  top: 20,
-                  left: 20,
-                  color: "#dfdfdf",
-                  cursor: "pointer",
+            {add && (
+              <Box
+                component="div"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  border: `1px solid ${
+                    !Boolean(formik.errors.image) ? `#dedede` : "red"
+                  }`,
+                  borderRadius: 3,
+                  position: "relative",
+                  p: 3,
                 }}>
-                <AddAPhoto fontSize="large" />
-                <input
-                  multiple={false}
-                  type="file"
-                  accept="image/jpeg,image/jpg,image/png"
-                  style={{ display: "none" }}
-                  onChange={onImageChange}
+                <img
+                  id="photo"
+                  src={formik.values.photo || emptyImage}
+                  style={{
+                    height: "200px",
+                    width: "100%",
+                    objectFit: "contain",
+                  }}
                 />
-              </label>
-            </Box>
+                <label
+                  style={{
+                    position: "absolute",
+                    top: 20,
+                    left: 20,
+                    color: "#dfdfdf",
+                    cursor: "pointer",
+                  }}>
+                  <AddAPhoto fontSize="large" />
+                  <input
+                    multiple={false}
+                    type="file"
+                    accept="image/jpeg,image/jpg,image/png"
+                    style={{ display: "none" }}
+                    onChange={onImageChange}
+                  />
+                </label>
+              </Box>
+            )}
           </DialogContent>
           <DialogActions dir="ltr">
             <Stack gap={2} direction="row" mx={4}>

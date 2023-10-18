@@ -7,12 +7,12 @@ import { MESSAGES } from '../config.js';
 import Folder from '../models/Folder.js';
 
 // __dirname
-const __dirname = path.resolve('..');
+const __dirname = path.resolve();
 
 // Upload file to server
 const uploadFile = async (file, folderName, archiveName) => {
   const { originalname, mimetype, size } = file;
-  const fileName = uuidv4();
+  const fileName = uuidv4().replace(/-/g, '');
 
   const folderPath = path.join(__dirname, `uploads/${folderName}/${archiveName}`);
 
@@ -101,7 +101,7 @@ const downloadFile = async (filePath, res) => {
 const create = async (req, res) => {
   const archiveId = req.params.archiveId;
   const folder = await Folder.findOne({ archives: archiveId }).select('_id');
-  const folderId = folder?._id;
+  const folderId = folder._id;
 
   if (!folderId) {
     return res.status(404).json({
