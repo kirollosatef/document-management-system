@@ -7,12 +7,12 @@ import { MESSAGES } from '../config.js';
 import Folder from '../models/Folder.js';
 
 // __dirname
-const __dirname = path.resolve('..');
+const __dirname = path.resolve();
 
 // Upload file to server
 const uploadFile = async (file, folderName, archiveName) => {
   const { originalname, mimetype, size } = file;
-  const fileName = uuidv4();
+  const fileName = uuidv4().replace(/-/g, '');
 
   const folderPath = path.join(__dirname, `uploads/${folderName}/${archiveName}`);
 
@@ -43,7 +43,7 @@ const uploadFile = async (file, folderName, archiveName) => {
 
   const data = {
     name: originalname,
-    path: `${__dirname}/uploads/${folderName}/${archiveName}/${fileName}.${extension}`,
+    path: `/uploads/${folderName}/${archiveName}/${fileName}.${extension}`,
     mimetype,
     uuidv4: fileName,
     size: sizeFormatted,
@@ -53,7 +53,7 @@ const uploadFile = async (file, folderName, archiveName) => {
 };
 
 const removeFile = async (filePath) => {
-  const filePathInFolder = path.join(filePath);
+  const filePathInFolder = path.join(__dirname, filePath);
 
   if (fs.existsSync(filePathInFolder)) {
     fs.unlinkSync(filePathInFolder);
