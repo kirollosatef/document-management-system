@@ -27,6 +27,35 @@ export const createFolder = createAsyncThunk(
     }
   }
 );
+export const createFile = createAsyncThunk(
+  "folders/archive/file/create",
+  async (actionData, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const formData = new FormData()
+      formData.append("file",actionData.data.tempPhoto)
+      const response = await fetch(`/api/v0/files/${actionData.params.archiveId}`, {
+        method: "POST",
+        headers: {
+          // "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
 export const createArchive = createAsyncThunk(
   "folders/archive/create",
   async (actionData, { rejectWithValue }) => {
@@ -86,6 +115,34 @@ export const updateFolder = createAsyncThunk(
     try {
       const token = JSON.parse(localStorage.getItem("token"));
       const response = await fetch(`/api/v0/folders/${actionData.params.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(actionData.data),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
+export const updateFile = createAsyncThunk(
+  "folders/archive/file/update",
+  async (actionData, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const response = await fetch(`/api/v0/files/${actionData.params.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

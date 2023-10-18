@@ -28,6 +28,7 @@ app.use(bodyParser.json()); // Parse request bodies for JSON
 app.use(bodyParser.urlencoded({ extended: true })); // Parse request bodies for x-www-form-urlencoded
 
 // Routes
+app.use(express.static('uploads'))
 app.use('/api/v0', indexRouter);
 app.use('/', testRouter);
 

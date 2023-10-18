@@ -16,9 +16,9 @@ import {
   setSelectedItem,
 } from "@store/toolsbar/toolsbarSlice";
 import UniAlertDialog from "@components/Common/UniversalAlertDialog/UniAlertDialog";
-import FolderDialog from "@components/Folder/FolderDialog/FolderDialog";
 import "./Archive.scss";
 import ArchiveDialog from "@components/Archive/ArchiveDialog/ArchiveDialog";
+import FilesList from "@components/Archive/FilesList/FilesList";
 
 function Archive() {
   const navigate = useNavigate();
@@ -61,6 +61,7 @@ function Archive() {
   const alertHandleConfirm = () => {
     dispatch(deleteArchive(selectedItem?.item?._id));
   };
+  
   useEffect(() => {
     dispatch(setPageName("archiveDetails"));
     dispatch(archiveDetails(id));
@@ -141,11 +142,7 @@ function Archive() {
         </Grid>
       </Grid>
       {/* Files List */}
-      <Grid container>
-        <Grid item>
-
-        </Grid>
-      </Grid>
+      <FilesList/>
       <ArchiveDialog />
       <UniAlertDialog
         handleClose={alertHandleClose}

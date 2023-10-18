@@ -1,5 +1,5 @@
-import * as React from "react";
-
+/* eslint-disable no-extra-boolean-cast */
+import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,21 +16,20 @@ import {
   setUpdate,
 } from "@store/toolsbar/toolsbarSlice";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createDepartment,
-  updateDepartment,
-} from "@store/departments/departmentActions";
 import { useEffect } from "react";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { reset } from "@store/departments/departmentsSlice";
 import { toast } from "react-toastify";
-import { createFolder, updateFolder } from "@store/folders/foldersActions";
+import { createFile, updateFile } from "@store/folders/foldersActions";
+import { AddAPhoto } from "@mui/icons-material";
+import emptyImage from "@assets/emptyImage.webp";
 
 export default function ArchiveDialog({ open, setOpen, footer }) {
   const dispatch = useDispatch();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
+  const [tempPhoto, setTempPhoto] = useState("");
+  const { archiveDetails } = useSelector((state) => state.folders);
   const { add, update } = useSelector((state) => state.toolsbar);
   const { created, updated, actionsLoading } = useSelector(
     (state) => state.folders
@@ -43,18 +42,21 @@ export default function ArchiveDialog({ open, setOpen, footer }) {
   };
   const formik = useFormik({
     initialValues: {
-      name: "",
-      description: "",
+      image: {},
     },
-    validationSchema: yup.object({
-      name: yup.string().required("هذا الحقل مطلوب"),
-      description: yup.string().required("هذا الحقل مطلوب"),
-    }),
+    // validationSchema: yup.object({
+    //   image: yup.object().required("هذا الحقل مطلوب"),
+    // }),
     onSubmit(values) {
-      add && dispatch(createFolder(values));
+      const actionData = {
+        params: { archiveId: archiveDetails?._id },
+        data: {tempPhoto},
+      };
+      console.log({tempPhoto})
+      add && dispatch(createFile(actionData));
       update &&
         dispatch(
-          updateFolder({
+          updateFile({
             data: values,
             params: { id: selectedItem?.item?._id },
           })
@@ -87,6 +89,25 @@ export default function ArchiveDialog({ open, setOpen, footer }) {
     }
   }, [update]);
 
+  const onImageChange = (e) => {
+    if (e.target.files.length <= 0) {
+      return false;
+    }
+    const file = e.target.files[0];
+    const validExtension = new RegExp("^image/(jpeg|png|jpg)$", "ig").test(
+      file.type
+    );
+    const validSize = file.size <= 512 * 1024;
+    if (!validExtension || !validSize) {
+      formik.setFieldError("photo", "Invalid image size or formal");
+      return false;
+    } else {
+      formik.setFieldError("photo", null);
+    }
+    const url = URL.createObjectURL(file);
+    document.getElementById("photo").src = url;
+    setTempPhoto(file);
+  };
   return (
     <div>
       <Dialog
@@ -104,8 +125,6 @@ export default function ArchiveDialog({ open, setOpen, footer }) {
         </DialogTitle>
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
-            {/* <DialogContentText sx={{marginBottom:"2rem" }}> قم باضافة اسم الملف والوصف الخاص به </DialogContentText> */}
-
             <Box
               display={"flex"}
               flexDirection={"column"}
@@ -119,14 +138,41 @@ export default function ArchiveDialog({ open, setOpen, footer }) {
                 onChange={formik.handleChange}
                 helperText={formik.errors.name}
               />
-              <UniInput
-                name="description"
-                label="الوصف"
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                error={Boolean(formik.errors.description)}
-                helperText={formik.errors.description}
+            </Box>
+            <Box
+              component="div"
+              sx={{
+                width: "100%",
+                height: "100%",
+                border: `1px solid ${
+                  !Boolean(formik.errors.image) ? `#dedede` : "red"
+                }`,
+                borderRadius: 3,
+                position: "relative",
+                p: 3,
+              }}>
+              <img
+                id="photo"
+                src={formik.values.photo || emptyImage}
+                style={{ height: "200px", width: "100%", objectFit: "contain" }}
               />
+              <label
+                style={{
+                  position: "absolute",
+                  top: 20,
+                  left: 20,
+                  color: "#dfdfdf",
+                  cursor: "pointer",
+                }}>
+                <AddAPhoto fontSize="large" />
+                <input
+                  multiple={false}
+                  type="file"
+                  accept="image/jpeg,image/jpg,image/png"
+                  style={{ display: "none" }}
+                  onChange={onImageChange}
+                />
+              </label>
             </Box>
           </DialogContent>
           <DialogActions dir="ltr">

@@ -2,12 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   archiveDetails,
   createArchive,
+  createFile,
   createFolder,
   deleteArchive,
   deleteFolder,
   folderDetails,
   getFolders,
   updateArchive,
+  updateFile,
   updateFolder,
 } from "./foldersActions";
 
@@ -17,8 +19,8 @@ const foldersSlices = createSlice({
   initialState: {
     allFolders: null,
     folderDetails: null,
-    archives:null,
-    archiveDetails:{},
+    archives: null,
+    archiveDetails: {},
     loading: false,
     actionsLoading: false,
     error: false,
@@ -170,6 +172,37 @@ const foldersSlices = createSlice({
     });
     builder.addCase(archiveDetails.rejected, (state, action) => {
       state.loading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // ===== File Actions =====
+    // ===== File Actions ===== Create
+    builder.addCase(createFile.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(createFile.fulfilled, (state, action) => {
+      state.actionsLoading = false;
+      state.archiveDetails.files.push(action.payload.data);
+    });
+    builder.addCase(createFile.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // Update
+    builder.addCase(updateFile.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(updateFile.fulfilled, (state, action) => {
+      const fileIndex = state.archiveDetails.files.findIndex(
+        (item) => item._id === action.payload?.folder?._id
+      );
+      state.actionsLoading = false;
+      state.archiveDetails.files[fileIndex] = action.payload.folder;
+      state.updated = true;
+    });
+    builder.addCase(updateFile.rejected, (state, action) => {
+      state.actionsLoading = false;
       state.error = true;
       state.message = action.payload;
     });
