@@ -171,15 +171,14 @@ const remove = async (req, res) => {
     return res.status(404).json({ message: MESSAGES.fileNotFound });
   }
 
-  const fileRemovedSuccess = await removeFile(file.path);
-
-  if (!fileRemovedSuccess) {
-    return res.status(500).json({ data: file, message: MESSAGES.fileNotRemoved });
+  try {
+    const fileRemovedSuccess = await removeFile(file.path);
+    await File.findByIdAndDelete(id);
+  } catch (error) {
+    return res.status(500).json({ message: MESSAGES.fileNotRemoved });
   }
 
-  await File.findByIdAndDelete(id);
-
-  return res.status(200).json({ message: MESSAGES.fileRemoved });
+  return res.status(200).json({ data: file, message: MESSAGES.fileRemoved });
 };
 
 const download = async (req, res) => {
