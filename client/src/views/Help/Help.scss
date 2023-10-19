@@ -24,6 +24,9 @@
         img {
           width: 5rem;
           border-radius: 50%;
+          filter: brightness(100%) contrast(120%) saturate(100%);
+          box-shadow: 0 0 10px 10px #ddd;
+
         }
       }
       &-contactUs {

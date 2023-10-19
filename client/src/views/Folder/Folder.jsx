@@ -16,12 +16,15 @@ import FolderDialog from "@components/Folder/FolderDialog/FolderDialog";
 import "./Folder.scss";
 import { reset } from "@store/folders/foldersSlice";
 import { toast } from "react-toastify";
+import Loading from "@components/Common/Loading/Loading";
 
 function Folder() {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { folderDetails: folder,deleted } = useSelector((state) => state.folders);
+  const { folderDetails: folder, deleted,loading } = useSelector(
+    (state) => state.folders
+  );
   const { open, components } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
   const headers = [
@@ -67,13 +70,15 @@ function Folder() {
       dispatch(resetToolbar());
     }
     if (deleted) {
-      toast.success("تم حذف الارشيف بنجاح")
+      toast.success("تم حذف الارشيف بنجاح");
       dispatch(reset());
       dispatch(resetToolbar());
     }
-  }, [open,deleted]);
+  }, [open, deleted]);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <div>
       <Box
         mb={5}

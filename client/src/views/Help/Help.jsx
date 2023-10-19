@@ -14,7 +14,7 @@ function Help() {
       id: 1,
       name: "mohammed ramadan",
       jopTitle: "Full-Stack Developer",
-      contracts: {
+      contacts: {
         whatsapp: "+201121090068",
         linkedIn: "mohammed-ramadan-1374771b7",
       },
@@ -24,7 +24,7 @@ function Help() {
       id: 2,
       name: "Kirolos Atef",
       jopTitle: "Back-End Developer",
-      contracts: {
+      contacts: {
         whatsapp: "+201032892585",
         linkedIn: "kirollos-atef-fawze",
       },
@@ -47,16 +47,24 @@ function Help() {
             <div className="help-developers-dev-name">{item.name} </div>
             <div className="help-developers-dev-jopTitle">{item.jopTitle} </div>
             <div className="help-developers-dev-contactUs">
-              <div className="help-developers-dev-contactUs-item">
-                <div className="help-developers-dev-contactUs-item-icon">
-                  <WhatsAppIcon />
+              <a
+                href={`https://wa.me/${item.contacts.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="help-developers-dev-contactUs-item">
+                <div className="flex-center">
+                  <WhatsAppIcon sx={{fontSize:25}} />
                 </div>
-              </div>
-              <div className="help-developers-dev-contactUs-item">
-                <div className="help-developers-dev-contactUs-item-icon">
-                  <LinkedInIcon />
+              </a>
+              <a
+                href={`https://www.linkedin.com/in/${item.contacts.linkedIn}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="help-developers-dev-contactUs-item">
+                <div className="flex-center">
+                  <LinkedInIcon sx={{fontSize:25}} />
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         ))}

@@ -22,88 +22,90 @@ function Toolbar({ setOpenSidebar }) {
   // For Open Btn
   const openBtnItems = ["archive", "folder"];
   const showOpenBtnPages = ["folderDetails", "folders"];
-  const hideToolbar = ["home","help"]
+  const hideToolbar = ["home", "help"];
   // For Print Btn
   const handlePrintClick = () => {
     window.print();
   };
-  return !hideToolbar.includes(pageName) && (
+  return (
     <div className="toolbar">
       <div className="toolbar-burger" onClick={() => setOpenSidebar(true)}>
         <Menu />
       </div>
-      <div className="toolbar-content">
-        <div className="toolbar-content-btns">
-          <Stack
-            direction="row"
-            gap={2}
-            alignItems={"center"}
-            justifyContent={"center"}
-            margin={"auto"}
-            width={"100%"}
-            flexWrap={"wrap"}>
-            {showOpenBtnPages.includes(pageName) && (
+      {!hideToolbar.includes(pageName) && (
+        <div className="toolbar-content">
+          <div className="toolbar-content-btns">
+            <Stack
+              direction="row"
+              gap={2}
+              alignItems={"center"}
+              justifyContent={"center"}
+              margin={"auto"}
+              width={"100%"}
+              flexWrap={"wrap"}>
+              {showOpenBtnPages.includes(pageName) && (
+                <Button
+                  variant="contained"
+                  color="info"
+                  endIcon={<AdsClickIcon />}
+                  sx={{ fontWeight: 600, fontSize: 12 }}
+                  dir="ltr"
+                  onClick={() => dispatch(setOpen(true))}
+                  disabled={!openBtnItems.includes(selectedItem.type)}>
+                  فتح
+                </Button>
+              )}
+              <Button
+                variant="outlined"
+                color="success"
+                endIcon={<AddIcon />}
+                sx={{ fontWeight: 600, fontSize: 12 }}
+                dir="ltr"
+                onClick={() => dispatch(setAdd(true))}>
+                اضافة
+              </Button>
+              <Button
+                variant="outlined"
+                color="warning"
+                endIcon={<EditIcon />}
+                sx={{ fontWeight: 600, fontSize: 12 }}
+                dir="ltr"
+                onClick={() => dispatch(setUpdate(true))}
+                disabled={!selectedItem?.item?._id}>
+                تعديل
+              </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                endIcon={<DeleteForeverIcon />}
+                sx={{ fontWeight: 600, fontSize: 12 }}
+                dir="ltr"
+                onClick={() => dispatch(setRemove(true))}
+                disabled={!selectedItem?.item?._id}>
+                حذف
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                endIcon={<PrintIcon />}
+                sx={{ fontWeight: 600, fontSize: 12 }}
+                dir="ltr"
+                onClick={handlePrintClick}>
+                طباعة
+              </Button>
               <Button
                 variant="contained"
                 color="info"
-                endIcon={<AdsClickIcon />}
+                endIcon={<TextSnippetIcon />}
                 sx={{ fontWeight: 600, fontSize: 12 }}
                 dir="ltr"
-                onClick={() => dispatch(setOpen(true))}
-                disabled={!openBtnItems.includes(selectedItem.type)}>
-                فتح
+                disabled>
+                تعيين بيانات
               </Button>
-            )}
-            <Button
-              variant="outlined"
-              color="success"
-              endIcon={<AddIcon />}
-              sx={{ fontWeight: 600, fontSize: 12 }}
-              dir="ltr"
-              onClick={() => dispatch(setAdd(true))}>
-              اضافة
-            </Button>
-            <Button
-              variant="outlined"
-              color="warning"
-              endIcon={<EditIcon />}
-              sx={{ fontWeight: 600, fontSize: 12 }}
-              dir="ltr"
-              onClick={() => dispatch(setUpdate(true))}
-              disabled={!selectedItem?.item?._id}>
-              تعديل
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              endIcon={<DeleteForeverIcon />}
-              sx={{ fontWeight: 600, fontSize: 12 }}
-              dir="ltr"
-              onClick={() => dispatch(setRemove(true))}
-              disabled={!selectedItem?.item?._id}>
-              حذف
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              endIcon={<PrintIcon />}
-              sx={{ fontWeight: 600, fontSize: 12 }}
-              dir="ltr"
-              onClick={handlePrintClick}>
-              طباعة
-            </Button>
-            <Button
-              variant="contained"
-              color="info"
-              endIcon={<TextSnippetIcon />}
-              sx={{ fontWeight: 600, fontSize: 12 }}
-              dir="ltr"
-              disabled>
-              تعيين بيانات
-            </Button>
-          </Stack>
+            </Stack>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

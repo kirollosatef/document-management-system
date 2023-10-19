@@ -7,7 +7,7 @@ import { MESSAGES } from '../config.js';
 import Folder from '../models/Folder.js';
 
 // __dirname
-const __dirname = path.resolve('../client/src/assets');
+const __dirname = path.resolve();
 const uploadsFolder = path.join(__dirname, 'uploads');
 
 // Upload file to server

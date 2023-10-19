@@ -1,4 +1,4 @@
-import { Grid, Typography, useTheme } from "@mui/material";
+import { Grid, Stack, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import emptyImage from "@assets/emptyImage.webp";
 import { setSelectedItem } from "@store/toolsbar/toolsbarSlice";
@@ -37,13 +37,15 @@ function FilesList() {
             xs={6}
             sm={2}
             onClick={() => handleClick(item)}
-            className={`files-item \${selectedItem.item._id === item._id ? "active" : ""}`}>
+            className={`files-item ${selectedItem.item._id === item._id ? "active" : ""}`}>
             <p className="smallTxt"> {item.name} </p>
-            <img src={emptyImage} alt="img" width={"100px"} />
-            <p className="smallTxt"> {item.size} </p>
-            <a href={`${api}/api/v0/files/download/${item._id}`} download>
-              <Download sx={{ color: "#999", fontSize: 20 }} />
+            <img src={emptyImage} alt="img" width={"100px"} onClick={() => window.open(`${api}/${item.path}`)} />
+            <div className="flex-items-center gap-1">
+            <a href={`${api}/api/v0/files/download/${item._id}`} download className="flex-center">
+              <Download sx={{ color: "#999", fontSize: 20 }} className="flex-center" />
             </a>
+            <Typography sx={{fontSize:".7rem",fontWeight:800}} className="smallTxt"> {item.size} </Typography>
+            </div>
           </Grid>
         ))}
       </Grid>
