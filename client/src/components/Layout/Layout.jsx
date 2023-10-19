@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
-import { Box, Grid, Stack, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Grid, Stack, useMediaQuery, useTheme,Paper } from "@mui/material";
 import Sidebar from "./Sidebar/Sidebar";
 import "./Layout.scss";
 import { useEffect, useState } from "react";
 import Toolbar from "./Toolbar/Toolbar";
 import { useSelector } from "react-redux";
 import { setOpen } from "@store/toolsbar/toolsbarSlice";
+import { styled } from "@mui/material/styles";
 function Layout() {
   const theme = useTheme();
   const isLargeScreen = useMediaQuery("(min-width: 992px)");
@@ -13,6 +14,13 @@ function Layout() {
   const { toolbarPosition, pageName } = useSelector(
     (state) => state.toolsbar.components
   );
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
   useEffect(() => {
     if (isLargeScreen) {
       setOpenSidebar(false);

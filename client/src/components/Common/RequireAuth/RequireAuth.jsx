@@ -14,7 +14,6 @@ const RequireAuth = () => {
   useEffect(() => {
     if (!user?._id) {
       navigate("/login");
-      
       dispatch(reset());
     }
   }, [notFound]);

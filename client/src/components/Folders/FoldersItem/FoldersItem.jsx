@@ -1,13 +1,19 @@
 import { Grid, Stack, Typography } from "@mui/material";
 import folderIcon from "@assets/images/folder-primary.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setOpen } from "@store/toolsbar/toolsbarSlice";
 
 function FoldersItem({ folder, handleClick }) {
+  const dispatch = useDispatch()
   const { name, description, creator, _id } = folder;
   const { selectedItem } = useSelector((state) => state.toolsbar.components);
+  const handleDoubleClick = () => {
+    // Dispatch your action
+    dispatch(setOpen(true));
+  };
 
   return (
-    <Grid item onClick={() => handleClick(folder)}>
+    <Grid item onClick={() => handleClick(folder)} onDoubleClick={() => handleDoubleClick(folder)}>
       <Stack
         direction={"row"}
         gap={5}
