@@ -7,14 +7,15 @@ import { MESSAGES } from '../config.js';
 import Folder from '../models/Folder.js';
 
 // __dirname
-const __dirname = path.resolve();
+const __dirname = path.resolve('../client/src/assets');
+const uploadsFolder = path.join(__dirname, 'uploads');
 
 // Upload file to server
 const uploadFile = async (file, folderName, archiveName) => {
   const { originalname, mimetype, size } = file;
   const fileName = uuidv4().replace(/-/g, '');
 
-  const folderPath = path.join(__dirname, `uploads/${folderName}/${archiveName}`);
+  const folderPath = path.join(uploadsFolder, `${folderName}/${archiveName}`);
 
   if (!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath, { recursive: true });
@@ -53,7 +54,7 @@ const uploadFile = async (file, folderName, archiveName) => {
 };
 
 const removeFile = async (filePath) => {
-  const filePathInFolder = path.join(__dirname, `uploads/${filePath}`);
+  const filePathInFolder = path.join(uploadsFolder, filePath);
 
   if (fs.existsSync(filePathInFolder)) {
     fs.unlinkSync(filePathInFolder);
@@ -64,35 +65,17 @@ const removeFile = async (filePath) => {
   return true;
 };
 
-const downloadFile = async (filePath, res) => {
+const downloadFile = async (path, res) => {
   try {
-    // Check if the file exists
-    if (!fs.existsSync(filePath)) {
-      res.status(404).json({ Message: MESSAGES.fileNotFound });
-      return;
+    const filePath = `${uploadsFolder}/${path}`;
+
+    console.log(filePath);
+
+    if (fs.existsSync(filePath)) {
+      return res.download(filePath);
     }
 
-    // Get the file's name from the filePath
-    const fileName = path.basename(filePath);
-
-    // Set the response headers
-    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
-    res.setHeader('Content-Type', 'application/octet-stream');
-
-    // Create a readable stream from the file
-    const fileStream = fs.createReadStream(filePath);
-
-    // Pipe the file stream to the response
-    fileStream.pipe(res);
-
-    fileStream.on('error', (err) => {
-      res.status(500).json({ Message: MESSAGES.fileNotFound });
-    });
-
-    // Close the response when the file is finished sending
-    fileStream.on('end', () => {
-      res.end();
-    });
+    res.status(404).json({ Message: MESSAGES.fileNotFound });
   } catch (err) {
     res.status(500).json({ Message: MESSAGES.fileNotFound });
   }
@@ -122,6 +105,10 @@ const create = async (req, res) => {
     ...uploadFileResult,
     creator: req.user._id,
   });
+
+  if (req.body.name) {
+    file.name = req.body.name;
+  }
 
   const fileSaved = await file.save();
 
@@ -187,7 +174,7 @@ const remove = async (req, res) => {
   const fileRemovedSuccess = await removeFile(file.path);
 
   if (!fileRemovedSuccess) {
-    return res.status(500).json({ message: MESSAGES.fileNotRemoved });
+    return res.status(500).json({ data: file, message: MESSAGES.fileNotRemoved });
   }
 
   await File.findByIdAndDelete(id);
@@ -197,7 +184,7 @@ const remove = async (req, res) => {
 
 const download = async (req, res) => {
   const id = req.params.id;
-
+  console.log(id);
   const file = await File.findById(id);
 
   if (!file) {
