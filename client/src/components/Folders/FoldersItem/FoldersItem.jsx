@@ -4,16 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOpen } from "@store/toolsbar/toolsbarSlice";
 
 function FoldersItem({ folder, handleClick }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { name, description, creator, _id } = folder;
   const { selectedItem } = useSelector((state) => state.toolsbar.components);
   const handleDoubleClick = () => {
-    // Dispatch your action
     dispatch(setOpen(true));
   };
 
   return (
-    <Grid item onClick={() => handleClick(folder)} onDoubleClick={() => handleDoubleClick(folder)}>
+    <Grid
+      item
+      onClick={() => handleClick(folder)}
+      onDoubleClick={() => handleDoubleClick(folder)}>
       <Stack
         direction={"row"}
         gap={5}
@@ -25,7 +27,12 @@ function FoldersItem({ folder, handleClick }) {
           <img src={folderIcon} alt="folder" width={100} />
         </div>
         <div>
-          <Typography className="smallTxt" sx={{ fontWeight: 700,maxWidth: "150px" }}> {name} </Typography>
+          <Typography
+            className="smallTxt"
+            sx={{ fontWeight: 700, maxWidth: "150px" }}>
+            {" "}
+            {name}{" "}
+          </Typography>
           <Typography
             variant="body2"
             sx={{ maxWidth: "150px" }}

@@ -53,6 +53,9 @@ input {
 .flex-center {
   @include flex();
 }
+.flex-between {
+  @include flex($jc:space-between);
+}
 .flex-items-center{
   @include flex($jc:flex-start);
 }

@@ -93,15 +93,6 @@ function Toolbar({ setOpenSidebar }) {
                 onClick={handlePrintClick}>
                 طباعة
               </Button>
-              <Button
-                variant="contained"
-                color="info"
-                endIcon={<TextSnippetIcon />}
-                sx={{ fontWeight: 600, fontSize: 12 }}
-                dir="ltr"
-                disabled>
-                تعيين بيانات
-              </Button>
             </Stack>
           </div>
         </div>

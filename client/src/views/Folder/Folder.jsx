@@ -88,7 +88,6 @@ function Folder() {
           alignItems: "center",
         }}>
         <div style={{ flex: 10 }}>
-          {" "}
           <Typography variant="h4" sx={{ fontWeight: 800 }}>
             {folder?.name}
           </Typography>

@@ -7,6 +7,13 @@ import { Download } from "@mui/icons-material";
 import NoDataMsg from "@components/Common/NoDataMsg/NoDataMsg";
 import { styled } from "@mui/material/styles";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 function FilesList() {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -19,13 +26,7 @@ function FilesList() {
   const handleClick = (obj) => {
     dispatch(setSelectedItem({ type: "file", item: obj }));
   };
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
+
   return (
     <div className="files">
       <Typography
@@ -41,50 +42,58 @@ function FilesList() {
         sx={{ mt: 10 }}>
         الملفات
       </Typography>
-      <Grid container spacing={2}>
-        {archive?.files?.length > 0 ? (
-          archive?.files?.map((item, i) => (
+      {archive?.files?.length > 0 ? (
+        <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+          {archive?.files?.map((item, i) => (
             <Grid
               key={item._id}
               item
-              xs={6}
               sm={3}
-              onClick={() => handleClick(item)}
-              className={`files-item  ${
-                selectedItem.item._id === item._id ? "active" : ""
-              }`}>
-              <p className="smallTxt"> {item.name.split(".")[0]} </p>
-              <img
-                className="files-item-img flex-center"
-                src={emptyImage}
-                alt="img"
-                width={"100%"}
-                onClick={() => window.open(`${api}/${item.path}`)}
-              />
-              <div className="flex-items-center gap-1">
-                <a
-                  href={`${api}/api/v0/files/download/${item._id}`}
-                  download
-                  className="flex-center">
-                  <Download
-                    sx={{ color: "#999", fontSize: 20 }}
-                    className="flex-center"
-                  />
-                </a>
-                <Typography
-                  sx={{ fontSize: ".7rem", fontWeight: 800 }}
-                  className="smallTxt">
-                  {" "}
-                  {item.size}{" "}
-                </Typography>
-                <RemoveRedEyeIcon />
+              xs={6}
+              onClick={() => handleClick(item)}>
+              <div
+                className={`files-item  ${
+                  selectedItem.item._id === item._id ? "active" : ""
+                }`}>
+                <p className="smallTxt"> {item.name.split(".")[0]} </p>
+                <img
+                  className="files-item-img flex-center"
+                  src={emptyImage}
+                  alt="img"
+                  width={"100%"}
+                />
+                <div className="flex-between gap-1">
+                  <div className="flex-items-center gap-1">
+                    <a
+                      href={`${api}/api/v0/files/download/${item._id}`}
+                      download
+                      className="flex-center">
+                      <Download
+                        sx={{ color: "#999", fontSize: 20 }}
+                        className="flex-center"
+                      />
+                    </a>
+                    <Typography
+                      sx={{ fontSize: ".7rem", fontWeight: 800 }}
+                      className="smallTxt">
+                      {" "}
+                      {item.size}{" "}
+                    </Typography>
+                  </div>
+                  <div className="flex-center">
+                    <RemoveRedEyeIcon
+                      onClick={() => window.open(`${api}/${item.path}`)}
+                      sx={{ fontSize: 20, color: "#999" }}
+                    />
+                  </div>
+                </div>
               </div>
             </Grid>
-          ))
-        ) : (
-          <NoDataMsg msg="لا يوجد ملفات" />
-        )}
-      </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <NoDataMsg msg="لا يوجد ملفات" />
+      )}
     </div>
   );
 }
