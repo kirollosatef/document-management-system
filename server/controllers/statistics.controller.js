@@ -58,8 +58,8 @@ const list = async (req, res) => {
     users,
     departments,
     folders,
-    archives,
     files,
+    archives,
     totalSize: newSize,
   });
 };

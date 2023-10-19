@@ -18,8 +18,6 @@ export const login = createAsyncThunk(
       }
 
       const data = await response.json();
-      localStorage.setItem("user", JSON.stringify(data?.user));
-      localStorage.setItem("token", JSON.stringify(data?.token));
       return data;
     } catch (error) {
       console.error(error);
@@ -61,6 +59,8 @@ const authSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(login.fulfilled, (state, action) => {
+      localStorage.setItem("user", JSON.stringify(action.payload?.user));
+      localStorage.setItem("token", JSON.stringify(action.payload?.token));
       state.loading = false;
       state.user = action.payload?.user;
       state.token = action.payload?.token;

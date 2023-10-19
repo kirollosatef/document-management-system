@@ -26,7 +26,7 @@ function Toolbar({ setOpenSidebar }) {
   const handlePrintClick = () => {
     window.print();
   };
-  return (
+  return pageName !== "home" && (
     <div className="toolbar">
       <div className="toolbar-burger" onClick={() => setOpenSidebar(true)}>
         <Menu />
