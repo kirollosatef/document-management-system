@@ -97,7 +97,7 @@ function Home() {
     });
   // Fetch Data
   useEffect(() => {
-    
+    dispatch(getStats());
     dispatch(setPageName("home"));
   }, [dispatch]);
   return (
