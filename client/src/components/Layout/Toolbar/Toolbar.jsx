@@ -22,11 +22,12 @@ function Toolbar({ setOpenSidebar }) {
   // For Open Btn
   const openBtnItems = ["archive", "folder"];
   const showOpenBtnPages = ["folderDetails", "folders"];
+  const hideToolbar = ["home","help"]
   // For Print Btn
   const handlePrintClick = () => {
     window.print();
   };
-  return pageName !== "home" && (
+  return !hideToolbar.includes(pageName) && (
     <div className="toolbar">
       <div className="toolbar-burger" onClick={() => setOpenSidebar(true)}>
         <Menu />

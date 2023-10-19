@@ -1,5 +1,68 @@
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import mo from "@assets/images/mo.jfif";
+import kiro from "@assets/images/kiro.jfif";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setPageName } from "@store/toolsbar/toolsbarSlice";
+import "./Help.scss";
+
 function Help() {
-  return <div>Help</div>;
+  const dispatch = useDispatch();
+  const developers = [
+    {
+      id: 1,
+      name: "mohammed ramadan",
+      jopTitle: "Full-Stack Developer",
+      contracts: {
+        whatsapp: "+201121090068",
+        linkedIn: "mohammed-ramadan-1374771b7",
+      },
+      photo: mo,
+    },
+    {
+      id: 2,
+      name: "Kirolos Atef",
+      jopTitle: "Back-End Developer",
+      contracts: {
+        whatsapp: "+201032892585",
+        linkedIn: "kirollos-atef-fawze",
+      },
+      photo: kiro,
+    },
+  ];
+
+  useEffect(() => {
+    dispatch(setPageName("help"));
+  }, []);
+
+  return (
+    <div className="help">
+      <div className="help-developers">
+        {developers.map((item) => (
+          <div key={item.id} className="help-developers-dev">
+            <div className="help-developers-dev-img">
+              <img src={item.photo} alt="photo" />
+            </div>
+            <div className="help-developers-dev-name">{item.name} </div>
+            <div className="help-developers-dev-jopTitle">{item.jopTitle} </div>
+            <div className="help-developers-dev-contactUs">
+              <div className="help-developers-dev-contactUs-item">
+                <div className="help-developers-dev-contactUs-item-icon">
+                  <WhatsAppIcon />
+                </div>
+              </div>
+              <div className="help-developers-dev-contactUs-item">
+                <div className="help-developers-dev-contactUs-item-icon">
+                  <LinkedInIcon />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default Help;
