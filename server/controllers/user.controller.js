@@ -147,6 +147,10 @@ const remove = async (req, res) => {
   }
 };
 
+const profile = async (req, res) => {
+  res.status(200).json({ user: req.user });
+};
+
 export default {
   register,
   list,
@@ -154,4 +158,5 @@ export default {
   login,
   update,
   remove,
+  profile,
 };
