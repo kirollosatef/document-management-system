@@ -106,8 +106,9 @@ const update = async (req, res) => {
     return res.status(400).json({ message: MESSAGES.passwordLength });
   }
 
+  let departmentFounded;
   if (department) {
-    const departmentFounded = await Department.findOne({ name: department });
+    departmentFounded = await Department.findOne({ name: department });
 
     if (!departmentFounded) {
       return res.status(404).json({ message: MESSAGES.noDepartmentFounded });
@@ -122,7 +123,7 @@ const update = async (req, res) => {
         username,
         password,
         role,
-        department,
+        department: departmentFounded ? departmentFounded._id : null,
       },
       { new: true }
     ).populate('department');

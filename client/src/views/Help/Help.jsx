@@ -23,7 +23,7 @@ function Help() {
     {
       id: 2,
       name: "Kirolos Atef",
-      jopTitle: "Back-End Developer",
+      jopTitle: "Software Engineer",
       contacts: {
         whatsapp: "+201032892585",
         linkedIn: "kirollos-atef-fawze",
