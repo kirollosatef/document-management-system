@@ -11,16 +11,6 @@ function Help() {
   const dispatch = useDispatch();
   const developers = [
     {
-      id: 1,
-      name: "mohammed ramadan",
-      jopTitle: "Full-Stack Developer",
-      contacts: {
-        whatsapp: "+201121090068",
-        linkedIn: "mohammed-ramadan-1374771b7",
-      },
-      photo: mo,
-    },
-    {
       id: 2,
       name: "Kirolos Atef",
       jopTitle: "Software Engineer",
@@ -29,6 +19,16 @@ function Help() {
         linkedIn: "kirollos-atef-fawze",
       },
       photo: kiro,
+    },
+    {
+      id: 1,
+      name: "Mohammed Ramadan",
+      jopTitle: "Full-Stack Developer",
+      contacts: {
+        whatsapp: "+201121090068",
+        linkedIn: "mohammed-ramadan-1374771b7",
+      },
+      photo: mo,
     },
   ];
 
@@ -53,7 +53,7 @@ function Help() {
                 rel="noopener noreferrer"
                 className="help-developers-dev-contactUs-item">
                 <div className="flex-center">
-                  <WhatsAppIcon sx={{fontSize:25}} />
+                  <WhatsAppIcon sx={{ fontSize: 25 }} />
                 </div>
               </a>
               <a
@@ -62,7 +62,7 @@ function Help() {
                 rel="noopener noreferrer"
                 className="help-developers-dev-contactUs-item">
                 <div className="flex-center">
-                  <LinkedInIcon sx={{fontSize:25}} />
+                  <LinkedInIcon sx={{ fontSize: 25 }} />
                 </div>
               </a>
             </div>
