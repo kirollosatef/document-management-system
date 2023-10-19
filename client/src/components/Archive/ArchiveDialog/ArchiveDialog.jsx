@@ -42,7 +42,7 @@ export default function ArchiveDialog() {
   };
   const formik = useFormik({
     initialValues: {
-      name:"",
+      name: "",
     },
     validationSchema: yup.object({
       name: yup.string().required("هذا الحقل مطلوب"),
@@ -50,7 +50,7 @@ export default function ArchiveDialog() {
     onSubmit(values) {
       const actionData = {
         params: { archiveId: archiveDetails?._id },
-        data: { tempPhoto },
+        data: add ? { tempPhoto, name: values.name } : { tempPhoto },
       };
       add && dispatch(createFile(actionData));
       update &&

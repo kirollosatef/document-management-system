@@ -1,13 +1,24 @@
-import { useSelector } from "react-redux";
-import { useLocation, Navigate, Outlet } from "react-router-dom";
+import { getUser, reset } from "@store/auth/authSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, Navigate, Outlet, useNavigate } from "react-router-dom";
 
 const RequireAuth = () => {
-  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, notFound } = useSelector((state) => state.auth);
   const location = useLocation();
-  const storedToken = localStorage.getItem("userToken");
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
+  useEffect(() => {
+    if (!user?._id) {
+      navigate("/login");
+      
+      dispatch(reset());
+    }
+  }, [notFound]);
 
-  const tokenPayload = parseToken(storedToken);
-  console.log({tokenPayload});
   return user ? (
     <>
       <Outlet />

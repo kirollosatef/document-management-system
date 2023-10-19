@@ -7,7 +7,9 @@ import { Download } from "@mui/icons-material";
 function FilesList() {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const { folderDetails: folder, archiveDetails: archive } = useSelector((state) => state.folders);
+  const { folderDetails: folder, archiveDetails: archive } = useSelector(
+    (state) => state.folders
+  );
   const { components, open } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
   const api = "http://localhost:8080";
@@ -37,14 +39,33 @@ function FilesList() {
             xs={6}
             sm={2}
             onClick={() => handleClick(item)}
-            className={`files-item ${selectedItem.item._id === item._id ? "active" : ""}`}>
-            <p className="smallTxt"> {item.name} </p>
-            <img src={emptyImage} alt="img" width={"100px"} onClick={() => window.open(`${api}/${item.path}`)} />
+            className={`files-item ${
+              selectedItem.item._id === item._id ? "active" : ""
+            }`}>
+            <p className="smallTxt"> {item.name.split(".")[0]} </p>
+            <img
+              className="files-item-img"
+              src={emptyImage}
+              alt="img"
+              width={"100px"}
+              onClick={() => window.open(`${api}/${item.path}`)}
+            />
             <div className="flex-items-center gap-1">
-            <a href={`${api}/api/v0/files/download/${item._id}`} download className="flex-center">
-              <Download sx={{ color: "#999", fontSize: 20 }} className="flex-center" />
-            </a>
-            <Typography sx={{fontSize:".7rem",fontWeight:800}} className="smallTxt"> {item.size} </Typography>
+              <a
+                href={`${api}/api/v0/files/download/${item._id}`}
+                download
+                className="flex-center">
+                <Download
+                  sx={{ color: "#999", fontSize: 20 }}
+                  className="flex-center"
+                />
+              </a>
+              <Typography
+                sx={{ fontSize: ".7rem", fontWeight: 800 }}
+                className="smallTxt">
+                {" "}
+                {item.size}{" "}
+              </Typography>
             </div>
           </Grid>
         ))}

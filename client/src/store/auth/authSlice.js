@@ -27,6 +27,33 @@ export const login = createAsyncThunk(
     }
   }
 );
+export const getUser = createAsyncThunk(
+  "auth/user",
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const response = await fetch(`/api/v0/users`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        localStorage.clear()
+        return rejectWithValue(errorData.message);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
 
 //slices
 const authSlice = createSlice({
@@ -35,6 +62,7 @@ const authSlice = createSlice({
     user: JSON.parse(localStorage.getItem("user")) || null,
     loading: false,
     error: false,
+    notFound: false,
     message: "",
     components: {
       selectedUser: null,
@@ -43,6 +71,7 @@ const authSlice = createSlice({
   reducers: {
     reset: (state) => {
       state.error = false;
+      state.notFound = false;
       state.message = "";
     },
     setSelectedUser: (state, action) => {
@@ -68,6 +97,22 @@ const authSlice = createSlice({
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
       state.error = true;
+      state.message = action.payload;
+    });
+    // GET
+    builder.addCase(getUser.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload?.user;
+    });
+    builder.addCase(getUser.rejected, (state, action) => {
+      localStorage.clear()
+      state.loading = false;
+      state.error = true;
+      state.user = null
+      state.notFound = true;
       state.message = action.payload;
     });
   },

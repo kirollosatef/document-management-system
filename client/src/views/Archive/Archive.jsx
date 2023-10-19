@@ -8,8 +8,8 @@ import {
   deleteFile,
 } from "@store/folders/foldersActions";
 import BeenhereIcon from "@mui/icons-material/Beenhere";
-import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import TransitEnterexitIcon from '@mui/icons-material/TransitEnterexit';
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import TransitEnterexitIcon from "@mui/icons-material/TransitEnterexit";
 import {
   resetToolbar,
   setPageName,
@@ -21,14 +21,17 @@ import "./Archive.scss";
 import ArchiveDialog from "@components/Archive/ArchiveDialog/ArchiveDialog";
 import FilesList from "@components/Archive/FilesList/FilesList";
 import { reset } from "@store/folders/foldersSlice";
+import { toast } from "react-toastify";
 
 function Archive() {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { folderDetails: folder, archiveDetails: archive,deleted } = useSelector(
-    (state) => state.folders
-  );
+  const {
+    folderDetails: folder,
+    archiveDetails: archive,
+    deleted,
+  } = useSelector((state) => state.folders);
   const { open, components } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
   const headers = [
@@ -63,7 +66,7 @@ function Archive() {
   const alertHandleConfirm = () => {
     dispatch(deleteFile(selectedItem?.item?._id));
   };
-  
+
   useEffect(() => {
     dispatch(setPageName("archiveDetails"));
     dispatch(archiveDetails(id));
@@ -74,10 +77,11 @@ function Archive() {
       navigate(`/archives/${selectedItem.item._id}`);
     }
     if (deleted) {
+      toast.success("تم حذف الملف بنجاح");
       dispatch(reset());
       dispatch(resetToolbar());
     }
-  }, [open]);
+  }, [open, deleted]);
 
   return (
     <div>
@@ -128,9 +132,7 @@ function Archive() {
               <ArrowOutwardIcon sx={{ fontSize: 14 }} />
               <span> المصدر </span>
             </Typography>
-            <Typography sx={{ fontSize: 18 }}>
-              {archive?.exporter}
-            </Typography>
+            <Typography sx={{ fontSize: 18 }}>{archive?.exporter}</Typography>
           </div>
         </Grid>
         <Grid item>
@@ -141,14 +143,12 @@ function Archive() {
               <TransitEnterexitIcon sx={{ fontSize: 14 }} />
               <span> المستورد </span>
             </Typography>
-            <Typography sx={{ fontSize: 18 }}>
-              {archive?.importer}
-            </Typography>
+            <Typography sx={{ fontSize: 18 }}>{archive?.importer}</Typography>
           </div>
         </Grid>
       </Grid>
       {/* Files List */}
-      <FilesList/>
+      <FilesList />
       <ArchiveDialog />
       <UniAlertDialog
         handleClose={alertHandleClose}

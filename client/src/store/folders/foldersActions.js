@@ -34,6 +34,7 @@ export const createFile = createAsyncThunk(
       const token = JSON.parse(localStorage.getItem("token"));
       const formData = new FormData()
       formData.append("file",actionData.data.tempPhoto)
+      formData.append("name",actionData.data?.name)
       const response = await fetch(`/api/v0/files/${actionData.params.archiveId}`, {
         method: "POST",
         headers: {
