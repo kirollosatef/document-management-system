@@ -5,12 +5,22 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import BorderAllIcon from "@mui/icons-material/BorderAll";
 import BackupIcon from "@mui/icons-material/Backup";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Card, CardContent, Grid, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { useEffect } from "react";
 import { getStats } from "@store/stats/statsSlice";
 import { setPageName } from "@store/toolsbar/toolsbarSlice";
+import Search from "@components/Home/Search/Search";
+import SearchResults from "@components/Home/SearchResults/SearchResults";
 function Home() {
   const dispatch = useDispatch();
   const Item = styled(Paper)(({ theme }) => ({
@@ -21,7 +31,7 @@ function Home() {
     color: theme.palette.text.secondary,
   }));
   const { allStats } = useSelector((state) => state.stats);
-  
+
   // Arrange Data
   const statsData =
     allStats &&
@@ -101,44 +111,52 @@ function Home() {
     dispatch(setPageName("home"));
   }, [dispatch]);
   return (
-    <Grid container spacing={3}>
-      {statsData?.map((item, i) => (
-        <Grid key={item.id} item lg={i <= 3 ? 3 : 6} md={6} xs={12}>
-          <Card>
-            <CardContent>
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"space-between"}>
-                <Typography variant="h6" fontSize={16} color={item.txtColor}>
-                  {item.title}
-                </Typography>
+    <>
+      <Grid container spacing={3}>
+        {statsData?.map((item, i) => (
+          <Grid key={item.id} item lg={i <= 3 ? 3 : 6} md={6} xs={12}>
+            <Card>
+              <CardContent>
                 <Box
-                  padding={1}
-                  className="flex-center"
-                  sx={{ background: item.bgColor, borderRadius: 3 }}>
-                  {item.icon}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}>
+                  <Typography variant="h6" fontSize={16} color={item.txtColor}>
+                    {item.title}
+                  </Typography>
+                  <Box
+                    padding={1}
+                    className="flex-center"
+                    sx={{ background: item.bgColor, borderRadius: 3 }}>
+                    {item.icon}
+                  </Box>
                 </Box>
-              </Box>
-              <Typography
-                variant="h4"
-                fontSize={32}
-                fontWeight={700}
-                sx={{ my: 2 }}>
-                {item.count}
-              </Typography>
-              <Typography
-                variant="h4"
-                fontSize={13}
-                color="primary"
-                textAlign={"left"}>
-                {item.link && <Link to={item.link}>عرض</Link>}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+                <Typography
+                  variant="h4"
+                  fontSize={32}
+                  fontWeight={700}
+                  sx={{ my: 2 }}>
+                  {item.count}
+                </Typography>
+                <Typography
+                  variant="h4"
+                  fontSize={13}
+                  color="primary"
+                  textAlign={"left"}>
+                  {item.link && <Link to={item.link}>عرض</Link>}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      <div className="flex-center">
+        <Search />
+      </div>
+      <Stack>
+        <SearchResults />
+      </Stack>
+    </>
   );
 }
 

@@ -1,0 +1,48 @@
+@use "../../../theme/globals.scss" as *;
+.search {
+  @include flex($dir: column);
+  margin-block: 2rem;
+  width: 100%;
+  text-align: center;
+  &-heading{
+    font-weight: 700;
+    margin-bottom: .7rem;
+  }
+  &-bar {
+    @include flex($jc: space-between);
+    padding-inline: 1rem;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 2rem;
+    max-width: 600px;
+    width: 100%;
+    transition: $normal_speed;
+    &:hover{
+    background-color: #f5f5f5;
+
+    }
+    &-input {
+      width: 100%;
+
+      input {
+        width: 100%;
+        padding: 1rem;
+        background-color: transparent;
+        border: unset;
+      }
+    }
+    &-icon {
+      @include flex();
+      svg {
+        font-size: 1.5rem;
+        color: #555;
+        transition: $normal_speed;
+      }
+      &:hover {
+        svg {
+          color: #222;
+        }
+      }
+    }
+  }
+}
