@@ -10,5 +10,6 @@ archiveRouter.get('/', authenticate, authorizate(2), archiveController.list);
 archiveRouter.get('/:id', authenticate, authorizate(2), archiveController.get);
 archiveRouter.put('/:id', authenticate, authorizate(1), archiveController.update);
 archiveRouter.delete('/:id', authenticate, authorizate(0), archiveController.remove);
+archiveRouter.post('/', authenticate, authorizate(2), archiveController.search);
 
 export default archiveRouter;

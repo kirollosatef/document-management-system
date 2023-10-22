@@ -6,6 +6,7 @@ import authorizate from '../middlewares/authorizate.js';
 const folderRouter = Router();
 
 folderRouter.post('/', authenticate, authorizate(1), folderController.create);
+folderRouter.post('/:id', authenticate, authorizate(1), folderController.addSubFolder);
 folderRouter.get('/', authenticate, authorizate(2), folderController.list);
 folderRouter.get('/:id', authenticate, authorizate(2), folderController.get);
 folderRouter.put('/:id', authenticate, authorizate(1), folderController.update);

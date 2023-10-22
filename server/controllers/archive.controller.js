@@ -17,6 +17,10 @@ const create = async (req, res) => {
     return res.status(404).json({ message: MESSAGES.noFolderFounded });
   }
 
+  if (folder.isRoot === false) {
+    return res.status(400).json({ message: MESSAGES.invalidFolder });
+  }
+
   const archive = new Archive({
     title,
     issueNumber,
@@ -140,10 +144,31 @@ const remove = async (req, res) => {
   }
 };
 
+const search = async (req, res) => {
+  const { searchData } = req.body;
+
+  try {
+    const archives = await Archive.find({
+      $or: [
+        { title: { $regex: searchData, $options: 'i' } },
+        { issueNumber: { $regex: searchData, $options: 'i' } },
+        { exporter: { $regex: searchData, $options: 'i' } },
+        { importer: { $regex: searchData, $options: 'i' } },
+        { description: { $regex: searchData, $options: 'i' } },
+      ],
+    }).populate('creator');
+
+    res.status(200).json({ archive: archives });
+  } catch (err) {
+    res.status(400).json({ message: err.message, error: err });
+  }
+};
+
 export default {
   create,
   list,
   get,
   update,
   remove,
+  search,
 };

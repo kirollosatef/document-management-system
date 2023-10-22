@@ -25,7 +25,7 @@ const create = async (req, res) => {
       creator: userId,
     });
 
-    await (await folder.save()).populate('creator')
+    await (await folder.save()).populate('creator');
 
     res.status(201).json({ folder });
   } catch (err) {
@@ -35,7 +35,16 @@ const create = async (req, res) => {
 
 const list = async (req, res) => {
   try {
-    const folders = await Folder.find().populate('creator');
+    const folders = await Folder.find({ isRoot: false })
+      .populate('creator')
+      .populate({
+        path: 'subFolders',
+        model: 'Folder',
+        populate: {
+          path: 'creator',
+          model: 'User',
+        },
+      });
     res.status(200).json({ folders });
   } catch (err) {
     res.status(400).json({ message: err.message, error: err });
@@ -50,10 +59,22 @@ const get = async (req, res) => {
         model: 'Archive',
         populate: {
           path: 'creator',
-          model: 'User'
-        }
+          model: 'User',
+        },
       })
-      .populate('creator');
+      .populate('creator')
+      .populate({
+        path: 'subFolders',
+        model: 'Folder',
+        populate: {
+          path: 'archives',
+          model: 'Archive',
+          populate: {
+            path: 'creator',
+            model: 'User',
+          },
+        },
+      });
 
     if (!folder) {
       return res.status(404).json({ message: MESSAGES.noFolderFounded });
@@ -100,10 +121,44 @@ const remove = async (req, res) => {
   }
 };
 
+const addSubFolder = async (req, res) => {
+  try {
+    const folder = await Folder.findById(req.params.id);
+
+    if (!folder) {
+      return res.status(404).json({ message: MESSAGES.noFolderFounded });
+    }
+
+    const { name, description } = req.body;
+
+    if (await Folder.findOne({ name })) {
+      return res.status(400).json({ message: MESSAGES.folderAlreadyInUse });
+    }
+
+    const subFolder = new Folder({
+      name,
+      description,
+      isRoot: true,
+      creator: req.user._id,
+    });
+
+    await subFolder.save();
+
+    folder.subFolders.push(subFolder);
+
+    await folder.save();
+
+    res.status(201).json({ folder: subFolder });
+  } catch (err) {
+    res.status(400).json({ message: err.message, error: err });
+  }
+};
+
 export default {
   create,
   list,
   get,
   update,
   remove,
+  addSubFolder,
 };

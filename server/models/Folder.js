@@ -20,6 +20,16 @@ const folderSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
+  subFolders: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Folder',
+    },
+  ],
+  isRoot: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Folder = model('Folder', folderSchema);
