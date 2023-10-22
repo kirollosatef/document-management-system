@@ -145,16 +145,16 @@ const remove = async (req, res) => {
 };
 
 const search = async (req, res) => {
-  const { dataa } = req.body;
+  const { searchData } = req.body;
 
   try {
     const archives = await Archive.find({
       $or: [
-        { title: { $regex: dataa, $options: 'i' } },
-        { issueNumber: { $regex: dataa, $options: 'i' } },
-        { exporter: { $regex: dataa, $options: 'i' } },
-        { importer: { $regex: dataa, $options: 'i' } },
-        { description: { $regex: dataa, $options: 'i' } },
+        { title: { $regex: searchData, $options: 'i' } },
+        { issueNumber: { $regex: searchData, $options: 'i' } },
+        { exporter: { $regex: searchData, $options: 'i' } },
+        { importer: { $regex: searchData, $options: 'i' } },
+        { description: { $regex: searchData, $options: 'i' } },
       ],
     }).populate('creator');
 
