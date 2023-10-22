@@ -144,10 +144,31 @@ const remove = async (req, res) => {
   }
 };
 
+const search = async (req, res) => {
+  const { dataa } = req.body;
+
+  try {
+    const archives = await Archive.find({
+      $or: [
+        { title: { $regex: dataa, $options: 'i' } },
+        { issueNumber: { $regex: dataa, $options: 'i' } },
+        { exporter: { $regex: dataa, $options: 'i' } },
+        { importer: { $regex: dataa, $options: 'i' } },
+        { description: { $regex: dataa, $options: 'i' } },
+      ],
+    }).populate('creator');
+
+    res.status(200).json({ archive: archives });
+  } catch (err) {
+    res.status(400).json({ message: err.message, error: err });
+  }
+};
+
 export default {
   create,
   list,
   get,
   update,
   remove,
+  search,
 };
