@@ -34,10 +34,13 @@
     padding: 3rem;
     text-align: center;
     // border-radius: 1rem;
+    padding-top: 10rem;
+
     @include tablet{
       max-width: 100%;
       width: 100%;
       background-color: rgba(#fff, .95);
+      padding-top: 2rem;
     }
     &-logo {
       @include flex($dir:column);
