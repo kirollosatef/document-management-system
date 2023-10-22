@@ -31,8 +31,10 @@ export const getStats = createAsyncThunk(
 const statsSlice = createSlice({
   name: "stats",
   initialState: {
-    allStats:null,
+    allStats: null,
+    searchResult:null,
     loading: false,
+    searchLoading: false,
     error: false,
     message: "",
   },
