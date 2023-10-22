@@ -17,6 +17,10 @@ const create = async (req, res) => {
     return res.status(404).json({ message: MESSAGES.noFolderFounded });
   }
 
+  if (folder.isRoot === false) {
+    return res.status(400).json({ message: MESSAGES.invalidFolder });
+  }
+
   const archive = new Archive({
     title,
     issueNumber,
