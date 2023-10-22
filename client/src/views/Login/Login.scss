@@ -2,11 +2,12 @@
 
 .login {
   position: relative;
-//   background-image: url("../../assets/images/login.jpg");
+  background-image: url("../../assets/images/loginbg1.jpg");
   background-position: center;
   background-size: cover;
   height: 100vh;
-  @include flex();
+  display: flex;
+  
   &::after {
     content: "";
     position: absolute;
@@ -14,9 +15,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    // background-color: #fff1;
+    background-color: rgba($bg_color_2, .9);
     // backdrop-filter: blur(10px);
     z-index: 1;
+    @include tablet{
+    background-color: rgba($bg_color_2, 0);
+
+    }
   }
   
   &-box {
@@ -24,11 +29,16 @@
     z-index: 2;
     background-color: #fff;
     // backdrop-filter: blur(10px);
-    max-width: 40rem;
+    max-width: 35rem;
     width: 100%;
     padding: 3rem;
     text-align: center;
-    border-radius: 1rem;
+    // border-radius: 1rem;
+    @include tablet{
+      max-width: 100%;
+      width: 100%;
+      background-color: rgba(#fff, .95);
+    }
     &-logo {
       @include flex($dir:column);
       gap: 1rem;
@@ -43,6 +53,17 @@
       .uniInput {
         margin-bottom: 1rem;
       }
+    }
+  }
+  &-text{
+    padding-inline: .2rem;
+    @include flex($dir:column);
+    width: 100%;
+    position: relative;
+    z-index: 999;
+    color: #fff;
+    @include tablet{
+      display: none;
     }
   }
 }

@@ -2,11 +2,12 @@ import UniTable from "@components/Common/UniversalTable/UniTable";
 import { setPageName, setSelectedItem } from "@store/toolsbar/toolsbarSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { folderDetails } from "@store/folders/foldersActions";
 
 function SearchResults() {
   const dispatch = useDispatch();
-  const { folderDetails: folder, loading } = useSelector(
-    (state) => state.folders
+  const { searchResult, loading } = useSelector(
+    (state) => state.stats
   );
   const { open, components } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
@@ -43,7 +44,7 @@ function SearchResults() {
     <div className="search-result">
       <UniTable
         headers={headers}
-        data={folder?.archives || []}
+        data={searchResult || []}
         title="الارشيف"
         handleClick={handleClick}
         selectedItem={selectedItem?.item}

@@ -4,7 +4,14 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Button, TextField, Alert } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Alert,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import "./Login.scss";
 import { login, reset } from "@store/auth/authSlice";
 import UniInput from "@components/Common/UniversalInput/UniInput";
@@ -15,7 +22,7 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { error, user, message } = useSelector((state) => state.auth);
-
+  const isMdScreen = useMediaQuery("(max-width: 992px)");
   const formik = useFormik({
     initialValues: {},
     validationSchema: yup.object({
@@ -72,6 +79,19 @@ function Login() {
             Login
           </Button>
         </form>
+      </div>
+      <div className="login-text">
+        <Typography sx={{ fontSize: isMdScreen ? "1.7rem" : "2rem" }}>
+          تسجيل الدخول للنظام
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: isMdScreen ? "4.2rem" : "5rem",
+            textAlign: "center",
+            fontWeight: 900,
+          }}>
+          مديرية بلدية السماوة/شعبة الاملاك
+        </Typography>
       </div>
     </div>
   );
