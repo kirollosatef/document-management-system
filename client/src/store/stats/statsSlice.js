@@ -88,15 +88,15 @@ const statsSlice = createSlice({
     });
     // Search
     builder.addCase(archiveSearch.pending, (state, action) => {
-      state.actionsLoading = true;
+      state.searchLoading = true;
     });
     builder.addCase(archiveSearch.fulfilled, (state, action) => {
-      state.actionsLoading = false;
+      state.searchLoading = false;
       state.searchResult = action.payload.archive;
       state.deleted = true;
     });
     builder.addCase(archiveSearch.rejected, (state, action) => {
-      state.actionsLoading = false;
+      state.searchLoading = false;
       state.error = true;
       state.message = action.payload;
     });

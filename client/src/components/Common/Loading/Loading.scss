@@ -2,6 +2,9 @@
   position: relative;
   width: 100%;
   height: 90vh;
+  &.small{
+    height: 10vh;
+  }
 }
 .spinner {
     position: absolute;

@@ -21,6 +21,7 @@ import { getStats } from "@store/stats/statsSlice";
 import { setPageName } from "@store/toolsbar/toolsbarSlice";
 import Search from "@components/Home/Search/Search";
 import SearchResults from "@components/Home/SearchResults/SearchResults";
+import Loading from "@components/Common/Loading/Loading";
 function Home() {
   const dispatch = useDispatch();
   const Item = styled(Paper)(({ theme }) => ({
@@ -30,7 +31,7 @@ function Home() {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
-  const { allStats } = useSelector((state) => state.stats);
+  const { allStats, loading } = useSelector((state) => state.stats);
 
   // Arrange Data
   const statsData =
@@ -110,7 +111,9 @@ function Home() {
     dispatch(getStats());
     dispatch(setPageName("home"));
   }, [dispatch]);
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <>
       <Grid container spacing={3}>
         {statsData?.map((item, i) => (

@@ -6,7 +6,7 @@ import { folderDetails } from "@store/folders/foldersActions";
 
 function SearchResults() {
   const dispatch = useDispatch();
-  const { searchResult, loading } = useSelector(
+  const { searchResult, loading,searchLoading } = useSelector(
     (state) => state.stats
   );
   const { open, components } = useSelector((state) => state.toolsbar);
@@ -45,6 +45,7 @@ function SearchResults() {
       <UniTable
         headers={headers}
         data={searchResult || []}
+        loading={searchLoading}
         title="الارشيف"
         handleClick={handleClick}
         selectedItem={selectedItem?.item}

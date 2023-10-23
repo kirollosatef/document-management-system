@@ -17,8 +17,17 @@ import HiddenPassword from "@components/Users/HiddenPassword/HiddenPassword";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setPosition } from "@store/toolsbar/toolsbarSlice";
+import Loading from "../Loading/Loading";
 
-const UniTable = ({ data = [], headers, title, handleClick, selectedItem,noDataMsg }) => {
+const UniTable = ({
+  data = [],
+  headers,
+  title,
+  handleClick,
+  selectedItem,
+  loading,
+  noDataMsg,
+}) => {
   const dispatch = useDispatch();
   const {
     page,
@@ -85,31 +94,41 @@ const UniTable = ({ data = [], headers, title, handleClick, selectedItem,noDataM
                 onSortClick={onSortClick}
               />
               <TableBody>
-                {data.length < 1 && <Typography sx={{textAlign:"center",py:4, color:"#999"}} > {noDataMsg}  </Typography>}
-                {sortTable(data, order, orderBy)
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((item) => {
-                    const isSelected = item._id === selectedItem?._id;
+                {loading ? (
+                  <Loading height="small" />
+                ) : data.length < 1 ? (
+                  <Typography
+                    sx={{ textAlign: "center", py: 4, color: "#999" }}>
+                    {" "}
+                    {noDataMsg}{" "}
+                  </Typography>
+                ) : (
+                  sortTable(data, order, orderBy)
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((item) => {
+                      const isSelected = item._id === selectedItem?._id;
 
-                    return (
-                      <TableRow
-                        key={item._id}
-                        selected={isSelected}
-                        hover
-                        onClick={() => handleClick(item)}>
-                        {headers.map((header) => (
-                          <TableCell
-                            key={header.id}
-                            align="right"
-                            sx={{maxWidth:"200px" }} className="smallTxt">
-                            {cellContentHandler({ header, item })}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    );
-                  })}
+                      return (
+                        <TableRow
+                          key={item._id}
+                          selected={isSelected}
+                          hover
+                          onClick={() => handleClick(item)}>
+                          {headers.map((header) => (
+                            <TableCell
+                              key={header.id}
+                              align="right"
+                              sx={{ maxWidth: "200px" }}
+                              className="smallTxt">
+                              {cellContentHandler({ header, item })}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      );
+                    })
+                )}
               </TableBody>
-            </Table> 
+            </Table>
           </div>
           <TablePagination
             component={"div"}

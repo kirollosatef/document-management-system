@@ -1,7 +1,7 @@
 import "./Loading.scss";
-function Loading() {
+function Loading({height}) {
   return (
-    <div className="wrapper">
+    <div className={`wrapper ${height === "small" ? "small" : ""}`}>
       <div className="spinner">
         <div></div>
         <div></div>
