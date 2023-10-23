@@ -31,6 +31,10 @@ function SearchResults() {
       label: "المنشئ",
     },
     {
+      id: "issueNumber",
+      label: "عدد الاصدار",
+    },
+    {
       id: "date",
       label: "التاريخ",
     },
