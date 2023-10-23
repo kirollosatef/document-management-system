@@ -74,7 +74,7 @@ export default function FolderDialog() {
     },
   });
   useEffect(() => {
-    if (folder?.archives?.length > 0) {
+    if (folder?.isRoot) {
       if (created) {
         toast.success("تم انشاء الارشيف بنجاح");
         dispatch(setAdd(false));

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -9,6 +9,7 @@ import {
 } from "@store/folders/foldersActions";
 import UniTable from "@components/Common/UniversalTable/UniTable";
 import {
+  resetSelectedItem,
   resetToolbar,
   setPageName,
   setRemove,
@@ -25,6 +26,7 @@ import EmptyFolder from "@components/Folder/EmptyFolder/EmptyFolder";
 import FoldersItem from "@components/Folders/FoldersItem/FoldersItem";
 import SubFolderDialog from "@components/Folder/SubFolderDialog/SubFolderDialog";
 import NoDataMsg from "@components/Common/NoDataMsg/NoDataMsg";
+import FoldersDialog from "@components/Folders/FoldersDialog/FoldersDialog";
 
 function Folder() {
   const navigate = useNavigate();
@@ -37,7 +39,9 @@ function Folder() {
     error,
     message,
   } = useSelector((state) => state.folders);
-  const { open, components } = useSelector((state) => state.toolsbar);
+  const { open, update, add, components } = useSelector(
+    (state) => state.toolsbar
+  );
   const { selectedItem } = components;
   const emptyFolder =
     folder?.subFolders?.length === 0 && folder?.archives?.length === 0;
@@ -85,6 +89,7 @@ function Folder() {
   useEffect(() => {
     dispatch(setPageName("folderDetails"));
     dispatch(folderDetails(id));
+    dispatch(resetSelectedItem());
   }, [id]);
 
   useEffect(() => {
@@ -143,13 +148,17 @@ function Folder() {
         folder?.subFolders?.length === 0 ? (
           <NoDataMsg msg="لا يوجد مجلدات فرعيه" />
         ) : (
-          folder?.subFolders?.map((item) => (
-            <FoldersItem
-              key={item._id}
-              folder={item}
-              handleClick={handleClick}
-            />
-          ))
+          <div className="folders">
+            <Grid container spacing={2}>
+              {folder?.subFolders?.map((item) => (
+                <FoldersItem
+                  key={item._id}
+                  folder={item}
+                  handleClick={handleClick}
+                />
+              ))}
+            </Grid>
+          </div>
         )
       ) : (
         <>
@@ -166,7 +175,10 @@ function Folder() {
         </>
       )}
       <SubFolderDialog />
-      <FolderDialog />
+      {/* Add or Update Archive */}
+      {folder?.isRoot && <FolderDialog />}
+      {/* Add or Update Folder */}
+      {!folder?.isRoot && <FoldersDialog />}
       <UniAlertDialog
         handleClose={alertHandleClose}
         handleConfirm={alertHandleConfirm}

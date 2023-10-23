@@ -62,13 +62,6 @@ export default function FoldersDialog({ open, setOpen, footer }) {
     },
   });
   useEffect(() => {
-    if (created) {
-      toast.success("تمت اضافة مجلد جديد");
-      dispatch(setAdd(false));
-      dispatch(reset());
-      dispatch(resetSelectedItem());
-      formik.resetForm();
-    }
     if (updated) {
       toast.success(`تم تعديل مجلد ${selectedItem?.item?.name}`);
       dispatch(setUpdate(false));
@@ -92,7 +85,7 @@ export default function FoldersDialog({ open, setOpen, footer }) {
       <Dialog
         fullScreen={fullScreen}
         fullWidth={true}
-        open={add || update}
+        open={update}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title">
         <DialogTitle id="responsive-dialog-title">

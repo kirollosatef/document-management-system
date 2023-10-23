@@ -88,11 +88,19 @@ const foldersSlices = createSlice({
       state.actionsLoading = true;
     });
     builder.addCase(updateFolder.fulfilled, (state, action) => {
-      const userIndex = state.allFolders.findIndex(
-        (item) => item._id === action.payload?.folder?._id
-      );
+      const folderIndex = action.payload?.folder?.isRoot
+        ? state.folderDetails.subFolders.findIndex(
+            (item) => item._id === action.payload?.folder?._id
+          )
+        : state.allFolders.findIndex(
+            (item) => item._id === action.payload?.folder?._id
+          );
       state.actionsLoading = false;
-      state.allFolders[userIndex] = action.payload.folder;
+      if (action.payload?.folder?.isRoot) {
+        state.folderDetails.subFolders[folderIndex] = action.payload.folder;
+      } else {
+        state.allFolders[folderIndex] = action.payload.folder;
+      }
       state.updated = true;
     });
     builder.addCase(updateFolder.rejected, (state, action) => {
