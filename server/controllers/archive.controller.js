@@ -138,7 +138,7 @@ const remove = async (req, res) => {
 
     await folder.save();
 
-    res.status(200).json({ message: MESSAGES.archiveRemoved });
+    res.status(200).json({ archive, message: MESSAGES.archiveRemoved });
   } catch (err) {
     res.status(400).json({ message: err.message, error: err });
   }
