@@ -9,6 +9,8 @@ import {
   setAdd,
   setAddSubfolder,
   setOpen,
+  setPrint,
+  setPrintFile,
   setRemove,
   setUpdate,
 } from "@store/toolsbar/toolsbarSlice";
@@ -17,12 +19,13 @@ import AdsClickIcon from "@mui/icons-material/AdsClick";
 
 function Toolbar({ setOpenSidebar }) {
   const dispatch = useDispatch();
+  const api = import.meta.env.VITE_API;
   const { selectedItem, pageName } = useSelector(
     (state) => state.toolsbar.components
   );
-  const { folderDetails: folder } = useSelector((state) => state.folders);
-  const emptyFolder =
-    pageName === "folderDetails" && folder?.subFolders?.length === 0 && folder?.archives?.length === 0 ;
+  const { folderDetails: folder, archiveDetails: archive } = useSelector(
+    (state) => state.folders
+  );
   // For Open Btn
   const openBtnItems = ["archive", "folder"];
   const showOpenBtnPages = ["folderDetails", "folders"];
@@ -106,9 +109,31 @@ function Toolbar({ setOpenSidebar }) {
                 endIcon={<PrintIcon />}
                 sx={{ fontWeight: 600, fontSize: 12 }}
                 dir="ltr"
-                onClick={handlePrintClick}>
-                طباعة
+                onClick={() => dispatch(setPrint(true))}>
+                <a
+                  href={`${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`}
+                  download
+                  className="flex-center">
+                  طباعة الكل
+                </a>
               </Button>
+              {pageName === "archiveDetails" && (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  endIcon={<PrintIcon />}
+                  sx={{ fontWeight: 600, fontSize: 12 }}
+                  dir="ltr"
+                  onClick={() => dispatch(setPrintFile(true))}
+                  disabled={!selectedItem?.item?.type === "file"}>
+                  <a
+                    href={`${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`}
+                    download
+                    className="flex-center">
+                    طباعة الملف
+                  </a>
+                </Button>
+              )}
             </Stack>
           </div>
         </div>

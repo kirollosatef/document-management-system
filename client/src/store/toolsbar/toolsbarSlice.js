@@ -20,6 +20,7 @@ const toolsbarSlice = createSlice({
       state.update = false;
       state.remove = false;
       state.print = false;
+      state.printFile = false;
       state.open = false;
     },
     setPageName: (state, { payload }) => {
@@ -42,6 +43,9 @@ const toolsbarSlice = createSlice({
     },
     setPrint: (state, { payload }) => {
       state.print = payload;
+    },
+    setPrintFile: (state, { payload }) => {
+      state.printFile = payload;
     },
     setSelectedItem: (state, action) => {
       state.components.selectedItem = action.payload;
@@ -67,6 +71,7 @@ export const {
   setUpdate,
   setRemove,
   setPrint,
+  setPrintFile,
   setPosition,
   setSelectedItem,
   setAddSubfolder,

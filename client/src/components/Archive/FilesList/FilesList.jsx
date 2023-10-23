@@ -22,7 +22,7 @@ function FilesList() {
   );
   const { components, open } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
-  const api = "http://localhost:8080";
+  const api = import.meta.env.VITE_API;
   const handleClick = (obj) => {
     dispatch(setSelectedItem({ type: "file", item: obj }));
   };

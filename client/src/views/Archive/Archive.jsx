@@ -32,7 +32,9 @@ function Archive() {
     archiveDetails: archive,
     deleted,
   } = useSelector((state) => state.folders);
-  const { open, components } = useSelector((state) => state.toolsbar);
+  const { open, print, printFile, components } = useSelector(
+    (state) => state.toolsbar
+  );
   const { selectedItem } = components;
   const headers = [
     { id: "_id", label: "ID" },
@@ -76,12 +78,15 @@ function Archive() {
     if (open) {
       navigate(`/archives/${selectedItem.item._id}`);
     }
+    if (printFile) {
+      navigate(`/archives/${selectedItem.item._id}`);
+    }
     if (deleted) {
       toast.success("تم حذف الملف بنجاح");
       dispatch(reset());
       dispatch(resetToolbar());
     }
-  }, [open, deleted]);
+  }, [open, deleted,printFile]);
 
   return (
     <div>
@@ -98,17 +103,6 @@ function Archive() {
           </Typography>
           <Typography variant="body1">{archive?.description}</Typography>
         </div>
-        {/* <div style={{ flex: 2 }} className="creator">
-          <Typography
-            sx={{ fontSize: 10, fontWeight: 800, color: "#999", gap: 1 }}
-            className="flex-items-center">
-            <BeenhereIcon sx={{ fontSize: 10 }} />
-            <span> منشئ الارشيف: </span>
-          </Typography>
-          <Typography sx={{ fontSize: 12 }}>
-            {archive?.creator?.name}
-          </Typography>
-        </div> */}
       </Box>
       <Grid container spacing={2} mb={3}>
         <Grid item>
@@ -149,6 +143,7 @@ function Archive() {
       </Grid>
       {/* Files List */}
       <FilesList />
+      {/* Dialogs */}
       <ArchiveDialog />
       <UniAlertDialog
         handleClose={alertHandleClose}
