@@ -3,9 +3,12 @@ import { setPageName, setSelectedItem } from "@store/toolsbar/toolsbarSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { folderDetails } from "@store/folders/foldersActions";
+import { useNavigate } from "react-router-dom";
 
 function SearchResults() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { searchResult, loading,searchLoading } = useSelector(
     (state) => state.stats
   );
@@ -33,7 +36,8 @@ function SearchResults() {
     },
   ];
   const handleClick = (obj) => {
-    dispatch(setSelectedItem({ type: "archive", item: obj }));
+    // dispatch(setSelectedItem({ type: "archive", item: obj }));
+    navigate(`/archives/${obj._id}`)
   };
   // Fetch Data
   useEffect(() => {

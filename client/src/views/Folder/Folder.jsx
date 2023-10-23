@@ -2,7 +2,11 @@ import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteArchive, folderDetails } from "@store/folders/foldersActions";
+import {
+  deleteArchive,
+  deleteFolder,
+  folderDetails,
+} from "@store/folders/foldersActions";
 import UniTable from "@components/Common/UniversalTable/UniTable";
 import {
   resetToolbar,
@@ -17,16 +21,25 @@ import "./Folder.scss";
 import { reset } from "@store/folders/foldersSlice";
 import { toast } from "react-toastify";
 import Loading from "@components/Common/Loading/Loading";
+import EmptyFolder from "@components/Folder/EmptyFolder/EmptyFolder";
+import FoldersItem from "@components/Folders/FoldersItem/FoldersItem";
+import SubFolderDialog from "@components/Folder/SubFolderDialog/SubFolderDialog";
 
 function Folder() {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { folderDetails: folder, deleted,loading } = useSelector(
-    (state) => state.folders
-  );
+  const {
+    folderDetails: folder,
+    deleted,
+    loading,
+    error,
+    message,
+  } = useSelector((state) => state.folders);
   const { open, components } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
+  const emptyFolder =
+    folder?.subFolders?.length === 0 && folder?.archives?.length === 0;
   const headers = [
     { id: "_id", label: "ID" },
     { id: "title", label: "الاسم" },
@@ -50,15 +63,24 @@ function Folder() {
   ];
   //  ========== Actions ==========
   const handleClick = (obj) => {
-    dispatch(setSelectedItem({ type: "archive", item: obj }));
+    dispatch(
+      setSelectedItem({
+        type: folder?.subFolders?.length > 0 ? "folder" : "archive",
+        item: obj,
+      })
+    );
   };
   const alertHandleClose = () => {
     dispatch(setRemove(false));
     dispatch(resetToolbar());
   };
   const alertHandleConfirm = () => {
-    dispatch(deleteArchive(selectedItem?.item?._id));
+    selectedItem?.type === "folder"
+      ? dispatch(deleteFolder(selectedItem?.item?._id))
+      : dispatch(deleteArchive(selectedItem?.item?._id));
   };
+
+  // Fetch Data
   useEffect(() => {
     dispatch(setPageName("folderDetails"));
     dispatch(folderDetails(id));
@@ -75,6 +97,13 @@ function Folder() {
       dispatch(resetToolbar());
     }
   }, [open, deleted]);
+  useEffect(() => {
+    if (error) {
+      toast.success(message);
+      dispatch(reset());
+      dispatch(resetToolbar());
+    }
+  }, [error]);
 
   return loading ? (
     <Loading />
@@ -103,21 +132,36 @@ function Folder() {
           <Typography sx={{ fontSize: 15 }}>{folder?.creator?.name}</Typography>
         </div>
       </Box>
-      <Box>
-        <UniTable
-          headers={headers}
-          data={folder?.archives || []}
-          title="الارشيف"
-          handleClick={handleClick}
-          selectedItem={selectedItem?.item}
-          noDataMsg={"لا يوجد بيانات حتي الان"}
-        />
-      </Box>
+      {emptyFolder ? (
+        <EmptyFolder />
+      ) : folder?.subFolders?.length > 0 ? (
+        folder?.subFolders?.map((item) => (
+          <FoldersItem key={item._id} folder={item} handleClick={handleClick} />
+        ))
+      ) : (
+        <>
+          <Box>
+            <UniTable
+              headers={headers}
+              data={folder?.archives || []}
+              title="الارشيف"
+              handleClick={handleClick}
+              selectedItem={selectedItem?.item}
+              noDataMsg={"لا يوجد بيانات حتي الان"}
+            />
+          </Box>
+        </>
+      )}
+      <SubFolderDialog />
       <FolderDialog />
       <UniAlertDialog
         handleClose={alertHandleClose}
         handleConfirm={alertHandleConfirm}
-        text={`هل تريد حذف الارشيف ${selectedItem?.item?.title}؟`}
+        text={
+          folder?.subFolders?.length > 0
+            ? `هل تريد حذف المجلد ${selectedItem?.item?.name}`
+            : `هل تريد حذف الارشيف ${selectedItem?.item?.title}`
+        }
       />
     </div>
   );

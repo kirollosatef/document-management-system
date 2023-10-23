@@ -27,22 +27,55 @@ export const createFolder = createAsyncThunk(
     }
   }
 );
+export const createSubFolder = createAsyncThunk(
+  "folders/subFolder/create",
+  async (actionData, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const response = await fetch(
+        `/api/v0/folders/${actionData.params.folderId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(actionData.data),
+        }
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
 export const createFile = createAsyncThunk(
   "folders/archive/file/create",
   async (actionData, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
-      const formData = new FormData()
-      formData.append("file",actionData.data.tempPhoto)
-      formData.append("name",actionData.data?.name)
-      const response = await fetch(`/api/v0/files/${actionData.params.archiveId}`, {
-        method: "POST",
-        headers: {
-          // "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const formData = new FormData();
+      formData.append("file", actionData.data.tempPhoto);
+      formData.append("name", actionData.data?.name);
+      const response = await fetch(
+        `/api/v0/files/${actionData.params.archiveId}`,
+        {
+          method: "POST",
+          headers: {
+            // "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         return rejectWithValue(errorData.message);
@@ -62,14 +95,17 @@ export const createArchive = createAsyncThunk(
   async (actionData, { rejectWithValue }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
-      const response = await fetch(`/api/v0/archives/${actionData.params.folderId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(actionData.data),
-      });
+      const response = await fetch(
+        `/api/v0/archives/${actionData.params.folderId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(actionData.data),
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         return rejectWithValue(errorData.message);
@@ -313,34 +349,6 @@ export const archiveDetails = createAsyncThunk(
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        return rejectWithValue(errorData.message);
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(error);
-      return rejectWithValue({
-        message: "An unknown error occurred. Please try again later.",
-      });
-    }
-  }
-);
-export const archiveSearch = createAsyncThunk(
-  "folders/archive/search",
-  async (keyword, { rejectWithValue }) => {
-    try {
-      const token = JSON.parse(localStorage.getItem("token"));
-      const response = await fetch(`/api/v0/archives`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(keyword)
       });
       if (!response.ok) {
         const errorData = await response.json();

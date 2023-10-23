@@ -4,6 +4,7 @@ import {
   createArchive,
   createFile,
   createFolder,
+  createSubFolder,
   deleteArchive,
   deleteFile,
   deleteFolder,
@@ -55,6 +56,20 @@ const foldersSlices = createSlice({
       state.error = true;
       state.message = action.payload;
     });
+    // create Sub folder
+    builder.addCase(createSubFolder.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(createSubFolder.fulfilled, (state, action) => {
+      state.actionsLoading = false;
+      state.folderDetails.subFolders.push(action.payload.folder);
+      state.created = true;
+    });
+    builder.addCase(createSubFolder.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
     //getFolders
     builder.addCase(getFolders.pending, (state, action) => {
       state.loading = true;
@@ -90,11 +105,19 @@ const foldersSlices = createSlice({
       state.actionsLoading = true;
     });
     builder.addCase(deleteFolder.fulfilled, (state, action) => {
-      const newFolders = state.allFolders.filter(
-        (item) => item._id !== action.payload?.folder?._id
-      );
+      const newFolders = action.payload.folder.isRoot
+        ? state.folderDetails.subFolders.filter(
+            (item) => item._id !== action.payload?.folder?._id
+          )
+        : state.allFolders.filter(
+            (item) => item._id !== action.payload?.folder?._id
+          );
       state.actionsLoading = false;
-      state.allFolders = newFolders;
+      if (action?.payload?.folder?.isRoot) {
+        state.folderDetails.subFolders = newFolders;
+      } else {
+        state.allFolders = newFolders;
+      }
       state.deleted = true;
     });
     builder.addCase(deleteFolder.rejected, (state, action) => {
@@ -184,7 +207,7 @@ const foldersSlices = createSlice({
     builder.addCase(createFile.fulfilled, (state, action) => {
       state.actionsLoading = false;
       state.archiveDetails.files.push(action.payload.data);
-      state.created = true
+      state.created = true;
     });
     builder.addCase(createFile.rejected, (state, action) => {
       state.actionsLoading = false;
@@ -225,7 +248,6 @@ const foldersSlices = createSlice({
       state.error = true;
       state.message = action.payload;
     });
-    
   },
 });
 

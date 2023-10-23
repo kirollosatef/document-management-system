@@ -7,6 +7,7 @@ import PrintIcon from "@mui/icons-material/Print";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import {
   setAdd,
+  setAddSubfolder,
   setOpen,
   setRemove,
   setUpdate,
@@ -19,6 +20,9 @@ function Toolbar({ setOpenSidebar }) {
   const { selectedItem, pageName } = useSelector(
     (state) => state.toolsbar.components
   );
+  const { folderDetails: folder } = useSelector((state) => state.folders);
+  const emptyFolder =
+    folder?.subFolders?.length === 0 && folder?.archives?.length === 0;
   // For Open Btn
   const openBtnItems = ["archive", "folder"];
   const showOpenBtnPages = ["folderDetails", "folders"];
@@ -26,6 +30,18 @@ function Toolbar({ setOpenSidebar }) {
   // For Print Btn
   const handlePrintClick = () => {
     window.print();
+  };
+  const addHandler = () => {
+    if (pageName === "folderDetails") {
+      if (folder?.subFolders?.length > 0) {
+        dispatch(setAddSubfolder(true));
+      } else {
+        // Add Archive
+        dispatch(setAdd(true));
+      }
+    } else {
+      dispatch(setAdd(true));
+    }
   };
   return (
     <div className="toolbar">
@@ -61,7 +77,8 @@ function Toolbar({ setOpenSidebar }) {
                 endIcon={<AddIcon />}
                 sx={{ fontWeight: 600, fontSize: 12 }}
                 dir="ltr"
-                onClick={() => dispatch(setAdd(true))}>
+                onClick={addHandler}
+                disabled={emptyFolder}>
                 اضافة
               </Button>
               <Button

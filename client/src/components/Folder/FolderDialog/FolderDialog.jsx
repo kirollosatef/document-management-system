@@ -46,7 +46,7 @@ export default function FolderDialog() {
   const formik = useFormik({
     initialValues: {
       title: "",
-      description: "", 
+      description: "",
       exporter: "",
       importer: "",
       date: "",
@@ -60,38 +60,50 @@ export default function FolderDialog() {
       date: yup.string().required("هذا الحقل مطلوب"),
     }),
     onSubmit(values) {
-      add && dispatch(createArchive({data:values,params:{folderId: folder?._id}}));
+      add &&
+        dispatch(
+          createArchive({ data: values, params: { folderId: folder?._id } })
+        );
       update &&
         dispatch(
           updateArchive({
-            data: {...values,folderId:folder?._id},
+            data: { ...values, folderId: folder?._id },
             params: { id: selectedItem?.item?._id },
           })
         );
     },
   });
   useEffect(() => {
-    if (created) {
-      toast.success("تم انشاء الارشيف بنجاح");
-      dispatch(setAdd(false));
-      dispatch(reset());
-      dispatch(resetSelectedItem());
-      formik.resetForm();
-    }
-    if (updated) {
-      toast.success(`تم تعديل ارشيف ${selectedItem?.item?.title}`);
-      dispatch(setUpdate(false));
-      dispatch(reset());
-      dispatch(resetSelectedItem());
-      formik.resetForm();
+    if (folder?.archives?.length > 0) {
+      if (created) {
+        toast.success("تم انشاء الارشيف بنجاح");
+        dispatch(setAdd(false));
+        dispatch(reset());
+        dispatch(resetSelectedItem());
+        formik.resetForm();
+      }
+      if (updated) {
+        toast.success(`تم تعديل ارشيف ${selectedItem?.item?.title}`);
+        dispatch(setUpdate(false));
+        dispatch(reset());
+        dispatch(resetSelectedItem());
+        formik.resetForm();
+      }
     }
   }, [created, updated]);
 
   // ======== Set the default values ========
   useEffect(() => {
     if (update) {
-      const { title, description, exporter, importer, creator, issueNumber,date } =
-        selectedItem.item;
+      const {
+        title,
+        description,
+        exporter,
+        importer,
+        creator,
+        issueNumber,
+        date,
+      } = selectedItem.item;
       formik.setFieldValue("title", title);
       formik.setFieldValue("description", description);
       formik.setFieldValue("exporter", exporter);

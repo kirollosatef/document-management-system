@@ -2,8 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const toolsbarSlice = createSlice({
   name: "toolsbar",
   initialState: {
-    open:false,
+    open: false,
     add: false,
+    addSubfolder: false,
     update: false,
     remove: false,
     print: false,
@@ -29,6 +30,9 @@ const toolsbarSlice = createSlice({
     },
     setAdd: (state, { payload }) => {
       state.add = payload;
+    },
+    setAddSubfolder: (state, { payload }) => {
+      state.addSubfolder = payload;
     },
     setUpdate: (state, { payload }) => {
       state.update = payload;
@@ -65,6 +69,7 @@ export const {
   setPrint,
   setPosition,
   setSelectedItem,
+  setAddSubfolder,
 } = toolsbarSlice.actions;
 
 export default toolsbarSlice.reducer;
