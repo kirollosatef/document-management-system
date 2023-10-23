@@ -22,7 +22,7 @@ function Toolbar({ setOpenSidebar }) {
   );
   const { folderDetails: folder } = useSelector((state) => state.folders);
   const emptyFolder =
-    folder?.subFolders?.length === 0 && folder?.archives?.length === 0;
+    pageName === "folderDetails" && folder?.subFolders?.length === 0 && folder?.archives?.length === 0 ;
   // For Open Btn
   const openBtnItems = ["archive", "folder"];
   const showOpenBtnPages = ["folderDetails", "folders"];
@@ -33,7 +33,7 @@ function Toolbar({ setOpenSidebar }) {
   };
   const addHandler = () => {
     if (pageName === "folderDetails") {
-      if (folder?.subFolders?.length > 0) {
+      if (!folder?.isRoot) {
         dispatch(setAddSubfolder(true));
       } else {
         // Add Archive
@@ -77,8 +77,7 @@ function Toolbar({ setOpenSidebar }) {
                 endIcon={<AddIcon />}
                 sx={{ fontWeight: 600, fontSize: 12 }}
                 dir="ltr"
-                onClick={addHandler}
-                disabled={emptyFolder}>
+                onClick={addHandler}>
                 اضافة
               </Button>
               <Button

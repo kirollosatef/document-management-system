@@ -20,7 +20,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { toast } from "react-toastify";
-import { createArchive, createSubFolder, updateArchive } from "@store/folders/foldersActions";
+import {
+  createArchive,
+  createSubFolder,
+  updateArchive,
+} from "@store/folders/foldersActions";
 
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
@@ -60,12 +64,14 @@ export default function SubFolderDialog() {
     },
   });
   useEffect(() => {
-    if (created) {
-      toast.success("تم انشاء المجلد الفرعي بنجاح");
-      dispatch(setAddSubfolder(false));
-      dispatch(reset());
-      dispatch(resetSelectedItem());
-      formik.resetForm();
+    if (!folder?.isRoot) {
+      if (created) {
+        toast.success("تم انشاء المجلد الفرعي بنجاح");
+        dispatch(setAddSubfolder(false));
+        dispatch(reset());
+        dispatch(resetSelectedItem());
+        formik.resetForm();
+      }
     }
   }, [created]);
   return (

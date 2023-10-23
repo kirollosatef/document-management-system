@@ -24,6 +24,7 @@ import Loading from "@components/Common/Loading/Loading";
 import EmptyFolder from "@components/Folder/EmptyFolder/EmptyFolder";
 import FoldersItem from "@components/Folders/FoldersItem/FoldersItem";
 import SubFolderDialog from "@components/Folder/SubFolderDialog/SubFolderDialog";
+import NoDataMsg from "@components/Common/NoDataMsg/NoDataMsg";
 
 function Folder() {
   const navigate = useNavigate();
@@ -84,22 +85,28 @@ function Folder() {
   useEffect(() => {
     dispatch(setPageName("folderDetails"));
     dispatch(folderDetails(id));
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (open) {
-      navigate(`/archives/${selectedItem.item._id}`);
+      if (selectedItem?.item?.isRoot) {
+        navigate(`/folders/${selectedItem.item._id}`);
+      } else {
+        navigate(`/archives/${selectedItem.item._id}`);
+      }
       dispatch(resetToolbar());
     }
     if (deleted) {
-      toast.success("تم حذف الارشيف بنجاح");
+      toast.success(
+        !folder?.isRoot ? "تم حذف المجلد الفرعي بنجاح" : "تم حذف الارشيف بنجاح"
+      );
       dispatch(reset());
       dispatch(resetToolbar());
     }
   }, [open, deleted]);
   useEffect(() => {
     if (error) {
-      toast.success(message);
+      toast.error(message);
       dispatch(reset());
       dispatch(resetToolbar());
     }
@@ -132,12 +139,18 @@ function Folder() {
           <Typography sx={{ fontSize: 15 }}>{folder?.creator?.name}</Typography>
         </div>
       </Box>
-      {emptyFolder ? (
-        <EmptyFolder />
-      ) : folder?.subFolders?.length > 0 ? (
-        folder?.subFolders?.map((item) => (
-          <FoldersItem key={item._id} folder={item} handleClick={handleClick} />
-        ))
+      {!folder?.isRoot ? (
+        folder?.subFolders?.length === 0 ? (
+          <NoDataMsg msg="لا يوجد مجلدات فرعيه" />
+        ) : (
+          folder?.subFolders?.map((item) => (
+            <FoldersItem
+              key={item._id}
+              folder={item}
+              handleClick={handleClick}
+            />
+          ))
+        )
       ) : (
         <>
           <Box>
