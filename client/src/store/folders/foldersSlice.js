@@ -225,6 +225,7 @@ const foldersSlices = createSlice({
       state.error = true;
       state.message = action.payload;
     });
+    
   },
 });
 

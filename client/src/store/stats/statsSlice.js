@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const getStats = createAsyncThunk(
-  "stats/get",
+  "home/stats/get",
   async (_, { rejectWithValue, getState }) => {
     try {
       const token = JSON.parse(localStorage.getItem("token"));
@@ -26,13 +26,41 @@ export const getStats = createAsyncThunk(
     }
   }
 );
+export const archiveSearch = createAsyncThunk(
+  "home/archive/search",
+  async (keyword, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const response = await fetch(`/api/v0/archives`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ searchData: keyword }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
 
 //slices
 const statsSlice = createSlice({
-  name: "stats",
+  name: "home",
   initialState: {
     allStats: null,
-    searchResult:null,
+    searchResult: null,
     loading: false,
     searchLoading: false,
     error: false,
@@ -55,6 +83,20 @@ const statsSlice = createSlice({
     });
     builder.addCase(getStats.rejected, (state, action) => {
       state.loading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // Search
+    builder.addCase(archiveSearch.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(archiveSearch.fulfilled, (state, action) => {
+      state.actionsLoading = false;
+      state.searchResult = action.payload.archive;
+      state.deleted = true;
+    });
+    builder.addCase(archiveSearch.rejected, (state, action) => {
+      state.actionsLoading = false;
       state.error = true;
       state.message = action.payload;
     });
