@@ -1,0 +1,28 @@
+# ./client/Dockerfile
+
+# Specify the base image
+FROM node:16
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json (if available)
+COPY package*.json ./
+
+# Install project dependencies
+RUN npm install
+
+# Copy local code to the container's workspace
+COPY . .
+
+# Build the app
+RUN npm run build
+
+# Install 'serve' to serve static files
+RUN npm install -g serve
+
+# Inform Docker that the container is listening on the specified port at runtime.
+EXPOSE 5000
+
+# Run the app
+CMD ["serve", "-s", "dist", "-p", "5000"]
