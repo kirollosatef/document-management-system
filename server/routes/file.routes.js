@@ -13,5 +13,6 @@ fileRouter.get('/', authenticate, authorizate(2), fileController.list);
 fileRouter.put('/:id', authenticate, authorizate(1), fileController.update);
 fileRouter.delete('/:id', authenticate, authorizate(0), fileController.remove);
 fileRouter.get('/download/:id', fileController.download);
+fileRouter.get('/print/:id/:archiveId', fileController.print);
 
 export default fileRouter;
