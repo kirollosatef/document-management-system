@@ -1,22 +1,20 @@
-# ./server/Dockerfile
+#  Dockerfile for Node Express Backend
 
-# Specify the base image
-FROM node:16
+FROM node:10.16-alpine
 
-# Set the working directory
-WORKDIR /app
+# Create App Directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json (if available)
+# Install Dependencies
 COPY package*.json ./
 
-# Install project dependencies
-RUN npm install
+RUN npm install --silent
 
-# Copy local code to the container's workspace
+# Copy app source code
 COPY . .
 
-# Inform Docker that the container is listening on the specified port at runtime.
-EXPOSE 8080
+# Exports
+EXPOSE 5000
 
-# Run the app
-CMD ["node", "app.js"]
+CMD ["npm","start"]
