@@ -1,12 +1,14 @@
 import { Grid, Stack, Typography, useTheme, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import emptyImage from "@assets/emptyImage.webp";
+import pdfImage from "@assets/pdf.png";
 import { setSelectedItem } from "@store/toolsbar/toolsbarSlice";
 import "./FileList.scss";
 import { Download } from "@mui/icons-material";
 import NoDataMsg from "@components/Common/NoDataMsg/NoDataMsg";
 import { styled } from "@mui/material/styles";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -14,6 +16,7 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
+
 function FilesList() {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -44,52 +47,60 @@ function FilesList() {
       </Typography>
       {archive?.files?.length > 0 ? (
         <Grid sx={{ flexGrow: 1 }} container spacing={2}>
-          {archive?.files?.map((item, i) => (
-            <Grid
-              key={item._id}
-              item
-              sm={3}
-              xs={6}
-              onClick={() => handleClick(item)}>
-              <div
-                className={`files-item  ${
-                  selectedItem.item._id === item._id ? "active" : ""
-                }`}>
-                <p className="smallTxt"> {item.name.split(".")[0]} </p>
-                <img
-                  className="files-item-img flex-center"
-                  src={emptyImage}
-                  alt="img"
-                  width={"100%"}
-                />
-                <div className="flex-between gap-1">
-                  <div className="flex-items-center gap-1">
-                    <a
-                      href={`${api}/api/v0/files/download/${item._id}`}
-                      download
-                      className="flex-center">
-                      <Download
-                        sx={{ color: "#999", fontSize: 20 }}
-                        className="flex-center"
-                      />
-                    </a>
-                    <Typography
-                      sx={{ fontSize: ".7rem", fontWeight: 800 }}
-                      className="smallTxt">
-                      {" "}
-                      {item.size}{" "}
-                    </Typography>
-                  </div>
-                  <div className="flex-center">
-                    <RemoveRedEyeIcon
-                      onClick={() => window.open(`${api}/${item.path}`)}
-                      sx={{ fontSize: 20, color: "#999" }}
-                    />
+          {archive?.files?.map((item, i) => {
+            const isPdf = item.name.split(".")[1] === "pdf";
+            return (
+              <Grid
+                key={item._id}
+                item
+                sm={3}
+                xs={6}
+                onClick={() => handleClick(item)}>
+                <div
+                  className={`files-item  ${
+                    selectedItem.item._id === item._id ? "active" : ""
+                  }`}>
+                  <p className="smallTxt"> {item.name.split(".")[0]} </p>
+
+                  <img
+                    className="files-item-img flex-center"
+                    src={isPdf ? pdfImage : emptyImage}
+                    alt="img"
+                    width={"100%"}
+                    style={{padding: isPdf ? "2rem" : ""}}
+                  />
+
+                  <div className="flex-between gap-1">
+                    <div className="flex-items-center gap-1">
+                      <a
+                        href={`${api}/api/v0/files/download/${item._id}`}
+                        download
+                        className="flex-center">
+                        <Download
+                          sx={{ color: "#999", fontSize: 20 }}
+                          className="flex-center"
+                        />
+                      </a>
+                      <Typography
+                        sx={{ fontSize: ".7rem", fontWeight: 800 }}
+                        className="smallTxt">
+                        {" "}
+                        {item.size}{" "}
+                      </Typography>
+                    </div>
+                    {!isPdf && (
+                      <div className="flex-center">
+                        <RemoveRedEyeIcon
+                          onClick={() => window.open(`${api}/${item.path}`)}
+                          sx={{ fontSize: 20, color: "#999" }}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
-            </Grid>
-          ))}
+              </Grid>
+            );
+          })}
         </Grid>
       ) : (
         <NoDataMsg msg="لا يوجد ملفات" />
