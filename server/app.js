@@ -9,6 +9,7 @@ import connectToDB from './middlewares/db.conn.js';
 import indexRouter from './routes/index.routes.js';
 import testRouter from './routes/test.routes.js';
 import { createAdminUserIfNotExist } from './models/User.js';
+import cronJob from './middlewares/cronJop.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -35,6 +36,9 @@ app.use('/', testRouter);
 
 // Create admin user if not exist
 createAdminUserIfNotExist();
+
+// Start cron job
+cronJob();
 
 app.listen(port, () => {
   console.log(`Server listening successfully on \n\t{ SERVER_URL::http://localhost:${port} }`);
