@@ -1,15 +1,20 @@
-# /client/Dockerfile
-FROM node:14 AS build
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+# Specify the base image
+FROM node:14
 
-FROM node:14-alpine
+# Set the working directory in the container
 WORKDIR /app
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/package*.json ./
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the code
+COPY . .
+
+# The port on which the client is running
 EXPOSE 3000
-CMD ["npm", "run", "dev"] # or use vite based on your project setup
+
+# Command to run the application
+CMD ["npm", "run", "dev"]

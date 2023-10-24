@@ -1,20 +1,33 @@
-version: "3"
+version: '3.7'
 services:
-  client:
-    build:
-      context: ./client
-    ports:
-      - "3000:3000"
-
   server:
-    build:
-      context: ./server
+    build: ./server
     ports:
       - "8080:8080"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    environment:
+      - MONGO_DB_URI=mongodb://mongo:27017/mydatabase  # replace 'mydatabase' with your actual database name
     depends_on:
       - mongo
 
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+
   mongo:
-    image: mongo:latest
+    image: mongo:jammy
     ports:
       - "27017:27017"
+    volumes:
+      - mongo-data:/data/db  # persisting data to avoid loss
+
+volumes:
+  mongo-data:
