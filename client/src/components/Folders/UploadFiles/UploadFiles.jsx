@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createArchive } from "@store/folders/foldersActions";
+import { Typography } from "@mui/material";
 
 function UploadFiles({selectedFiles, setSelectedFiles}) {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function UploadFiles({selectedFiles, setSelectedFiles}) {
 
   return (
     <div>
-      <h2>Upload Files</h2>
+      <Typography variant="body2">رفع ملفات</Typography>
       <input type="file" multiple onChange={handleFileChange} />
     </div>
   );
