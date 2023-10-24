@@ -40,8 +40,11 @@ function SearchResults() {
     },
   ];
   const handleClick = (obj) => {
-    // dispatch(setSelectedItem({ type: "archive", item: obj }));
-    navigate(`/archives/${obj._id}`)
+    if (selectedItem?.item?._id === obj._id) {
+      navigate(`/archives/${obj._id}`);
+    } else {
+      dispatch(setSelectedItem({ type: "archive", item: obj }));
+    }
   };
   // Fetch Data
   useEffect(() => {

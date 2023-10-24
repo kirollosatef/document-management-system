@@ -2,11 +2,7 @@ import { useEffect } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  deleteArchive,
-  deleteFolder,
-  folderDetails,
-} from "@store/folders/foldersActions";
+import { deleteArchive, deleteFolder, folderDetails } from "@store/folders/foldersActions";
 import UniTable from "@components/Common/UniversalTable/UniTable";
 import {
   resetSelectedItem,
@@ -32,19 +28,10 @@ function Folder() {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const {
-    folderDetails: folder,
-    deleted,
-    loading,
-    error,
-    message,
-  } = useSelector((state) => state.folders);
-  const { open, update, add, components } = useSelector(
-    (state) => state.toolsbar
-  );
+  const { folderDetails: folder, deleted, loading, error, message } = useSelector((state) => state.folders);
+  const { open, update, add, components } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
-  const emptyFolder =
-    folder?.subFolders?.length === 0 && folder?.archives?.length === 0;
+  const emptyFolder = folder?.subFolders?.length === 0 && folder?.archives?.length === 0;
   const headers = [
     { id: "_id", label: "ID" },
     { id: "title", label: "الاسم" },
@@ -62,6 +49,10 @@ function Folder() {
       label: "المنشئ",
     },
     {
+      id: "issueNumber",
+      label: "عدد الاصدار",
+    },
+    {
       id: "date",
       label: "التاريخ",
     },
@@ -74,6 +65,13 @@ function Folder() {
         item: obj,
       })
     );
+  };
+  const handleDoubleClick = (obj) => {
+    if (selectedItem?.item?._id === obj._id) {
+      navigate(`/archives/${obj._id}`);
+    } else {
+      dispatch(setSelectedItem({ type: "archive", item: obj }));
+    }
   };
   const alertHandleClose = () => {
     dispatch(setRemove(false));
@@ -102,9 +100,7 @@ function Folder() {
       dispatch(resetToolbar());
     }
     if (deleted) {
-      toast.success(
-        !folder?.isRoot ? "تم حذف المجلد الفرعي بنجاح" : "تم حذف الارشيف بنجاح"
-      );
+      toast.success(!folder?.isRoot ? "تم حذف المجلد الفرعي بنجاح" : "تم حذف الارشيف بنجاح");
       dispatch(reset());
       dispatch(resetToolbar());
     }
@@ -127,7 +123,8 @@ function Folder() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-        }}>
+        }}
+      >
         <div style={{ flex: 10 }}>
           <Typography variant="h4" sx={{ fontWeight: 800 }}>
             {folder?.name}
@@ -137,7 +134,8 @@ function Folder() {
         <div style={{ flex: 2 }} className="creator">
           <Typography
             sx={{ fontSize: 12, fontWeight: 800, color: "#999", gap: 1 }}
-            className="flex-items-center">
+            className="flex-items-center"
+          >
             <BeenhereIcon sx={{ fontSize: 12 }} />
             <span> منشئ المجلد: </span>
           </Typography>
@@ -151,11 +149,7 @@ function Folder() {
           <div className="folders">
             <Grid container spacing={2}>
               {folder?.subFolders?.map((item) => (
-                <FoldersItem
-                  key={item._id}
-                  folder={item}
-                  handleClick={handleClick}
-                />
+                <FoldersItem key={item._id} folder={item} handleClick={handleClick} />
               ))}
             </Grid>
           </div>
@@ -167,7 +161,7 @@ function Folder() {
               headers={headers}
               data={folder?.archives || []}
               title="الارشيف"
-              handleClick={handleClick}
+              handleClick={handleDoubleClick}
               selectedItem={selectedItem?.item}
               noDataMsg={"لا يوجد بيانات حتي الان"}
             />

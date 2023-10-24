@@ -76,7 +76,7 @@ function Login() {
             />
           </Box>
           <Button type="submit" variant="contained" color="primary" fullWidth>
-            Login
+            تسجيل الدخول
           </Button>
         </form>
       </div>

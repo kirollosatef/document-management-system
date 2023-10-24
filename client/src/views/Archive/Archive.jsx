@@ -2,11 +2,7 @@ import { useEffect } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  archiveDetails,
-  deleteArchive,
-  deleteFile,
-} from "@store/folders/foldersActions";
+import { archiveDetails, deleteArchive, deleteFile } from "@store/folders/foldersActions";
 import BeenhereIcon from "@mui/icons-material/Beenhere";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import TransitEnterexitIcon from "@mui/icons-material/TransitEnterexit";
@@ -28,14 +24,8 @@ function Archive() {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const {
-    folderDetails: folder,
-    archiveDetails: archive,
-    deleted,
-  } = useSelector((state) => state.folders);
-  const { open, print, printFile, components } = useSelector(
-    (state) => state.toolsbar
-  );
+  const { folderDetails: folder, archiveDetails: archive, deleted } = useSelector((state) => state.folders);
+  const { open, print, printFile, components } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
   const headers = [
     { id: "_id", label: "ID" },
@@ -52,6 +42,10 @@ function Archive() {
     {
       id: "creator",
       label: "المنشئ",
+    },
+    {
+      id: "issueNumber",
+      label: "عدد الاصدار",
     },
     {
       id: "date",
@@ -98,7 +92,8 @@ function Archive() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-        }}>
+        }}
+      >
         <div style={{ flex: 10 }}>
           <Typography variant="h4" sx={{ fontWeight: 800 }}>
             {archive?.title}
@@ -111,20 +106,20 @@ function Archive() {
           <div style={{ flex: 2 }} className="creator">
             <Typography
               sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
-              className="flex-items-center">
+              className="flex-items-center"
+            >
               <BeenhereIcon sx={{ fontSize: 14 }} />
               <span> منشئ الارشيف: </span>
             </Typography>
-            <Typography sx={{ fontSize: 18 }}>
-              {archive?.creator?.name}
-            </Typography>
+            <Typography sx={{ fontSize: 18 }}>{archive?.creator?.name}</Typography>
           </div>
         </Grid>
         <Grid item>
           <div style={{ flex: 2 }} className="creator">
             <Typography
               sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
-              className="flex-items-center">
+              className="flex-items-center"
+            >
               <ArrowOutwardIcon sx={{ fontSize: 14 }} />
               <span> المصدر </span>
             </Typography>
@@ -135,7 +130,8 @@ function Archive() {
           <div style={{ flex: 2 }} className="creator">
             <Typography
               sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
-              className="flex-items-center">
+              className="flex-items-center"
+            >
               <TransitEnterexitIcon sx={{ fontSize: 14 }} />
               <span> المستورد </span>
             </Typography>

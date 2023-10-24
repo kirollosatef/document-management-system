@@ -20,12 +20,8 @@ import AdsClickIcon from "@mui/icons-material/AdsClick";
 function Toolbar({ setOpenSidebar }) {
   const dispatch = useDispatch();
   const api = import.meta.env.VITE_API;
-  const { selectedItem, pageName } = useSelector(
-    (state) => state.toolsbar.components
-  );
-  const { folderDetails: folder, archiveDetails: archive } = useSelector(
-    (state) => state.folders
-  );
+  const { selectedItem, pageName } = useSelector((state) => state.toolsbar.components);
+  const { folderDetails: folder, archiveDetails: archive } = useSelector((state) => state.folders);
   // For Open Btn
   const openBtnItems = ["archive", "folder"];
   const showOpenBtnPages = ["folderDetails", "folders"];
@@ -61,7 +57,8 @@ function Toolbar({ setOpenSidebar }) {
               justifyContent={"center"}
               margin={"auto"}
               width={"100%"}
-              flexWrap={"wrap"}>
+              flexWrap={"wrap"}
+            >
               {showOpenBtnPages.includes(pageName) && (
                 <Button
                   variant="contained"
@@ -70,7 +67,8 @@ function Toolbar({ setOpenSidebar }) {
                   sx={{ fontWeight: 600, fontSize: 12 }}
                   dir="ltr"
                   onClick={() => dispatch(setOpen(true))}
-                  disabled={!openBtnItems.includes(selectedItem.type)}>
+                  disabled={!openBtnItems.includes(selectedItem.type)}
+                >
                   فتح
                 </Button>
               )}
@@ -80,7 +78,8 @@ function Toolbar({ setOpenSidebar }) {
                 endIcon={<AddIcon />}
                 sx={{ fontWeight: 600, fontSize: 12 }}
                 dir="ltr"
-                onClick={addHandler}>
+                onClick={addHandler}
+              >
                 اضافة
               </Button>
               <Button
@@ -90,7 +89,8 @@ function Toolbar({ setOpenSidebar }) {
                 sx={{ fontWeight: 600, fontSize: 12 }}
                 dir="ltr"
                 onClick={() => dispatch(setUpdate(true))}
-                disabled={!selectedItem?.item?._id}>
+                disabled={!selectedItem?.item?._id}
+              >
                 تعديل
               </Button>
               <Button
@@ -100,23 +100,9 @@ function Toolbar({ setOpenSidebar }) {
                 sx={{ fontWeight: 600, fontSize: 12 }}
                 dir="ltr"
                 onClick={() => dispatch(setRemove(true))}
-                disabled={!selectedItem?.item?._id}>
+                disabled={!selectedItem?.item?._id}
+              >
                 حذف
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                endIcon={<PrintIcon />}
-                sx={{ fontWeight: 600, fontSize: 12 }}
-                dir="ltr"
-                onClick={() => dispatch(setPrint(true))}
-                disabled={selectedItem?.type !== "folderDetails"}>
-                <a
-                  href={`${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`}
-                  download
-                  className="flex-center">
-                  طباعة الكل
-                </a>
               </Button>
               {pageName === "archiveDetails" && (
                 <Button
@@ -131,9 +117,25 @@ function Toolbar({ setOpenSidebar }) {
                       "_blank"
                     );
                   }}
-                  disabled={
-                    selectedItem?.item?._id && selectedItem?.type !== "file"
-                  }>
+                >
+                  طباعة الكل
+                </Button>
+              )}
+              {pageName === "archiveDetails" && (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  endIcon={<PrintIcon />}
+                  sx={{ fontWeight: 600, fontSize: 12 }}
+                  dir="ltr"
+                  onClick={() => {
+                    window.open(
+                      `${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`,
+                      "_blank"
+                    );
+                  }}
+                  disabled={selectedItem?.item?._id && selectedItem?.type !== "file"}
+                >
                   طباعة الملف
                 </Button>
               )}

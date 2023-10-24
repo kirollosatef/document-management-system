@@ -12,7 +12,7 @@ function Help() {
   const developers = [
     {
       id: 2,
-      name: "Kirolos Atef",
+      name: "Kirollos Atef",
       jopTitle: "Software Engineer",
       contacts: {
         whatsapp: "+201032892585",
