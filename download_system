@@ -22,6 +22,6 @@ read -p "Press [Enter] key to run the client..."
 cd ../client
 pm2 start npm --name "dms-client" -- run dev
 
-# custom domain in /etc/hosts with 127.0.0.1:3000 -> dms.com
+# custom domain in /etc/hosts with 127.0.0.1 -> dms.com
 read -p "Press [Enter] key to add custom domain in /etc/hosts..."
-sudo bash -c 'echo "127.0.0.1:3000 dms.local" >> /etc/hosts'
+sudo bash -c 'echo "127.0.0.1 dms.local" >> /etc/hosts'
