@@ -84,8 +84,8 @@ function FilesList() {
                       <Typography
                         sx={{ fontSize: ".7rem", fontWeight: 800 }}
                         className="smallTxt">
-                        {" "}
-                        {item.size}{" "}
+                        
+                        {item.size}
                       </Typography>
                     </div>
                     {!isPdf && (
