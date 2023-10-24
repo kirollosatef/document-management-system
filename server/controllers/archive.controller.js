@@ -1,11 +1,14 @@
 import Archive from '../models/Archive.js';
 import Folder from '../models/Folder.js';
 import { MESSAGES } from '../config.js';
+import { uploadFile } from './file.controller.js';
+import File from '../models/File.js';
 
 const create = async (req, res) => {
   const folderId = req.params.folderId;
   const creatorId = req.user._id;
   const { title, issueNumber, date, exporter, importer, description } = req.body;
+  const files = req.files;
 
   if (!title || !issueNumber || !date || !exporter || !importer) {
     return res.status(400).json({ message: MESSAGES.invalidFields });
@@ -37,6 +40,33 @@ const create = async (req, res) => {
     folder.archives.push(archive._id);
 
     await folder.save();
+
+    for (let i = 0; i < files.length; i++) {
+      try {
+        const file = files[i];
+        const uploadFileResult = await uploadFile(file, folderId, archive._id);
+
+        const newfile = new File({
+          ...uploadFileResult,
+          creator: req.user._id,
+        });
+
+        if (req.body.name) {
+          newfile.name = req.body.name;
+        }
+
+        const fileSaved = await newfile.save();
+
+        archive.files.push(fileSaved._id);
+
+        await archive.save();
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+          message: MESSAGES.fileNotUploaded,
+        });
+      }
+    }
 
     res.status(201).json({ archive, message: MESSAGES.archiveCreated });
   } catch (err) {
