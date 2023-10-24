@@ -1,17 +1,16 @@
 #!/bin/bash
 
-# # install pm2
-# read -p "Press [Enter] key to install pm2..."
-# sudo npm install pm2@latest -g
+# install pm2
+read -p "Press [Enter] key to install pm2..."
+sudo npm install pm2@latest -g
 
-# # install dependencies
-# read -p "Press [Enter] key to install dependencies..."
-# cd server
-# npm install
-# cd ../client
-# npm install
-pm2 delete all
-cd client
+# install dependencies
+read -p "Press [Enter] key to install dependencies..."
+cd server
+npm install
+cd ../client
+npm install
+
 # run the server
 read -p "Press [Enter] key to run the server..."
 cd ../server
