@@ -40,4 +40,5 @@ export const MESSAGES = {
   fileNotUploaded: 'حدث خطأ اثناء رفع الملف',
   passwordLength: 'كلمة المرور يجب ان تكون اكثر من 8 حروف',
   invalidFolder: 'الرجاء اختيار مجلد صحيح',
+  fileNotDownloaded: 'حدث خطأ اثناء تحميل الملف',
 };

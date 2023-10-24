@@ -125,16 +125,16 @@ function Toolbar({ setOpenSidebar }) {
                   endIcon={<PrintIcon />}
                   sx={{ fontWeight: 600, fontSize: 12 }}
                   dir="ltr"
-                  onClick={() => dispatch(setPrintFile(true))}
+                  onClick={() => {
+                    window.open(
+                      `${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`,
+                      "_blank"
+                    );
+                  }}
                   disabled={
                     selectedItem?.item?._id && selectedItem?.type !== "file"
                   }>
-                  {/* <a
-                    href={`${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`}
-                    download
-                    className="flex-center"> */}
                   طباعة الملف
-                  {/* </a> */}
                 </Button>
               )}
             </Stack>

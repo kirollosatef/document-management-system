@@ -2,16 +2,15 @@ import File from '../models/File.js';
 import Archive from '../models/Archive.js';
 import fs from 'fs';
 import path from 'path';
-// import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument } from 'pdf-lib';
+import puppeteer from 'puppeteer';
 import { v4 as uuidv4 } from 'uuid';
 import { MESSAGES } from '../config.js';
 import Folder from '../models/Folder.js';
 
-// __dirname
 const __dirname = path.resolve();
 const uploadsFolder = path.join(__dirname, 'uploads');
 
-// Upload file to server
 export const uploadFile = async (file, folderName, archiveName) => {
   const { originalname, mimetype, size } = file;
   const fileName = uuidv4().replace(/-/g, '');
@@ -196,110 +195,112 @@ const download = async (req, res) => {
   await downloadFile(filePath, res);
 };
 
-// const downloadImageWithArchiveDataPDF = async (req, res) => {
-//   const id = req.params.id;
-//   const archiveId = req.params.archiveId;
+const downloadImageWithArchiveDataPDF = async (req, res) => {
+  const id = req.params.id;
+  const archiveId = req.params.archiveId;
 
-//   const archive = await Archive.findById(archiveId);
+  const archive = await Archive.findById(archiveId);
 
-//   if (!archive) {
-//     return res.status(404).json({ message: MESSAGES.noArchiveFounded });
-//   }
+  if (!archive) {
+    return res.status(404).json({ message: MESSAGES.noArchiveFounded });
+  }
 
-//   const file = await File.findById(id);
+  const file = await File.findById(id);
 
-//   if (!file) {
-//     return res.status(404).json({ message: MESSAGES.fileNotFound });
-//   }
-//   const pdfDoc = await PDFDocument.create();
+  if (!file) {
+    return res.status(404).json({ message: MESSAGES.fileNotFound });
+  }
 
-//   // Embed the Times Roman font for arabic text
-//   const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+  const browser = await puppeteer.launch();
 
-//   // Add a blank page to the document A4 size
-//   const page = pdfDoc.addPage();
+  try {
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage([595.28, 841.89]);
 
-//   // Get the width and height of the page
-//   const { width, height } = page.getSize();
+    const filePath = `${uploadsFolder}/${file.path}`;
+    const image = fs.readFileSync(filePath);
 
-//   // Draw a string of text toward the top of the page
-//   const fontSize = 30;
+    const imageEmbed = await pdfDoc.embedPng(image);
 
-//   const filePath = `${uploadsFolder}/${file.path}`;
-//   const image = fs.readFileSync(filePath);
+    const { width, height } = imageEmbed.scale(0.5);
 
-//   const imageEmbed = await pdfDoc.embedPng(image);
+    const htmlArchiveData = `
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: black;">
+      <h1 style="font-size: 24px; font-weight: bold;">${archive.title}</h1>
+      <h3 style="font-size: 16px;">الوصف: ${archive.description}</h3>
+      <h3 style="font-size: 16px;">العدد: ${archive.issueNumber}</h3>
+      <h3 style="font-size: 16px;">التاريخ: ${new Date(archive.date).toLocaleDateString('ar-EG', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })}</h3>
+      <h3 style="font-size: 16px;">المصدر: ${archive.exporter}</h3>
+      <h3 style="font-size: 16px;">المستورد: ${archive.importer}</h3>
+    </div>
+    `;
 
-//   const { imageWidth, imageHeight } = imageEmbed.scale(0.5);
+    const pageHTML = await browser.newPage();
 
-//   page.drawImage(imageEmbed, {
-//     x: page.getWidth() / 2 - width / 2,
-//     y: page.getHeight() / 2 - height / 2,
-//     width: imageWidth,
-//     height: imageHeight,
-//   });
+    await pageHTML.setContent(htmlArchiveData);
 
-//   const titleText = `Title: ${archive.title}`;
-//   const descriptionText = `Description: ${archive.description}`;
-//   const issueNumberText = `Issue Number: ${archive.issueNumber}`;
-//   const dateText = `Date: ${archive.date}`;
-//   const exporterText = `Exporter: ${archive.exporter}`;
-//   const importerText = `Importer: ${archive.importer}`;
+    const htmlImageBuffer = await pageHTML.screenshot();
 
-//   page.edrawText('شمينخبتمخكنشس', {
-//     x: 50,
-//     y: height - 4 * fontSize,
-//     size: fontSize,
-//     font: timesRomanFont,
-//     color: rgb(0, 0.53, 0.71),
-//   });
+    await pageHTML.close();
 
-//   // page.drawText(descriptionText, {
-//   //   x: 50,
-//   //   y: 730,
-//   //   size: fontSize,
-//   //   font: font,
-//   //   lineHeight: fontSize,
-//   //   maxWidth: textWidth,
-//   //   encoding: 'Identity-H',
-//   // });
+    const imageEmbedHTML = await pdfDoc.embedPng(htmlImageBuffer);
 
-//   // page.drawText(issueNumberText, {
-//   //   x: 50,
-//   //   y: 710,
-//   //   size: fontSize,
-//   //   font: font,
-//   //   lineHeight: fontSize,
-//   //   maxWidth: textWidth,
-//   //   encoding: 'Identity-H',
-//   // });
+    const { widthHTML, heightHTML } = imageEmbedHTML.scale(0.5);
 
-//   // page.drawText(dateText, {
-//   //   x: 50,
-//   //   y: 690,
-//   //   size: 15,
-//   // });
+    page.drawImage(imageEmbedHTML, {
+      x: page.getWidth() / 2 - 400,
+      y: page.getHeight() / 2 - 170,
+      width: widthHTML,
+      height: heightHTML,
+    });
 
-//   // page.drawText(exporterText, {
-//   //   x: 50,
-//   //   y: 670,
-//   //   size: 15,
-//   // });
+    const pageWidth = page.getWidth();
+    const pageHeight = page.getHeight();
+    const imageAspectRatio = width / height;
+    const pageAspectRatio = pageWidth / (pageHeight / 2); // Half the page height
 
-//   // page.drawText(importerText, {
-//   //   x: 50,
-//   //   y: 650,
-//   //   size: 15,
-//   // });
+    let scaleFactor = 1;
 
-//   const pdfBytes = await pdfDoc.save();
+    if (imageAspectRatio > pageAspectRatio) {
+      scaleFactor = pageWidth / width;
+    } else {
+      scaleFactor = pageHeight / 2 / height;
+    }
 
-//   fs.writeFileSync(`${uploadsFolder}/${file.name}.pdf`, pdfBytes);
+    const scaledWidth = width * scaleFactor;
+    const scaledHeight = height * scaleFactor;
 
-//   const filePathPDF = `${uploadsFolder}/${file.name}.pdf`;
+    page.drawImage(imageEmbed, {
+      x: (pageWidth - scaledWidth) / 2,
+      y: 0,
+      width: scaledWidth,
+      height: scaledHeight,
+    });
 
-//   res.download(filePathPDF);
-// };
+    const pdfBytes = await pdfDoc.save();
+
+    if (!fs.existsSync(`${uploadsFolder}/Downloads`)) {
+      fs.mkdirSync(`${uploadsFolder}/Downloads`);
+    }
+
+    const fileDownloadedName = `${archive.title}-${file.name.split('.')[0]}`;
+
+    fs.writeFileSync(`${uploadsFolder}/Downloads/${fileDownloadedName}.pdf`, pdfBytes);
+
+    const filePathPDF = `${uploadsFolder}/Downloads/${fileDownloadedName}.pdf`;
+
+    res.download(filePathPDF);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: MESSAGES.fileNotDownloaded });
+  } finally {
+    await browser.close();
+  }
+};
 
 export default {
   create,
@@ -308,5 +309,5 @@ export default {
   update,
   remove,
   download,
-  // print: downloadImageWithArchiveDataPDF,
+  print: downloadImageWithArchiveDataPDF,
 };
