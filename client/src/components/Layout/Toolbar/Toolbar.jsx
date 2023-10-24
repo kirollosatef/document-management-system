@@ -111,12 +111,12 @@ function Toolbar({ setOpenSidebar }) {
                   endIcon={<PrintIcon />}
                   sx={{ fontWeight: 600, fontSize: 12 }}
                   dir="ltr"
-                  onClick={() => {
-                    window.open(
-                      `${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`,
-                      "_blank"
-                    );
-                  }}
+                  // onClick={() => {
+                  //   window.open(
+                  //     `${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`,
+                  //     "_blank"
+                  //   );
+                  // }}
                 >
                   طباعة الكل
                 </Button>
@@ -128,12 +128,12 @@ function Toolbar({ setOpenSidebar }) {
                   endIcon={<PrintIcon />}
                   sx={{ fontWeight: 600, fontSize: 12 }}
                   dir="ltr"
-                  onClick={() => {
-                    window.open(
-                      `${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`,
-                      "_blank"
-                    );
-                  }}
+                  // onClick={() => {
+                  //   window.open(
+                  //     `${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`,
+                  //     "_blank"
+                  //   );
+                  // }}
                   disabled={selectedItem?.item?._id && selectedItem?.type !== "file"}
                 >
                   طباعة الملف
