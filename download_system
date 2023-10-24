@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# # install pm2
+# read -p "Press [Enter] key to install pm2..."
+# sudo npm install pm2@latest -g
+
+# # install dependencies
+# read -p "Press [Enter] key to install dependencies..."
+# cd server
+# npm install
+# cd ../client
+# npm install
+pm2 delete all
+cd client
+# run the server
+read -p "Press [Enter] key to run the server..."
+cd ../server
+pm2 start app.js --name "dms-server"
+
+# run the client
+read -p "Press [Enter] key to run the client..."
+cd ../client
+pm2 start npm --name "dms-client" -- run dev
+
+# custom domain in /etc/hosts with 127.0.0.1:3000 -> dms.com
+read -p "Press [Enter] key to add custom domain in /etc/hosts..."
+sudo bash -c 'echo "127.0.0.1:3000 dms.local" >> /etc/hosts'

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# update the system
+read -p "Press [Enter] key to update the system..."
+sudo apt-get update
+
+# install git
+read -p "Press [Enter] key to install git..."
+sudo apt-get install git
+
+# clone the project
+read -p "Press [Enter] key to clone the project..."
+git clone https://github.com/kirollosatef/document-management-system

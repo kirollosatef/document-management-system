@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# restart pm2 dms-server
+read -p "Press [Enter] key to restart pm2 dms-server..."
+pm2 restart dms-server
+
+# restart pm2 dms-client
+read -p "Press [Enter] key to restart pm2 dms-client..."
+pm2 restart dms-client

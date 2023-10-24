@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# update the system
+read -p "Press [Enter] key to update the system..."
+sudo apt-get update
+
+# install git
+read -p "Press [Enter] key to install git..."
+sudo apt-get install git
+
+# install nodejs
+read -p "Press [Enter] key to install nodejs..."
+sudo apt-get install nodejs
+
+# install npm
+read -p "Press [Enter] key to install npm..."
+sudo apt install nodejs
+sudo apt install npm
+
+# install mongodb
+read -p "Press [Enter] key to install mongodb..."
+sudo apt-get install gnupg curl
+curl -fsSL https://pgp.mongodb.com/server-7.0.asc |
+  sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
+    --dearmor
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+read -p "Press [Enter] key to start mongodb..."
+sudo systemctl start mongod
+read -p "Press [Enter] key to check mongodb status..."
+sudo systemctl status mongod
+
+# install nginx
+read -p "Press [Enter] key to install nginx..."
+sudo apt-get install nginx
