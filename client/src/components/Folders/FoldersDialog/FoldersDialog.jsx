@@ -25,6 +25,7 @@ import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { toast } from "react-toastify";
 import { createFolder, updateFolder } from "@store/folders/foldersActions";
 import { reset } from "@store/folders/foldersSlice";
+import UploadFiles from "../UploadFiles/UploadFiles";
 
 export default function FoldersDialog({ open, setOpen, footer }) {
   const dispatch = useDispatch();

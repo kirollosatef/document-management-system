@@ -24,12 +24,13 @@ import { createArchive, updateArchive } from "@store/folders/foldersActions";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { reset } from "@store/folders/foldersSlice";
+import UploadFiles from "@components/Folders/UploadFiles/UploadFiles";
 
 export default function FolderDialog() {
   const dispatch = useDispatch();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
+  const [selectedFiles, setSelectedFiles] = React.useState([]);
   const { add, update } = useSelector((state) => state.toolsbar);
   const {
     created,
@@ -60,9 +61,19 @@ export default function FolderDialog() {
       date: yup.string().required("هذا الحقل مطلوب"),
     }),
     onSubmit(values) {
+      const formData = new FormData();
+      for (const file of selectedFiles) {
+        formData.append("files", file);
+      }
+      formData.append("title", formik.values.title);
+      formData.append("description", formik.values.description);
+      formData.append("exporter", formik.values.exporter);
+      formData.append("importer", formik.values.importer);
+      formData.append("issueNumber", formik.values.issueNumber);
+      formData.append("date", formik.values.date);
       add &&
         dispatch(
-          createArchive({ data: values, params: { folderId: folder?._id } })
+          createArchive({ data: formData, params: { folderId: folder?._id } })
         );
       update &&
         dispatch(
@@ -183,6 +194,7 @@ export default function FolderDialog() {
               />
             </Box>
           </DialogContent>
+          <UploadFiles selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
           <DialogActions dir="ltr">
             <Stack gap={2} direction="row" mx={4}>
               <Button

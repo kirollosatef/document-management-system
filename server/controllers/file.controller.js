@@ -2,7 +2,7 @@ import File from '../models/File.js';
 import Archive from '../models/Archive.js';
 import fs from 'fs';
 import path from 'path';
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+// import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { v4 as uuidv4 } from 'uuid';
 import { MESSAGES } from '../config.js';
 import Folder from '../models/Folder.js';

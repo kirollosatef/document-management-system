@@ -100,10 +100,10 @@ export const createArchive = createAsyncThunk(
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            // "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(actionData.data),
+          body: actionData.data,
         }
       );
       if (!response.ok) {
