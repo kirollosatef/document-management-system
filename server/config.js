@@ -2,9 +2,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const DB_URL = process.env.DB_URL;
+export const DB_URL = process.env.DB_URL || "mongodb://mongo:27017/modereit-elslama";
 export const PORT = process.env.PORT || 8080;
-export const JWT_SECRET = process.env.JWT_SECRET;
+export const JWT_SECRET = process.env.JWT_SECRET || "0A*#FwFZ0(-T34UNLcQ>W$<ek+f]L457HUDpAlxX=d8<k=9]i";
 export const MAX_FILES = 5;
 
 export const MESSAGES = {
