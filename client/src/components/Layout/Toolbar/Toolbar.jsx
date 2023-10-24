@@ -109,7 +109,8 @@ function Toolbar({ setOpenSidebar }) {
                 endIcon={<PrintIcon />}
                 sx={{ fontWeight: 600, fontSize: 12 }}
                 dir="ltr"
-                onClick={() => dispatch(setPrint(true))}>
+                onClick={() => dispatch(setPrint(true))}
+                disabled={selectedItem?.type !== "folderDetails"}>
                 <a
                   href={`${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`}
                   download
@@ -125,13 +126,15 @@ function Toolbar({ setOpenSidebar }) {
                   sx={{ fontWeight: 600, fontSize: 12 }}
                   dir="ltr"
                   onClick={() => dispatch(setPrintFile(true))}
-                  disabled={!selectedItem?.item?.type === "file"}>
-                  <a
+                  disabled={
+                    selectedItem?.item?._id && selectedItem?.type !== "file"
+                  }>
+                  {/* <a
                     href={`${api}/api/v0/files/print/${selectedItem.item._id}/${archive._id}`}
                     download
-                    className="flex-center">
-                    طباعة الملف
-                  </a>
+                    className="flex-center"> */}
+                  طباعة الملف
+                  {/* </a> */}
                 </Button>
               )}
             </Stack>

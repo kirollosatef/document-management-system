@@ -11,6 +11,7 @@ import BeenhereIcon from "@mui/icons-material/Beenhere";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import TransitEnterexitIcon from "@mui/icons-material/TransitEnterexit";
 import {
+  resetSelectedItem,
   resetToolbar,
   setPageName,
   setRemove,
@@ -72,7 +73,8 @@ function Archive() {
   useEffect(() => {
     dispatch(setPageName("archiveDetails"));
     dispatch(archiveDetails(id));
-  }, []);
+    dispatch(resetSelectedItem());
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (open) {
@@ -86,7 +88,7 @@ function Archive() {
       dispatch(reset());
       dispatch(resetToolbar());
     }
-  }, [open, deleted,printFile]);
+  }, [open, deleted, printFile]);
 
   return (
     <div>
