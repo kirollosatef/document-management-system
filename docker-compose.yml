@@ -7,8 +7,6 @@ services:
     volumes:
       - ./server:/app
       - /app/node_modules
-    environment:
-      - MONGO_DB_URI=mongodb://mongo:27017/mydatabase  # replace 'mydatabase' with your actual database name
     depends_on:
       - mongo
 
@@ -27,7 +25,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo-data:/data/db  # persisting data to avoid loss
+      - mongo-data:/data/db
 
 volumes:
   mongo-data:
