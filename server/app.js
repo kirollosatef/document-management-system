@@ -24,6 +24,11 @@ connectToDB();
 // Middlewares
 app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.use(helmet()); // Enhance security by setting various HTTP headers
+// Add a custom Cross-Origin-Resource-Policy header
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
+  next();
+});
 app.use(morgan('dev')); // Log HTTP requests
 app.use(bodyParser.json()); // Parse request bodies for JSON
 app.use(bodyParser.urlencoded({ extended: true })); // Parse request bodies for x-www-form-urlencoded
