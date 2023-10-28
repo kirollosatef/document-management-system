@@ -70,7 +70,7 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
                     منشئ الارشيف
                   </Typography>
                   <Typography sx={{ fontSize: 12 }}>
-                    {rchv.creator.name}
+                    {rchv?.creator?.name}
                   </Typography>
                 </div>
                 <div>
@@ -78,27 +78,27 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
                     الصلاحية
                   </Typography>
                   <Typography sx={{ fontSize: 12 }}>
-                    {rchv.creator.role}
+                    {rchv?.creator?.role}
                   </Typography>
                 </div>
                 <div>
                   <Typography sx={{ fontSize: 12, color: "#999" }}>
                     المصدر
                   </Typography>
-                  <Typography sx={{ fontSize: 12 }}>{rchv.exporter}</Typography>
+                  <Typography sx={{ fontSize: 12 }}>{rchv?.exporter}</Typography>
                 </div>
                 <div>
                   <Typography sx={{ fontSize: 12, color: "#999" }}>
                     المستورد
                   </Typography>
-                  <Typography sx={{ fontSize: 12 }}>{rchv.importer}</Typography>
+                  <Typography sx={{ fontSize: 12 }}>{rchv?.importer}</Typography>
                 </div>
                 <div>
                   <Typography sx={{ fontSize: 12, color: "#999" }}>
                     تاريخ الانشاء
                   </Typography>
                   <Typography sx={{ fontSize: 12 }}>
-                    {dayjs(rchv.date).format("DD-MM-YYYY")}
+                    {dayjs(rchv?.date).format("DD-MM-YYYY")}
                   </Typography>
                 </div>
               </Box>
