@@ -104,7 +104,7 @@ function Toolbar({ setOpenSidebar }) {
               >
                 حذف
               </Button>
-              {pageName === "archiveDetails" && (
+              {/* {pageName === "archiveDetails" && (
                 <Button
                   variant="contained"
                   color="secondary"
@@ -138,7 +138,7 @@ function Toolbar({ setOpenSidebar }) {
                 >
                   طباعة الملف
                 </Button>
-              )}
+              )} */}
             </Stack>
           </div>
         </div>
