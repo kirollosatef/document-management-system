@@ -1,5 +1,5 @@
 /* eslint-disable no-extra-boolean-cast */
-import { useState,useRef  } from "react";
+import { useState, useRef } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -8,7 +8,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import dayjs from "dayjs";
 
@@ -17,21 +17,21 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { archiveDetails: rchv } = useSelector((state) => state.folders);
-  const { add, update } = useSelector((state) => state.toolsbar);
-  const { created, updated, actionsLoading } = useSelector(
-    (state) => state.folders
-  );
-  const { selectedItem } = useSelector((state) => state.toolsbar.components);
+  const { actionsLoading } = useSelector((state) => state.folders);
   const handleClose = () => {
     setOpen(false);
   };
 
   const handlePrint = () => {
     if (imgRef.current) {
-      const printWindow = window.open('', '', 'width=600, height=600');
-      printWindow.document.write('<html><head><title>Print</title></head><body>');
-      printWindow.document.write('<img src="' + imgRef.current.src + '" style="width:100%;"/>');
-      printWindow.document.write('</body></html>');
+      const printWindow = window.open("", "", "width=600, height=600");
+      printWindow.document.write(
+        "<html><head><title>Print</title></head><body>"
+      );
+      printWindow.document.write(
+        '<img src="' + imgRef.current.src + '" style="width:100%;"/>'
+      );
+      printWindow.document.write("</body></html>");
       printWindow.document.close();
       printWindow.onload = () => {
         printWindow.print();
@@ -41,7 +41,7 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
       };
     }
   };
-  
+
   return (
     <div>
       <Dialog
@@ -85,13 +85,17 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
                   <Typography sx={{ fontSize: 12, color: "#999" }}>
                     المصدر
                   </Typography>
-                  <Typography sx={{ fontSize: 12 }}>{rchv?.exporter}</Typography>
+                  <Typography sx={{ fontSize: 12 }}>
+                    {rchv?.exporter}
+                  </Typography>
                 </div>
                 <div>
                   <Typography sx={{ fontSize: 12, color: "#999" }}>
                     المستورد
                   </Typography>
-                  <Typography sx={{ fontSize: 12 }}>{rchv?.importer}</Typography>
+                  <Typography sx={{ fontSize: 12 }}>
+                    {rchv?.importer}
+                  </Typography>
                 </div>
                 <div>
                   <Typography sx={{ fontSize: 12, color: "#999" }}>
