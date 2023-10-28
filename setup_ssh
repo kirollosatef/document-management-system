@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# A simple script to set up an SSH server
+
+# Update package sources
+read -r "click [ENTER] to update package sources ====================>"
+echo "Updating package sources..."
+apt-get update
+
+# Install SSH server application
+read -r "click [ENTER] to install SSH server application ============>"
+echo "Installing SSH server..."
+apt-get install -y openssh-server
+
+# Below are a few configuration options you might commonly adjust.
+# By default, this script keeps the standard configuration.
+
+# Define custom SSH port (default is 22)
+# Warning: Ports below 1024 require root privileges. Make sure to allow this port through your firewall.
+SSH_PORT=22
+
+# Backup the existing SSH server config
+read -r "click [ENTER] to backup the existing SSH server config =====>"
+echo "Backing up the current SSH config..."
+cp /etc/ssh/sshd_config /etc/ssh/sshd_config.factory-defaults
+
+# Uncomment and modify the below lines to make changes to the default configuration.
+read -r "click [ENTER] to write new SSH server config ===============>"
+echo "Writing new SSH server config..."
+sed -i "s/#Port 22/Port $SSH_PORT/" /etc/ssh/sshd_config
+
+# Enable and start SSH server
+read -r "click [ENTER] to enable and start SSH server ===============>"
+echo "Starting SSH server..."
+systemctl start ssh
+
+read -r "click [ENTER] to enable SSH server to start on boot ========>"
+echo "Enabling SSH server to start on boot..."
+systemctl enable ssh
+
+# If you have a firewall enabled (e.g., UFW), you need to allow your SSH port through.
+# If you changed the port above, change it here as well.
+read -r "click [ENTER] to adjust firewall rules =====================>"
+echo "Adjusting firewall rules..."
+ufw allow $SSH_PORT/tcp
+
+echo "SSH server installation and setup complete!"
+
+# Show server IP address (you will need this for SSH connection)
+ip a | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}'

@@ -2,6 +2,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
+import dotenv from "dotenv";
+
+// .env.development
+dotenv.config({ path: path.resolve(__dirname, ".env.development") });
+
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
@@ -20,7 +25,7 @@ export default defineConfig({
     host: "0.0.0.0", // allows the server to accept connections on all IPv4 addresses
     port: 3000,
     proxy: {
-      "/api": "http://server:8080",
+      "/api": process.env.VITE_API || "http://server:8080",
     },
   },
 });
