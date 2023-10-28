@@ -25,7 +25,7 @@ export default defineConfig({
     host: "0.0.0.0", // allows the server to accept connections on all IPv4 addresses
     port: 3000,
     proxy: {
-      "/api": process.env.VITE_API || "http://server:8080",
+      "/api": process.env.VITE_API,
     },
   },
 });
