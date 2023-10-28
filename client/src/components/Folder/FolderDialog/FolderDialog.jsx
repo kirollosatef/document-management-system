@@ -193,7 +193,12 @@ export default function FolderDialog() {
                 onChange={(value) => formik.setFieldValue("date", value)}
               />
             </Box>
-          <UploadFiles selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
+            {add && (
+              <UploadFiles
+                selectedFiles={selectedFiles}
+                setSelectedFiles={setSelectedFiles}
+              />
+            )}
           </DialogContent>
           <DialogActions dir="ltr">
             <Stack gap={2} direction="row" mx={4}>
