@@ -1,5 +1,5 @@
 /* eslint-disable no-extra-boolean-cast */
-import { useState } from "react";
+import { useState,useRef  } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -7,26 +7,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import UniInput from "@components/Common/UniversalInput/UniInput";
-import {
-  resetSelectedItem,
-  setAdd,
-  setUpdate,
-} from "@store/toolsbar/toolsbarSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
-import { toast } from "react-toastify";
-import { createFile, updateFile } from "@store/folders/foldersActions";
-import { AddAPhoto, LineWeight } from "@mui/icons-material";
-import emptyImage from "@assets/emptyImage.webp";
-import { reset } from "@store/folders/foldersSlice";
+
+import {  useSelector } from "react-redux";
+
 import dayjs from "dayjs";
 
 export default function FileDialog({ open, setOpen, selectedFile }) {
-  const dispatch = useDispatch();
+  const imgRef = useRef(null);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { archiveDetails: rchv } = useSelector((state) => state.folders);
@@ -39,8 +26,22 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
     setOpen(false);
   };
 
-  // ======== Set the default values ========
-
+  const handlePrint = () => {
+    if (imgRef.current) {
+      const printWindow = window.open('', '', 'width=600, height=600');
+      printWindow.document.write('<html><head><title>Print</title></head><body>');
+      printWindow.document.write('<img src="' + imgRef.current.src + '" style="width:100%;"/>');
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.onload = () => {
+        printWindow.print();
+        printWindow.onafterprint = () => {
+          printWindow.close();
+        };
+      };
+    }
+  };
+  
   return (
     <div>
       <Dialog
@@ -106,6 +107,7 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
               <img
                 className="files-item-img flex-center"
                 src={selectedFile}
+                ref={imgRef}
                 alt="img"
                 width={"100%"}
                 style={{ padding: "2rem" }}
@@ -122,7 +124,11 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
               color="error">
               غلق
             </Button>
-            <Button type="submit" variant="outlined" disabled={actionsLoading}>
+            <Button
+              type="submit"
+              variant="outlined"
+              disabled={actionsLoading}
+              onClick={handlePrint}>
               طباعة
             </Button>
           </Stack>
