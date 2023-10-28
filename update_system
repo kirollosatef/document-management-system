@@ -6,8 +6,14 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
   sudo docker compose down
 fi
 
+# git pull origin master -rebase --force
+read -p "Do you want to update the system? [y/n]: " answer
+if [ "$answer" != "${answer#[Yy]}" ]; then
+  git pull origin master -rebase --force
+fi
+
 # Docker Compose up
 read -p "Do you want to start the system? [y/n]: " answer
 if [ "$answer" != "${answer#[Yy]}" ]; then
-  sudo docker compose up -d
+  sudo docker compose up --build -d
 fi
