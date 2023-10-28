@@ -5,7 +5,7 @@ import path from "node:path";
 import dotenv from "dotenv";
 
 // .env.development
-dotenv.config({ path: path.resolve(__dirname, ".env.development") });
+dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,7 +25,7 @@ export default defineConfig({
     host: "0.0.0.0", // allows the server to accept connections on all IPv4 addresses
     port: 3000,
     proxy: {
-      "/api": process.env.VITE_API || "http://server:8080",
+      "/api": process.env.VITE_API,
     },
   },
 });
