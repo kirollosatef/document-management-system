@@ -5,7 +5,7 @@ import path from "node:path";
 import dotenv from "dotenv";
 
 // .env.development
-dotenv.config({ path: path.resolve(__dirname, ".env.development") });
+dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({
