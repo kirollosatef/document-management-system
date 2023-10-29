@@ -5,42 +5,40 @@ import { Button, Stack, Typography } from "@mui/material";
 import { Image } from "@mui/icons-material";
 import { toast } from "react-toastify";
 
-function UploadFiles({ selectedFiles, setSelectedFiles }) {
-  const dispatch = useDispatch();
+function UploadFiles({
+  selectedFiles,
+  setSelectedFiles,
+  setMultiple,
+  multiple,
+}) {
   const fileInputRef = useRef(null);
-
-  const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (e) => {
     const files = e.target.files;
-  
+
     // Filter files to keep only images (JPEG, PNG) and PDFs
     const allowedFileTypes = ["image/jpeg", "image/png", "application/pdf"];
     const filteredFiles = Array.from(files).filter((file) =>
       allowedFileTypes.includes(file.type)
     );
-  
+
     setSelectedFiles(filteredFiles);
-  
+
     // Check if any unsupported files were selected and show a toast
     const unsupportedFiles = Array.from(files).filter(
       (file) => !allowedFileTypes.includes(file.type)
     );
-  
+
     if (unsupportedFiles.length > 0) {
       toast.error("الملف غير مدعوم");
     }
   };
-  
 
   const handleFileButton = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleUpload = async () => {
-    if (selectedFiles.length === 0) {
-      return; // No files selected
+    if (!multiple) {
+      setMultiple(true);
     }
+    fileInputRef.current.click();
   };
 
   return (

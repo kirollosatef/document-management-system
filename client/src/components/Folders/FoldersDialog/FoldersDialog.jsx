@@ -16,18 +16,13 @@ import {
   setUpdate,
 } from "@store/toolsbar/toolsbarSlice";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createDepartment,
-  updateDepartment,
-} from "@store/departments/departmentActions";
 import { useEffect } from "react";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { toast } from "react-toastify";
 import { createFolder, updateFolder } from "@store/folders/foldersActions";
 import { reset } from "@store/folders/foldersSlice";
-import UploadFiles from "../UploadFiles/UploadFiles";
 
-export default function FoldersDialog({ open, setOpen, footer }) {
+export default function FoldersDialog() {
   const dispatch = useDispatch();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));

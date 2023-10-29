@@ -19,14 +19,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { toast } from "react-toastify";
-import { createFile, updateFile } from "@store/folders/foldersActions";
+import {
+  createFile,
+  createMultipleFiles,
+  updateFile,
+} from "@store/folders/foldersActions";
 import { AddAPhoto } from "@mui/icons-material";
 import emptyImage from "@assets/emptyImage.webp";
 import { reset } from "@store/folders/foldersSlice";
+import UploadFiles from "@components/Folders/UploadFiles/UploadFiles";
 
 export default function ArchiveDialog() {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [multiple, setMultiple] = useState(false);
+
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [tempPhoto, setTempPhoto] = useState("");
   const { archiveDetails } = useSelector((state) => state.folders);
@@ -45,21 +53,34 @@ export default function ArchiveDialog() {
       name: "",
     },
     validationSchema: yup.object({
-      name: yup.string().required("هذا الحقل مطلوب"),
+      name: yup.string(),
     }),
     onSubmit(values) {
       const actionData = {
         params: { archiveId: archiveDetails?._id },
         data: add ? { tempPhoto, name: values.name } : { tempPhoto },
       };
-      add && dispatch(createFile(actionData));
-      update &&
+      if (multiple) {
+        const formData = new FormData();
+        for (const file of selectedFiles) {
+          formData.append("files", file);
+        }
         dispatch(
-          updateFile({
-            data: values,
-            params: { id: selectedItem?.item?._id },
+          createMultipleFiles({
+            data: formData,
+            params: { archiveId: archiveDetails?._id },
           })
         );
+      } else {
+        add && dispatch(createFile(actionData));
+        update &&
+          dispatch(
+            updateFile({
+              data: values,
+              params: { id: selectedItem?.item?._id },
+            })
+          );
+      }
     },
   });
   useEffect(() => {
@@ -124,60 +145,72 @@ export default function ArchiveDialog() {
         </DialogTitle>
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              gap={2}
-              marginBottom={2}>
-              <UniInput
-                name="name"
-                label="اسم الملف"
-                value={formik.values.name}
-                error={Boolean(formik.errors.name)}
-                onChange={formik.handleChange}
-                helperText={formik.errors.name}
-              />
-            </Box>
-            {add && (
-              <Box
-                component="div"
-                sx={{
-                  width: "100%",
-                  height: "100%",
-                  border: `1px solid ${
-                    !Boolean(formik.errors.image) ? `#dedede` : "red"
-                  }`,
-                  borderRadius: 3,
-                  position: "relative",
-                  p: 3,
-                }}>
-                <img
-                  id="photo"
-                  src={formik.values.photo || emptyImage}
-                  style={{
-                    height: "200px",
-                    width: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-                <label
-                  style={{
-                    position: "absolute",
-                    top: 20,
-                    left: 20,
-                    color: "#dfdfdf",
-                    cursor: "pointer",
-                  }}>
-                  <AddAPhoto fontSize="large" />
-                  <input
-                    multiple={false}
-                    type="file"
-                    accept="image/jpeg,image/jpg,image/png"
-                    style={{ display: "none" }}
-                    onChange={onImageChange}
+            <UploadFiles
+              selectedFiles={selectedFiles}
+              setSelectedFiles={setSelectedFiles}
+              setMultiple={setMultiple}
+              multiple={multiple}
+            />
+            {multiple ? (
+              <></>
+            ) : (
+              <>
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  gap={2}
+                  marginBottom={2}>
+                  <UniInput
+                    name="name"
+                    label="اسم الملف"
+                    value={formik.values.name}
+                    error={Boolean(formik.errors.name)}
+                    onChange={formik.handleChange}
+                    helperText={formik.errors.name}
                   />
-                </label>
-              </Box>
+                </Box>
+                {add && (
+                  <Box
+                    component="div"
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      border: `1px solid ${
+                        !Boolean(formik.errors.image) ? `#dedede` : "red"
+                      }`,
+                      borderRadius: 3,
+                      position: "relative",
+                      p: 3,
+                    }}>
+                    <img
+                      id="photo"
+                      src={formik.values.photo || emptyImage}
+                      style={{
+                        height: "200px",
+                        width: "100%",
+                        objectFit: "contain",
+                      }}
+                    />
+                    <label
+                      style={{
+                        position: "absolute",
+                        top: 20,
+                        left: 20,
+                        color: "#dfdfdf",
+                        cursor: "pointer",
+                      }}>
+                      <AddAPhoto fontSize="large" />
+                      <input
+                        multiple={false}
+                        type="file"
+                        accept="image/jpeg,image/jpg,image/png"
+                        style={{ display: "none" }}
+                        onChange={onImageChange}
+                      />
+                    </label>
+                  </Box>
+                )}
+              </>
             )}
           </DialogContent>
           <DialogActions dir="ltr">

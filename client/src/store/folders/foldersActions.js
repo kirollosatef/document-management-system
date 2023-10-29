@@ -90,6 +90,37 @@ export const createFile = createAsyncThunk(
     }
   }
 );
+export const createMultipleFiles = createAsyncThunk(
+  "folders/archive/file/multiple/create",
+  async (actionData, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const formData = new FormData();
+      const response = await fetch(
+        `/api/v0/files/multiple/:archiveId/${actionData.params.archiveId}`,
+        {
+          method: "POST",
+          headers: {
+            // "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: actionData.data,
+        }
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
 export const createArchive = createAsyncThunk(
   "folders/archive/create",
   async (actionData, { rejectWithValue }) => {
