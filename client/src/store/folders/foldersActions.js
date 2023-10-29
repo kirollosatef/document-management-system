@@ -202,6 +202,40 @@ export const updateFile = createAsyncThunk(
     }
   }
 );
+
+export const uploadMultipleFiles = createAsyncThunk(
+  "folders/archive/file/uploadMultiple",
+  async (actionData, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const formData = new FormData();
+      actionData.data.forEach((file) => {
+        formData.append("files", file);
+      });
+      const response = await fetch(
+        `/api/v0/files/multiple/${actionData.params.archiveId}`,
+        {
+          method: "POST",
+          headers: {
+            // "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const updateArchive = createAsyncThunk(
   "folders/archive/update",
   async (actionData, { rejectWithValue }) => {

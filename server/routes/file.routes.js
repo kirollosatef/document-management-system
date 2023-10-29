@@ -6,8 +6,10 @@ import multer from 'multer';
 
 const fileRouter = Router();
 const upload = multer().single('file');
+const uploads = multer().array('files');
 
 fileRouter.post('/:archiveId', authenticate, authorizate(1), upload, fileController.create);
+fileRouter.post('/multiple/:archiveId', authenticate, authorizate(1), uploads, fileController.createMultiple);
 fileRouter.get('/:id', authenticate, authorizate(2), fileController.get);
 fileRouter.get('/', authenticate, authorizate(2), fileController.list);
 fileRouter.put('/:id', authenticate, authorizate(1), fileController.update);
