@@ -124,6 +124,59 @@ const create = async (req, res) => {
   });
 };
 
+const createMultiple = async (req, res) => {
+  const archiveId = req.params.archiveId;
+
+  const archiveExist = await Archive.findById(archiveId);
+
+  if (!archiveExist) {
+    return res.status(404).json({
+      message: MESSAGES.archiveNotFound,
+    });
+  }
+
+  const folder = await Folder.findOne({ archives: archiveId }).select('_id');
+  const folderId = folder._id;
+
+  if (!folderId) {
+    return res.status(404).json({
+      message: MESSAGES.folderNotFound,
+    });
+  }
+
+  const files = [];
+
+  for (let i = 0; i < req.files.length; i++) {
+    let uploadFileResult;
+    try {
+      uploadFileResult = await uploadFile(req.files[i], folderId, archiveId);
+    } catch (error) {
+      return res.status(500).json({
+        message: MESSAGES.fileNotUploaded,
+      });
+    }
+
+    const file = new File({
+      ...uploadFileResult,
+      creator: req.user._id,
+    });
+
+    const fileSaved = await file.save();
+
+    files.push(fileSaved._id);
+  }
+
+  const archive = await Archive.findById(archiveId);
+
+  archive.files.push(...files);
+
+  await archive.save();
+
+  return res.status(201).json({
+    message: MESSAGES.fileUploaded,
+  });
+}
+
 const list = async (req, res) => {
   const files = await File.find();
 
@@ -230,10 +283,10 @@ const downloadImageWithArchiveDataPDF = async (req, res) => {
       <h3 style="font-size: 16px;">الوصف: ${archive.description}</h3>
       <h3 style="font-size: 16px;">العدد: ${archive.issueNumber}</h3>
       <h3 style="font-size: 16px;">التاريخ: ${new Date(archive.date).toLocaleDateString('ar-EG', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      })}</h3>
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })}</h3>
       <h3 style="font-size: 16px;">المصدر: ${archive.exporter}</h3>
       <h3 style="font-size: 16px;">المستورد: ${archive.importer}</h3>
     </div>
@@ -310,4 +363,5 @@ export default {
   remove,
   download,
   print: downloadImageWithArchiveDataPDF,
+  createMultiple,
 };

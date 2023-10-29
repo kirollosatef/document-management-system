@@ -9,30 +9,28 @@ function SearchResults() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { searchResult, loading,searchLoading } = useSelector(
-    (state) => state.stats
-  );
+  const { searchResult, loading, searchLoading } = useSelector((state) => state.stats);
   const { open, components } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
   const headers = [
     { id: "_id", label: "ID" },
-    { id: "title", label: "الاسم" },
-    { id: "description", label: "الوصف" },
+    { id: "title", label: "اسم الشخص" },
+    // { id: "description", label: "الوصف" },
+    // {
+    //   id: "exporter",
+    //   label: "المصدر",
+    // },
+    // {
+    //   id: "importer",
+    //   label: "المستورد",
+    // },
     {
-      id: "exporter",
-      label: "المصدر",
-    },
-    {
-      id: "importer",
-      label: "المستورد",
+      id: "issueNumber",
+      label: "رقم القطعة",
     },
     {
       id: "creator",
       label: "المنشئ",
-    },
-    {
-      id: "issueNumber",
-      label: "عدد الاصدار",
     },
     {
       id: "date",

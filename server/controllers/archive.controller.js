@@ -10,7 +10,7 @@ const create = async (req, res) => {
   const { title, issueNumber, date, exporter, importer, description } = req.body;
   const files = req.files;
 
-  if (!title || !issueNumber || !date || !exporter || !importer) {
+  if (!title || !issueNumber || !date) {
     return res.status(400).json({ message: MESSAGES.invalidFields });
   }
 

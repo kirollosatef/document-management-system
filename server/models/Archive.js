@@ -13,14 +13,8 @@ const archiveSchema = new Schema({
     type: Date,
     required: true,
   },
-  exporter: {
-    type: String,
-    required: true,
-  },
-  importer: {
-    type: String,
-    required: true,
-  },
+  exporter: String,
+  importer: String,
   description: String,
   files: [
     {

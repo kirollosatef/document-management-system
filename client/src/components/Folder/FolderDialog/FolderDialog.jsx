@@ -47,16 +47,16 @@ export default function FolderDialog() {
   const formik = useFormik({
     initialValues: {
       title: "",
-      description: "",
-      exporter: "",
-      importer: "",
+      // description: "",
+      // exporter: "",
+      // importer: "",
       date: "",
     },
     validationSchema: yup.object({
       title: yup.string().required("هذا الحقل مطلوب"),
-      description: yup.string().required("هذا الحقل مطلوب"),
-      exporter: yup.string().required("هذا الحقل مطلوب"),
-      importer: yup.string().required("هذا الحقل مطلوب"),
+      // description: yup.string().required("هذا الحقل مطلوب"),
+      // exporter: yup.string().required("هذا الحقل مطلوب"),
+      // importer: yup.string().required("هذا الحقل مطلوب"),
       issueNumber: yup.string().required("هذا الحقل مطلوب"),
       date: yup.string().required("هذا الحقل مطلوب"),
     }),
@@ -66,9 +66,9 @@ export default function FolderDialog() {
         formData.append("files", file);
       }
       formData.append("title", formik.values.title);
-      formData.append("description", formik.values.description);
-      formData.append("exporter", formik.values.exporter);
-      formData.append("importer", formik.values.importer);
+      // formData.append("description", formik.values.description);
+      // formData.append("exporter", formik.values.exporter);
+      // formData.append("importer", formik.values.importer);
       formData.append("issueNumber", formik.values.issueNumber);
       formData.append("date", formik.values.date);
       add &&
@@ -108,17 +108,17 @@ export default function FolderDialog() {
     if (update) {
       const {
         title,
-        description,
-        exporter,
-        importer,
+        // description,
+        // exporter,
+        // importer,
         creator,
         issueNumber,
         date,
       } = selectedItem.item;
       formik.setFieldValue("title", title);
-      formik.setFieldValue("description", description);
-      formik.setFieldValue("exporter", exporter);
-      formik.setFieldValue("importer", importer);
+      // formik.setFieldValue("description", description);
+      // formik.setFieldValue("exporter", exporter);
+      // formik.setFieldValue("importer", importer);
       formik.setFieldValue("creator", creator);
       formik.setFieldValue("issueNumber", issueNumber);
       formik.setFieldValue("date", date);
@@ -149,13 +149,13 @@ export default function FolderDialog() {
               marginBottom={2}>
               <UniInput
                 name="title"
-                label="اسم الارشيف"
+                label="اسم الشخص"
                 value={formik.values.title}
                 error={Boolean(formik.errors.title)}
                 onChange={formik.handleChange}
                 helperText={formik.errors.title}
               />
-              <UniInput
+              {/* <UniInput
                 name="description"
                 label="الوصف"
                 value={formik.values.description}
@@ -178,10 +178,10 @@ export default function FolderDialog() {
                 onChange={formik.handleChange}
                 error={Boolean(formik.errors.importer)}
                 helperText={formik.errors.importer}
-              />
+              /> */}
               <UniInput
                 name="issueNumber"
-                label="عدد الاصدار"
+                label="رقم القطعة"
                 value={formik.values.issueNumber}
                 error={Boolean(formik.errors.issueNumber)}
                 onChange={formik.handleChange}
