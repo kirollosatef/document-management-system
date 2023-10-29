@@ -172,8 +172,11 @@ const createMultiple = async (req, res) => {
 
   await archive.save();
 
+  const filesSaved = await File.find({ _id: { $in: files } });
+
   return res.status(201).json({
     message: MESSAGES.fileUploaded,
+    data: filesSaved,
   });
 }
 
