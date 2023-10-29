@@ -2,10 +2,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
-import dotenv from "dotenv";
-
-// .env.development
-dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,7 +21,7 @@ export default defineConfig({
     host: "0.0.0.0", // allows the server to accept connections on all IPv4 addresses
     port: 3000,
     proxy: {
-      "/api": process.env.VITE_API,
+      "/api": import.meta.env.VITE_API,
     },
   },
 });

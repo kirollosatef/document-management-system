@@ -26,12 +26,10 @@ function FilesList() {
   const [show, setShow] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const theme = useTheme();
-  const { folderDetails: folder, archiveDetails: archive } = useSelector(
-    (state) => state.folders
-  );
+  const { folderDetails: folder, archiveDetails: archive } = useSelector((state) => state.folders);
   const { components, open } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
-  const api = import.meta.env.VITE_API;
+  const api = import.meta.env.API_URL || "http://localhost:8080";
   const handleClick = (obj) => {
     dispatch(setSelectedItem({ type: "file", item: obj }));
   };
@@ -48,7 +46,8 @@ function FilesList() {
         px={2}
         py={1}
         fontSize={12}
-        sx={{ mt: 10 }}>
+        sx={{ mt: 10 }}
+      >
         الملفات
       </Typography>
       {archive?.files?.length > 0 ? (
@@ -57,16 +56,8 @@ function FilesList() {
             const isPdf = item.name.split(".")[1] === "pdf";
             const imgUrl = `${api}/${item.path}`;
             return (
-              <Grid
-                key={item._id}
-                item
-                sm={3}
-                xs={6}
-                onClick={() => handleClick(item)}>
-                <div
-                  className={`files-item  ${
-                    selectedItem.item._id === item._id ? "active" : ""
-                  }`}>
+              <Grid key={item._id} item sm={3} xs={6} onClick={() => handleClick(item)}>
+                <div className={`files-item  ${selectedItem.item._id === item._id ? "active" : ""}`}>
                   <p className="smallTxt"> {item.name.split(".")[0]} </p>
                   <img
                     className="files-item-img flex-center"
@@ -78,18 +69,10 @@ function FilesList() {
                   />
                   <div className="flex-between gap-1">
                     <div className="flex-items-center gap-1">
-                      <a
-                        href={`${api}/api/v0/files/download/${item._id}`}
-                        download
-                        className="flex-center">
-                        <Download
-                          sx={{ color: "#999", fontSize: 20 }}
-                          className="flex-center"
-                        />
+                      <a href={`${api}/api/v0/files/download/${item._id}`} download className="flex-center">
+                        <Download sx={{ color: "#999", fontSize: 20 }} className="flex-center" />
                       </a>
-                      <Typography
-                        sx={{ fontSize: ".7rem", fontWeight: 800 }}
-                        className="smallTxt">
+                      <Typography sx={{ fontSize: ".7rem", fontWeight: 800 }} className="smallTxt">
                         {item.size}
                       </Typography>
                     </div>
