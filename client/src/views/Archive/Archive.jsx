@@ -24,6 +24,7 @@ import FilesList from "@components/Archive/FilesList/FilesList";
 import { reset } from "@store/folders/foldersSlice";
 import { toast } from "react-toastify";
 import Loading from "@components/Common/Loading/Loading";
+import dayjs from "dayjs";
 
 function Archive() {
   const navigate = useNavigate();
@@ -134,9 +135,9 @@ function Archive() {
               sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
               className="flex-items-center">
               <ArrowOutwardIcon sx={{ fontSize: 14 }} />
-              <span> المصدر </span>
+              <span> اسم الشخص </span>
             </Typography>
-            <Typography sx={{ fontSize: 18 }}>{archive?.exporter}</Typography>
+            <Typography sx={{ fontSize: 18 }}>{archive?.title}</Typography>
           </div>
         </Grid>
         <Grid item>
@@ -145,9 +146,20 @@ function Archive() {
               sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
               className="flex-items-center">
               <TransitEnterexitIcon sx={{ fontSize: 14 }} />
-              <span> المستورد </span>
+              <span> رقم القطعة </span>
             </Typography>
-            <Typography sx={{ fontSize: 18 }}>{archive?.importer}</Typography>
+            <Typography sx={{ fontSize: 18 }}>{archive?.issueNumber}</Typography>
+          </div>
+        </Grid>
+        <Grid item>
+          <div style={{ flex: 2 }} className="creator">
+            <Typography
+              sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
+              className="flex-items-center">
+              <TransitEnterexitIcon sx={{ fontSize: 14 }} />
+              <span> التاريخ </span>
+            </Typography>
+            <Typography sx={{ fontSize: 18 }}>{dayjs(archive?.date).format("DD-MM-YYYY")}</Typography>
           </div>
         </Grid>
       </Grid>
