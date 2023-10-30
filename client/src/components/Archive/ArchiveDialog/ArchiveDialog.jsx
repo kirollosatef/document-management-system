@@ -121,7 +121,7 @@ export default function ArchiveDialog() {
     );
     if (!validExtension ) {
       formik.setFieldError("photo", "Invalid image size or formal");
-      toast.error("الصورة غير مدعومة")
+      toast.error("الملف غير مدعوم")
       return false;
     } else {
       formik.setFieldError("photo", null);
