@@ -119,9 +119,9 @@ export default function ArchiveDialog() {
     const validExtension = new RegExp("^image/(jpeg|png|jpg)$", "ig").test(
       file.type
     );
-    const validSize = file.size <= 512 * 1024;
-    if (!validExtension || !validSize) {
+    if (!validExtension ) {
       formik.setFieldError("photo", "Invalid image size or formal");
+      toast.error("الصورة غير مدعومة")
       return false;
     } else {
       formik.setFieldError("photo", null);
