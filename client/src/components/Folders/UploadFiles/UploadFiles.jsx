@@ -61,7 +61,7 @@ function UploadFiles({
           startIcon={<Image sx={{ width: 15 }} />}>
           {title}
         </Button>
-        <Typography fontSize={10}> {selectedFiles.length} ملفات </Typography>
+        <Typography fontSize={10} mb={4}> {selectedFiles.length} ملفات </Typography>
       </Stack>
     </div>
   );
