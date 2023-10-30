@@ -4,6 +4,7 @@ import {
   createArchive,
   createFile,
   createFolder,
+  createMultipleFiles,
   createSubFolder,
   deleteArchive,
   deleteFile,
@@ -218,6 +219,21 @@ const foldersSlices = createSlice({
       state.created = true;
     });
     builder.addCase(createFile.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // Create Many
+    builder.addCase(createMultipleFiles.pending, (state, action) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(createMultipleFiles.fulfilled, (state, action) => {
+      const allFiles = [...state.archiveDetails.files, ...action.payload.data];
+      state.actionsLoading = false;
+      state.archiveDetails.files = allFiles;
+      state.created = true;
+    });
+    builder.addCase(createMultipleFiles.rejected, (state, action) => {
       state.actionsLoading = false;
       state.error = true;
       state.message = action.payload;

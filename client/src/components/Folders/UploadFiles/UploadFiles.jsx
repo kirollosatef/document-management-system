@@ -10,6 +10,7 @@ function UploadFiles({
   setSelectedFiles,
   setMultiple,
   multiple,
+  title="رفع صور"
 }) {
   const fileInputRef = useRef(null);
 
@@ -58,7 +59,7 @@ function UploadFiles({
           sx={{ fontSize: ".8rem", padding: ".3rem 1rem", gap: 2 }}
           onClick={handleFileButton}
           startIcon={<Image sx={{ width: 15 }} />}>
-          رفع صور
+          {title}
         </Button>
         <Typography fontSize={10}> {selectedFiles.length} ملفات </Typography>
       </Stack>

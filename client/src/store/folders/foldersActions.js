@@ -97,7 +97,7 @@ export const createMultipleFiles = createAsyncThunk(
       const token = JSON.parse(localStorage.getItem("token"));
       const formData = new FormData();
       const response = await fetch(
-        `/api/v0/files/multiple/:archiveId/${actionData.params.archiveId}`,
+        `/api/v0/files/multiple/${actionData.params.archiveId}`,
         {
           method: "POST",
           headers: {

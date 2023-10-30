@@ -46,6 +46,7 @@ export default function ArchiveDialog() {
   const handleClose = () => {
     add ? dispatch(setAdd(false)) : dispatch(setUpdate(false));
     formik.resetForm();
+    setMultiple(false);
     dispatch(resetToolbar());
   };
   const formik = useFormik({
@@ -53,7 +54,7 @@ export default function ArchiveDialog() {
       name: "",
     },
     validationSchema: yup.object({
-      name: yup.string(),
+      name: multiple ? yup.string() : yup.string().required("هذا الحقل مطلوب"),
     }),
     onSubmit(values) {
       const actionData = {
@@ -89,6 +90,7 @@ export default function ArchiveDialog() {
       dispatch(setAdd(false));
       dispatch(reset());
       dispatch(resetSelectedItem());
+      setMultiple(false);
       formik.resetForm();
     }
     if (updated) {
@@ -150,6 +152,7 @@ export default function ArchiveDialog() {
               setSelectedFiles={setSelectedFiles}
               setMultiple={setMultiple}
               multiple={multiple}
+              title="رفع اكثر من صورة"
             />
             {multiple ? (
               <></>
