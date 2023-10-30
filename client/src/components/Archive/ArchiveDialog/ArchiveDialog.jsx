@@ -147,13 +147,13 @@ export default function ArchiveDialog() {
         </DialogTitle>
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
-            <UploadFiles
+            {add && <UploadFiles
               selectedFiles={selectedFiles}
               setSelectedFiles={setSelectedFiles}
               setMultiple={setMultiple}
               multiple={multiple}
               title="رفع اكثر من صورة"
-            />
+            />}
             {multiple ? (
               <></>
             ) : (
