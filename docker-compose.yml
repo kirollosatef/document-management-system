@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 services:
   server:
     build: ./server
@@ -7,8 +7,8 @@ services:
     volumes:
       - ./server:/app
       - /app/node_modules
-    depends_on:
-      - mongo
+    env_file:
+      - ./server/.env
 
   client:
     build: ./client
@@ -17,15 +17,7 @@ services:
     volumes:
       - ./client:/app
       - /app/node_modules
+    env_file:
+      - ./client/.env
     depends_on:
       - server
-
-  mongo:
-    image: mongo:jammy
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-
-volumes:
-  mongo-data:
