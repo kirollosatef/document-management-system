@@ -8,14 +8,16 @@ import { v4 as uuidv4 } from 'uuid';
 import { MESSAGES } from '../config.js';
 import Folder from '../models/Folder.js';
 
+// in public folder in client outside server folder
 const __dirname = path.resolve();
-const uploadsFolder = path.join(__dirname, 'uploads');
+const uploadsFolder = path.join(__dirname, '../client/public/uploads');
 
 export const uploadFile = async (file, folderName, archiveName) => {
   const { originalname, mimetype, size } = file;
   const fileName = uuidv4().replace(/-/g, '');
 
   const folderPath = path.join(uploadsFolder, `${folderName}/${archiveName}`);
+  console.log(folderPath);
 
   if (!fs.existsSync(folderPath)) {
     fs.mkdirSync(folderPath, { recursive: true });
@@ -84,13 +86,14 @@ const downloadFile = async (path, res) => {
 const create = async (req, res) => {
   const archiveId = req.params.archiveId;
   const folder = await Folder.findOne({ archives: archiveId }).select('_id');
-  const folderId = folder._id;
 
-  if (!folderId) {
+  if (!folder) {
     return res.status(404).json({
       message: MESSAGES.folderNotFound,
     });
   }
+
+  const folderId = folder._id;
 
   let uploadFileResult;
   try {

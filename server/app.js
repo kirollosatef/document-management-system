@@ -22,7 +22,12 @@ const port = process.env.PORT || 8080;
 connectToDB();
 
 // Middlewares
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(cors(
+  {
+    origin: true,
+    credentials: true,
+  },
+)); // Enable Cross-Origin Resource Sharing for all origins
 app.use(helmet()); // Enhance security by setting various HTTP headers
 // Add a custom Cross-Origin-Resource-Policy header
 app.use((req, res, next) => {
@@ -31,11 +36,10 @@ app.use((req, res, next) => {
 });
 app.use(morgan('dev')); // Log HTTP requests
 app.use(bodyParser.json()); // Parse request bodies for JSON
-app.use(bodyParser.urlencoded({ extended: true })); // Parse request bodies for x-www-form-urlencoded
-app.use(express.static('uploads')); // Make uploads folder static
+// app.use(bodyParser.urlencoded({ extended: true })); // Parse request bodies for x-www-form-urlencoded
+// app.use('/uploads', express.static('uploads'));
 
 // Routes
-app.use(express.static('uploads'))
 app.use('/api/v0', indexRouter);
 app.use('/', testRouter);
 
