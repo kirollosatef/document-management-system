@@ -149,7 +149,7 @@ export default function FolderDialog() {
               marginBottom={2}>
               <UniInput
                 name="title"
-                label="اسم الشخص"
+                label="الموضوع"
                 value={formik.values.title}
                 error={Boolean(formik.errors.title)}
                 onChange={formik.handleChange}
@@ -181,7 +181,7 @@ export default function FolderDialog() {
               /> */}
               <UniInput
                 name="issueNumber"
-                label="رقم القطعة"
+                label="رقم الكتاب"
                 value={formik.values.issueNumber}
                 error={Boolean(formik.errors.issueNumber)}
                 onChange={formik.handleChange}

@@ -34,7 +34,7 @@ function Folder() {
   const emptyFolder = folder?.subFolders?.length === 0 && folder?.archives?.length === 0;
   const headers = [
     { id: "_id", label: "ID" },
-    { id: "title", label: "اسم الشخص" },
+    { id: "title", label: "الموضوع" },
     // { id: "description", label: "الوصف" },
     // {
     //   id: "exporter",
@@ -46,7 +46,7 @@ function Folder() {
     // },
     {
       id: "issueNumber",
-      label: "رقم القطعة",
+      label: "رقم الكتاب",
     },
     {
       id: "creator",

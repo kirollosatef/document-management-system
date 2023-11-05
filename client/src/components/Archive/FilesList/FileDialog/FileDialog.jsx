@@ -65,11 +65,11 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
                   <Typography sx={{ fontSize: 12 }}>{rchv?.creator?.role}</Typography>
                 </div>
                 <div>
-                  <Typography sx={{ fontSize: 12, color: "#999" }}>اسم الشخص</Typography>
+                  <Typography sx={{ fontSize: 12, color: "#999" }}>الموضوع</Typography>
                   <Typography sx={{ fontSize: 12 }}>{rchv?.title}</Typography>
                 </div>
                 <div>
-                  <Typography sx={{ fontSize: 12, color: "#999" }}>رقم القطعة</Typography>
+                  <Typography sx={{ fontSize: 12, color: "#999" }}>رقم الكتاب</Typography>
                   <Typography sx={{ fontSize: 12 }}>{rchv?.issueNumber}</Typography>
                 </div>
                 <div>

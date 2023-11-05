@@ -14,7 +14,7 @@ function SearchResults() {
   const { selectedItem } = components;
   const headers = [
     { id: "_id", label: "ID" },
-    { id: "title", label: "اسم الشخص" },
+    { id: "title", label: "الموضوع" },
     // { id: "description", label: "الوصف" },
     // {
     //   id: "exporter",
@@ -26,7 +26,7 @@ function SearchResults() {
     // },
     {
       id: "issueNumber",
-      label: "رقم القطعة",
+      label: "رقم الكتاب",
     },
     {
       id: "creator",

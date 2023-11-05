@@ -42,7 +42,7 @@ function Archive() {
   const { selectedItem } = components;
   const headers = [
     { id: "_id", label: "ID" },
-    { id: "title", label: "اسم الشخص" },
+    { id: "title", label: "الموضوع" },
     // { id: "description", label: "الوصف" },
     // {
     //   id: "exporter",
@@ -54,7 +54,7 @@ function Archive() {
     // },
     {
       id: "issueNumber",
-      label: "رقم القطعة",
+      label: "رقم الكتاب",
     },
     {
       id: "creator",
@@ -135,7 +135,7 @@ function Archive() {
               sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
               className="flex-items-center">
               <ArrowOutwardIcon sx={{ fontSize: 14 }} />
-              <span> اسم الشخص </span>
+              <span> الموضوع </span>
             </Typography>
             <Typography sx={{ fontSize: 18 }}>{archive?.title}</Typography>
           </div>
@@ -146,7 +146,7 @@ function Archive() {
               sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
               className="flex-items-center">
               <TransitEnterexitIcon sx={{ fontSize: 14 }} />
-              <span> رقم القطعة </span>
+              <span> رقم الكتاب </span>
             </Typography>
             <Typography sx={{ fontSize: 18 }}>{archive?.issueNumber}</Typography>
           </div>
