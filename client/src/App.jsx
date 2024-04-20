@@ -26,6 +26,9 @@ const settings = {
 const help = {
   Help: lazy(() => import("@views/Help/Help")),
 };
+const addBook = {
+  AddBook: lazy(() => import("@views/AddBook/AddBook")),
+};
 
 function App() {
   const router = createBrowserRouter([
@@ -80,7 +83,14 @@ function App() {
                 </Suspense>
               ),
             },
-            
+            {
+              path: "add-book",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <addBook.AddBook />
+                </Suspense>
+              ),
+            },
             {
               path: "settings",
               element: (

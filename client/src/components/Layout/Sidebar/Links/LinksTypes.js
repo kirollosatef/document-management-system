@@ -4,7 +4,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 export const userLinks = [
   {
@@ -13,6 +13,12 @@ export const userLinks = [
     icon: HomeIcon,
     link: "/",
     special: true,
+  },
+  {
+    id: Math.floor(Math.random() * 1000000) + 1,
+    text: "اضف كتاب",
+    icon: NoteAddIcon,
+    link: "/add-book",
   },
   {
     id: Math.floor(Math.random() * 1000000) + 1,
