@@ -154,6 +154,19 @@ const addSubFolder = async (req, res) => {
   }
 };
 
+const searchSubFolder = async (req, res) => {
+  try {
+    const subFolders = await Folder.find({
+      name: { $regex: req.body.searchData, $options: 'i' },
+      isRoot: true,
+    });
+
+    res.status(200).json({ subFolders });
+  } catch (err) {
+    res.status(400).json({ message: err.message, error: err });
+  }
+
+}
 export default {
   create,
   list,
@@ -161,4 +174,5 @@ export default {
   update,
   remove,
   addSubFolder,
+  searchSubFolder,
 };

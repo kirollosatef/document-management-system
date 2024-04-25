@@ -11,6 +11,7 @@ import {
   deleteFolder,
   folderDetails,
   getFolders,
+  searchSubFolders,
   updateArchive,
   updateFile,
   updateFolder,
@@ -91,11 +92,11 @@ const foldersSlices = createSlice({
     builder.addCase(updateFolder.fulfilled, (state, action) => {
       const folderIndex = action.payload?.folder?.isRoot
         ? state.folderDetails.subFolders.findIndex(
-            (item) => item._id === action.payload?.folder?._id
-          )
+          (item) => item._id === action.payload?.folder?._id
+        )
         : state.allFolders.findIndex(
-            (item) => item._id === action.payload?.folder?._id
-          );
+          (item) => item._id === action.payload?.folder?._id
+        );
       state.actionsLoading = false;
       if (action.payload?.folder?.isRoot) {
         state.folderDetails.subFolders[folderIndex] = action.payload.folder;
@@ -116,11 +117,11 @@ const foldersSlices = createSlice({
     builder.addCase(deleteFolder.fulfilled, (state, action) => {
       const newFolders = action.payload.folder.isRoot
         ? state.folderDetails.subFolders.filter(
-            (item) => item._id !== action.payload?.folder?._id
-          )
+          (item) => item._id !== action.payload?.folder?._id
+        )
         : state.allFolders.filter(
-            (item) => item._id !== action.payload?.folder?._id
-          );
+          (item) => item._id !== action.payload?.folder?._id
+        );
       state.actionsLoading = false;
       if (action?.payload?.folder?.isRoot) {
         state.folderDetails.subFolders = newFolders;
@@ -153,7 +154,11 @@ const foldersSlices = createSlice({
     });
     builder.addCase(createArchive.fulfilled, (state, action) => {
       state.actionsLoading = false;
-      state.folderDetails.archives.push(action.payload.archive);
+      try {
+        state.folderDetails.archives.push(action.payload.archive);
+      } catch (error) {
+        console.log(error);
+      }
       state.created = true;
     });
     builder.addCase(createArchive.rejected, (state, action) => {
@@ -269,6 +274,20 @@ const foldersSlices = createSlice({
     });
     builder.addCase(deleteFile.rejected, (state, action) => {
       state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // Search
+    builder.addCase(searchSubFolders.pending, (state, action) => {
+      state.searchLoading = true;
+    });
+    builder.addCase(searchSubFolders.fulfilled, (state, action) => {
+      state.searchLoading = false;
+      state.searchResultSubFolders = action.payload.subFolders;
+      state.deleted = true;
+    });
+    builder.addCase(searchSubFolders.rejected, (state, action) => {
+      state.searchLoading = false;
       state.error = true;
       state.message = action.payload;
     });

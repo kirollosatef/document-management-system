@@ -57,24 +57,24 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
               <Typography sx={{ fontSize: 20, fontWeight: 500 }}>{rchv?.description}</Typography>
               <Box mt={2} sx={{ display: "flex", flexDirection: "column", gap: 5 }}>
                 <div>
-                  <Typography sx={{ fontSize: 12, color: "#999" }}>منشئ الارشيف</Typography>
-                  <Typography sx={{ fontSize: 12 }}>{rchv?.creator?.name}</Typography>
+                  <Typography sx={{ fontSize: 18, color: "#999" }}>منشئ الارشيف</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{rchv?.creator?.name}</Typography>
                 </div>
                 <div>
-                  <Typography sx={{ fontSize: 12, color: "#999" }}>الصلاحية</Typography>
-                  <Typography sx={{ fontSize: 12 }}>{rchv?.creator?.role}</Typography>
+                  <Typography sx={{ fontSize: 18, color: "#999" }}>الصلاحية</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{rchv?.creator?.role}</Typography>
                 </div>
                 <div>
-                  <Typography sx={{ fontSize: 12, color: "#999" }}>الموضوع</Typography>
-                  <Typography sx={{ fontSize: 12 }}>{rchv?.title}</Typography>
+                  <Typography sx={{ fontSize: 18, color: "#999" }}>الموضوع</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{rchv?.title}</Typography>
                 </div>
                 <div>
-                  <Typography sx={{ fontSize: 12, color: "#999" }}>رقم الكتاب</Typography>
-                  <Typography sx={{ fontSize: 12 }}>{rchv?.issueNumber}</Typography>
+                  <Typography sx={{ fontSize: 18, color: "#999" }}>رقم الكتاب</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{rchv?.issueNumber}</Typography>
                 </div>
                 <div>
-                  <Typography sx={{ fontSize: 12, color: "#999" }}>تاريخ الانشاء</Typography>
-                  <Typography sx={{ fontSize: 12 }}>{dayjs(rchv?.date).format("DD-MM-YYYY")}</Typography>
+                  <Typography sx={{ fontSize: 18, color: "#999" }}>تاريخ الانشاء</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{dayjs(rchv?.date).format("DD-MM-YYYY")}</Typography>
                 </div>
               </Box>
             </Grid>
@@ -85,7 +85,7 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
                 ref={imgRef}
                 alt="img"
                 width={"100%"}
-                style={{ padding: "2rem" }}
+                style={{ padding: "1rem" }}
               />
             </Grid>
           </Grid>
