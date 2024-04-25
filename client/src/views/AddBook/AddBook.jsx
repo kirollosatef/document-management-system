@@ -97,11 +97,12 @@ function AddBook() {
 
   return (
     <>
-      <div style={{ width: "50%" }}>
+      <div style={{ width: "50%", marginTop: "195px", marginRight: "23%" }}>
         <DialogTitle
           id="responsive-dialog-title"
           style={{
             marginBottom: "20px",
+            textAlign: "center",
           }}
         >
           اضافة كتاب
