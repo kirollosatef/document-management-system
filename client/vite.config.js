@@ -19,7 +19,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: "0.0.0.0", // allows the server to accept connections on all IPv4 addresses
-    port: 3000,
+    port: 3004,
     proxy: {
       "/api": "http://192.168.88.96:8081" , //import.meta.env.VITE_API,
     },

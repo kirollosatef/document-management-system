@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const DB_URL = process.env.DB_URL;
-export const PORT = process.env.PORT || 8080;
+export const PORT = process.env.PORT;
 export const JWT_SECRET = process.env.JWT_SECRET;
 export const MAX_FILES = 5;
 
