@@ -51,15 +51,19 @@ function SearchResults() {
   }, []);
   return (
     <div className="search-result">
-      <UniTable
-        headers={headers}
-        data={searchResult || []}
-        loading={searchLoading}
-        title="الارشيف"
-        handleClick={handleClick}
-        selectedItem={selectedItem?.item}
-        noDataMsg={"لا يوجد بيانات حتي الان"}
-      />
+      {!searchResult ? (
+        <></>
+      ) : (
+        <UniTable
+          headers={headers}
+          data={searchResult || []}
+          loading={searchLoading}
+          title="الارشيف"
+          handleClick={handleClick}
+          selectedItem={selectedItem?.item}
+          noDataMsg={"لا يوجد بيانات حتي الان"}
+        />
+      )}
     </div>
   );
 }
