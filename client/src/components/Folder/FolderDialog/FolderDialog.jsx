@@ -44,6 +44,7 @@ export default function FolderDialog() {
     formik.resetForm();
     dispatch(resetToolbar());
   };
+  const [multiple, setMultiple] = React.useState(false);
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -197,6 +198,9 @@ export default function FolderDialog() {
               <UploadFiles
                 selectedFiles={selectedFiles}
                 setSelectedFiles={setSelectedFiles}
+                setMultiple={setMultiple}
+                multiple={multiple}
+                title="رفع اكثر من صورة"
               />
             )}
           </DialogContent>
