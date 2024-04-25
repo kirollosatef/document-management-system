@@ -11,6 +11,7 @@ import {
   deleteFolder,
   folderDetails,
   getFolders,
+  searchSubFolders,
   updateArchive,
   updateFile,
   updateFolder,
@@ -273,6 +274,20 @@ const foldersSlices = createSlice({
     });
     builder.addCase(deleteFile.rejected, (state, action) => {
       state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+    // Search
+    builder.addCase(searchSubFolders.pending, (state, action) => {
+      state.searchLoading = true;
+    });
+    builder.addCase(searchSubFolders.fulfilled, (state, action) => {
+      state.searchLoading = false;
+      state.searchResultSubFolders = action.payload.subFolders;
+      state.deleted = true;
+    });
+    builder.addCase(searchSubFolders.rejected, (state, action) => {
+      state.searchLoading = false;
       state.error = true;
       state.message = action.payload;
     });
