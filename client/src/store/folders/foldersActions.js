@@ -430,3 +430,31 @@ export const archiveDetails = createAsyncThunk(
     }
   }
 );
+export const searchSubFolders = createAsyncThunk(
+  "folders/subFolders/search",
+  async (keyword, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const response = await fetch(`/api/v0/folders/search/sub-folder`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ searchData: keyword }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue({
+        message: "An unknown error occurred. Please try again later.",
+      });
+    }
+  }
+);
