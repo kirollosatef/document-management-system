@@ -39,7 +39,7 @@ function Sidebar({ openSidebar, setOpenSidebar }) {
       {/* User-Info Code */}
       <div className="sidebar-logo">
         <img src={logo} alt="logo" width={50} />
-        مديرية بلدية السماوة/شعبة الواردات
+        مديرية بلدية السماوة/شعبة الآليات
       </div>
       <div className="sidebar-user">
         <div className="sidebar-user-img">

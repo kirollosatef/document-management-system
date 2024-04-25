@@ -29,7 +29,7 @@ function FilesList() {
   const { folderDetails: folder, archiveDetails: archive } = useSelector((state) => state.folders);
   const { components, open } = useSelector((state) => state.toolsbar);
   const { selectedItem } = components;
-  const api = "http://192.168.88.96:8081"
+  const api = "http://192.168.88.96:8082"
   const handleClick = (obj) => {
     dispatch(setSelectedItem({ type: "file", item: obj }));
   };
