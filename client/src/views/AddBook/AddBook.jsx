@@ -9,7 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import { Box, Button, MenuItem, Select, Stack } from "@mui/material";
+import { Box, Button, MenuItem, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import UniInput from "@components/Common/UniversalInput/UniInput";
@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetToolbar } from "@store/toolsbar/toolsbarSlice";
 import { toast } from "react-toastify";
 import { createArchive, getFolders, updateArchive } from "@store/folders/foldersActions";
-
+import Select from "react-select";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { reset } from "@store/folders/foldersSlice";
@@ -32,27 +32,18 @@ function AddBook() {
   const { created, actionsLoading, folderDetails: folder } = useSelector((state) => state.folders);
   const { allFolders, error, message, loading, deleted } = useSelector((state) => state.folders);
 
-  // State to keep track of the selected folder
-  const [selectedFolder, setSelectedFolder] = React.useState(null);
   const [selectedSubFolder, setSelectedSubFolder] = React.useState(null);
-  const [subFolders, setSubFolders] = React.useState([]);
-  const [allFoldersData, setAllFoldersData] = React.useState([]);
+  const [allSubFoldersData, setAllSubFoldersData] = React.useState([]);
   const [multiple, setMultiple] = React.useState(false);
-  const [bookData, setBookData] = React.useState({});
-  // Function to handle folder selection
-  const handleFolderSelect = (event) => {
-    const selectedFolderId = event.target.value;
-    const selectedFolderObj = allFoldersData.find((folder) => folder._id === selectedFolderId);
-    setSelectedFolder(selectedFolderObj);
-    setSelectedSubFolder(null);
-    setSubFolders(selectedFolderObj?.subFolders || []);
-  };
 
-  // Function to handle subfolder selection
-  const handleSubfolderSelect = (event) => {
-    const selectedSubfolderId = event.target.value;
-    const selectedSubfolderObj = subFolders.find((folder) => folder._id === selectedSubfolderId);
-    setSelectedSubFolder(selectedSubfolderObj);
+  let options = allSubFoldersData.map((folder) => ({
+    value: folder._id,
+    label: folder.name,
+  }));
+
+  const handleSubFolderChange = (e) => {
+    const folder = allSubFoldersData.find((folder) => folder._id === e.value);
+    setSelectedSubFolder({ value: folder._id, label: folder.name });
   };
 
   const formik = useFormik({
@@ -73,23 +64,19 @@ function AddBook() {
       formData.append("title", formik.values.title);
       formData.append("issueNumber", formik.values.issueNumber);
       formData.append("date", formik.values.date);
-      dispatch(createArchive({ data: formData, params: { folderId: selectedSubFolder?._id } }));
+      dispatch(createArchive({ data: formData, params: { folderId: selectedSubFolder?.value } }));
     },
   });
 
   useEffect(() => {
-    console.log("🚀 ~ AddBook ~ folderDetails:", folder);
-  }, [folder]);
-
-  useEffect(() => {
-    if (folder?.isRoot) {
-      if (created) {
-        toast.success("تم انشاء الارشيف بنجاح");
-        dispatch(setAdd(false));
-        dispatch(reset());
-        dispatch(resetSelectedItem());
-        formik.resetForm();
-      }
+    console.log("created", created);
+    if (created) {
+      toast.success("تم انشاء الارشيف بنجاح");
+      dispatch(setAdd(false));
+      dispatch(reset());
+      dispatch(resetSelectedItem());
+      navigation.navigate("/");
+      formik.resetForm();
     }
   }, [created]);
 
@@ -99,7 +86,13 @@ function AddBook() {
   }, [dispatch]);
 
   useEffect(() => {
-    setAllFoldersData(allFolders);
+    if (allFolders) {
+      let allSubFolders = [];
+      allFolders.forEach((folder) => {
+        allSubFolders = [...allSubFolders, ...folder.subFolders];
+      });
+      setAllSubFoldersData(allSubFolders);
+    }
   }, [allFolders]);
 
   return (
@@ -132,26 +125,23 @@ function AddBook() {
               helperText={formik.errors.issueNumber}
             />
             <DatePicker
-              label="التاريخ"
               value={formik.values.date ? dayjs(formik.values.date) : null}
               onChange={(value) => formik.setFieldValue("date", value)}
             />
-            <Select value={selectedFolder?._id || ""} onChange={handleFolderSelect}>
-              {allFoldersData?.map((folder) => (
-                <MenuItem key={folder._id} value={folder._id}>
-                  {folder.name}
-                </MenuItem>
-              ))}
-            </Select>
-            {selectedFolder && (
-              <Select value={selectedSubFolder?._id || ""} onChange={handleSubfolderSelect}>
-                {subFolders?.map((subfolder) => (
-                  <MenuItem key={subfolder._id} value={subfolder._id}>
-                    {subfolder.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            )}
+            <Select
+              options={options}
+              onChange={handleSubFolderChange}
+              value={selectedSubFolder}
+              placeholder="اختر المجلد"
+              isRtl={true}
+              isSearchable={true}
+              styles={{
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+                padding: "5px",
+                width: "100%",
+              }}
+            />
             <UploadFiles
               selectedFiles={selectedFiles}
               setSelectedFiles={setSelectedFiles}
