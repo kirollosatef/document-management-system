@@ -48,7 +48,7 @@ function Login() {
       <div className="login-box">
         <div className="login-box-logo">
           <img src={logo} alt="logo" width={50} />
-          <span>مديرية بلدية السماوة/شعبة الملاك</span>
+          <span>مديرية بلدية السماوة/شعبة الحسابات</span>
         </div>
         <form onSubmit={formik.handleSubmit} className="login-box-form">
           <Box
@@ -90,7 +90,7 @@ function Login() {
             textAlign: "center",
             fontWeight: 900,
           }}>
-          مديرية بلدية السماوة/شعبة الملاك
+          مديرية بلدية السماوة/شعبة الحسابات
         </Typography>
       </div>
     </div>
