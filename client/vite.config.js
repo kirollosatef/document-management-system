@@ -18,10 +18,10 @@ export default defineConfig({
   base: "/", // the base URL should be set to the root path ("/") because Vercel handles the routing and serves your app from the root.
   plugins: [react()],
   server: {
-    // host: "0.0.0.0", // allows the server to accept connections on all IPv4 addresses
-    port: 3000,
+    host: "0.0.0.0", // allows the server to accept connections on all IPv4 addresses
+    port: 3010,
     proxy: {
-      "/api": "http://localhost:8080" , //import.meta.env.VITE_API,
+      "/api": "http://localhost:8086" , //import.meta.env.VITE_API,
     },
   },
 });
