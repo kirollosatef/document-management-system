@@ -21,7 +21,7 @@ export default defineConfig({
     host: "0.0.0.0", // allows the server to accept connections on all IPv4 addresses
     port: 3010,
     proxy: {
-      "/api": "http://localhost:8086" , //import.meta.env.VITE_API,
+      "/api": "http://192.168.88.96:8086" , //import.meta.env.VITE_API,
     },
   },
 });
