@@ -1,4 +1,3 @@
-/* eslint-disable no-extra-boolean-cast */
 import { useState, useRef } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -7,34 +6,71 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-
 import { useSelector } from "react-redux";
-
 import dayjs from "dayjs";
 
 export default function FileDialog({ open, setOpen, selectedFile }) {
-  const imgRef = useRef(null);
+  const fileRef = useRef(null);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { archiveDetails: rchv } = useSelector((state) => state.folders);
   const { actionsLoading } = useSelector((state) => state.folders);
+
   const handleClose = () => {
     setOpen(false);
   };
 
   const handlePrint = () => {
-    if (imgRef.current) {
-      const printWindow = window.open("", "", "width=600, height=600");
-      printWindow.document.write("<html><head><title>Print</title></head><body>");
-      printWindow.document.write('<img src="' + imgRef.current.src + '" style="width:100%;"/>');
-      printWindow.document.write("</body></html>");
-      printWindow.document.close();
-      printWindow.onload = () => {
-        printWindow.print();
-        printWindow.onafterprint = () => {
-          printWindow.close();
+    if (fileRef.current && selectedFile) {
+      if (typeof selectedFile === 'string' && selectedFile.toLowerCase().endsWith('.pdf')) {
+        // For PDF files, open in a new tab for printing
+        const pdfWindow = window.open(selectedFile);
+        pdfWindow.onload = () => {
+          pdfWindow.print();
         };
-      };
+      } else {
+        // For images, use the existing print logic
+        const printWindow = window.open("", "", "width=600, height=600");
+        printWindow.document.write("<html><head><title>Print</title></head><body>");
+        printWindow.document.write('<img src="' + fileRef.current.src + '" style="width:100%;"/>');
+        printWindow.document.write("</body></html>");
+        printWindow.document.close();
+        printWindow.onload = () => {
+          printWindow.print();
+          printWindow.onafterprint = () => {
+            printWindow.close();
+          };
+        };
+      }
+    }
+  };
+
+  const renderFilePreview = () => {
+    if (!selectedFile) {
+      return <Typography>No file selected</Typography>;
+    }
+
+    if (typeof selectedFile === 'string' && selectedFile.toLowerCase().endsWith('.pdf')) {
+      return (
+        <iframe
+          src={selectedFile}
+          width="100%"
+          height="500px"
+          title="PDF Preview"
+          ref={fileRef}
+        />
+      );
+    } else {
+      return (
+        <img
+          className="files-item-img flex-center"
+          src={selectedFile}
+          ref={fileRef}
+          alt="File preview"
+          width={"100%"}
+          style={{ padding: "1rem" }}
+        />
+      );
     }
   };
 
@@ -48,7 +84,7 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle id="responsive-dialog-title">
-          <Typography sx={{ fontSize: 30, fontWeight: 700 }}>{rchv?.title}</Typography>
+          <Typography sx={{ fontSize: 30, fontWeight: 700 }}>{rchv?.title || 'File Preview'}</Typography>
         </DialogTitle>
 
         <DialogContent>
@@ -74,19 +110,12 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
                 </div>
                 <div>
                   <Typography sx={{ fontSize: 18, color: "#999" }}>تاريخ الانشاء</Typography>
-                  <Typography sx={{ fontSize: 16 }}>{dayjs(rchv?.date).format("DD-MM-YYYY")}</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{rchv?.date ? dayjs(rchv.date).format("DD-MM-YYYY") : 'N/A'}</Typography>
                 </div>
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
-              <img
-                className="files-item-img flex-center"
-                src={selectedFile}
-                ref={imgRef}
-                alt="img"
-                width={"100%"}
-                style={{ padding: "1rem" }}
-              />
+              {renderFilePreview()}
             </Grid>
           </Grid>
         </DialogContent>
@@ -95,7 +124,7 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
             <Button variant="outlined" onClick={handleClose} className="btnFooter" color="error">
               غلق
             </Button>
-            <Button type="submit" variant="outlined" disabled={actionsLoading} onClick={handlePrint}>
+            <Button type="submit" variant="outlined" disabled={actionsLoading || !selectedFile} onClick={handlePrint}>
               طباعة
             </Button>
           </Stack>
