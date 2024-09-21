@@ -5,18 +5,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import { Alert, Button, Stack } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  resetSelectedItem,
-  resetToolbar,
-  setRemove,
-} from "@store/toolsbar/toolsbarSlice";
-import { deleteUser } from "@store/users/usersActions";
-import { toast } from "react-toastify";
-import { reset } from "@store/users/usersSlice";
-import { useEffect } from "react";
-// import Button from "../Button/Button";
+import { Alert, Button, Stack, TextField } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 export default function UniAlertDialog({
   header,
@@ -24,10 +15,16 @@ export default function UniAlertDialog({
   body,
   handleClose,
   handleConfirm,
+  isFileDelete = false,
 }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { remove } = useSelector((state) => state.toolsbar);
+  const [reason, setReason] = useState("");
+
+  const onConfirm = () => {
+    handleConfirm(isFileDelete ? reason : undefined);
+  };
 
   return (
     <div>
@@ -41,7 +38,7 @@ export default function UniAlertDialog({
         <DialogContent>
           <Alert
             variant="outlined"
-            severity="error"
+            severity="warning"
             sx={{
               gap: 2,
               border: "none",
@@ -53,7 +50,7 @@ export default function UniAlertDialog({
                 fontWeight: 700,
               },
             }}>
-            كن حذرا, هذا الاجراء لا رجعة فيه
+            يرجى التأكد من رغبتك في المتابعة، حيث لا يمكن التراجع عن هذا الإجراء
           </Alert>
           {text && (
             <DialogContentText sx={{ marginTop: "1rem" }}>
@@ -61,15 +58,28 @@ export default function UniAlertDialog({
             </DialogContentText>
           )}
           {body}
+          {isFileDelete && (
+            <TextField
+              fullWidth
+              multiline
+              dir="rtl"
+              rows={3}
+              variant="outlined"
+              label="سبب الحذف"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              sx={{ marginTop: "1rem" }}
+            />
+          )}
         </DialogContent>
         <DialogActions
           sx={{ justifyContent: "flex-start", padding: "20px 24px" }}>
           <Stack direction="row" gap={2} sx={{ justifyContent: "flex-start" }}>
-            <Button variant="outlined" color="success" onClick={handleConfirm}>
-              نعم
+            <Button variant="contained" color="primary" onClick={onConfirm}>
+              تأكيد
             </Button>
-            <Button variant="outlined" color="error" onClick={handleClose}>
-              لا
+            <Button variant="outlined" color="secondary" onClick={handleClose}>
+              إلغاء
             </Button>
           </Stack>
         </DialogActions>

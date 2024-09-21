@@ -1,5 +1,6 @@
 import Folder from '../models/Folder.js';
 import { MESSAGES } from '../config.js';
+import { asyncHandler } from '../utils/error.handler.js';
 
 const create = async (req, res) => {
   const userId = req.user._id;
@@ -57,6 +58,7 @@ const get = async (req, res) => {
       .populate({
         path: 'archives',
         model: 'Archive',
+        match: { isDeleted: { $ne: true } },
         populate: {
           path: 'creator',
           model: 'User',
@@ -69,6 +71,7 @@ const get = async (req, res) => {
         populate: {
           path: 'archives',
           model: 'Archive',
+          match: { isDeleted: { $ne: true } },
           populate: {
             path: 'creator',
             model: 'User',
@@ -168,11 +171,11 @@ const searchSubFolder = async (req, res) => {
 
 }
 export default {
-  create,
-  list,
-  get,
-  update,
-  remove,
-  addSubFolder,
-  searchSubFolder,
+  create: asyncHandler(create),
+  list: asyncHandler(list),
+  get: asyncHandler(get),
+  update: asyncHandler(update),
+  remove: asyncHandler(remove),
+  addSubFolder: asyncHandler(addSubFolder),
+  searchSubFolder: asyncHandler(searchSubFolder),
 };

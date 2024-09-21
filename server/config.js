@@ -41,4 +41,8 @@ export const MESSAGES = {
   passwordLength: 'كلمة المرور يجب ان تكون اكثر من 8 حروف',
   invalidFolder: 'الرجاء اختيار مجلد صحيح',
   fileNotDownloaded: 'حدث خطأ اثناء تحميل الملف',
+  fileMovedToTrash: 'تم نقل الملف الي سلة المهملات',
+  serverError: 'حدث خطأ في السيرفر',
+  fileNotInTrash: 'الملف غير موجود في سلة المهملات',
+  filePermanentlyDeleted: 'تم حذف الملف نهائيا',
 };

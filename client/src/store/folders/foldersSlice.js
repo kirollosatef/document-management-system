@@ -15,16 +15,20 @@ import {
   updateArchive,
   updateFile,
   updateFolder,
+  moveArchiveToTrash,
+  restoreArchiveFromTrash,
+  permanentlyDeleteArchive,
+  getTrashArchives,
 } from "./foldersActions";
 
-//slices
 const foldersSlices = createSlice({
-  name: "users",
+  name: "folders",
   initialState: {
     allFolders: null,
     folderDetails: null,
     archives: null,
     archiveDetails: {},
+    trashArchives: [],
     loading: false,
     actionsLoading: false,
     error: false,
@@ -288,6 +292,73 @@ const foldersSlices = createSlice({
     });
     builder.addCase(searchSubFolders.rejected, (state, action) => {
       state.searchLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+
+    // Move Archive to Trash
+    builder.addCase(moveArchiveToTrash.pending, (state) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(moveArchiveToTrash.fulfilled, (state, action) => {
+      state.actionsLoading = false;
+      state.folderDetails.archives = state.folderDetails.archives.filter(
+        (archive) => archive._id !== action.payload.data._id
+      );
+      state.trashArchives.push(action.payload.data);
+      state.deleted = true;
+    });
+    builder.addCase(moveArchiveToTrash.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+
+    // Restore Archive from Trash
+    builder.addCase(restoreArchiveFromTrash.pending, (state) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(restoreArchiveFromTrash.fulfilled, (state, action) => {
+      state.actionsLoading = false;
+      state.trashArchives = state.trashArchives.filter(
+        (archive) => archive._id !== action.payload.data._id
+      );
+      state.folderDetails.archives.push(action.payload.data);
+      state.updated = true;
+    });
+    builder.addCase(restoreArchiveFromTrash.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+
+    // Permanently Delete Archive
+    builder.addCase(permanentlyDeleteArchive.pending, (state) => {
+      state.actionsLoading = true;
+    });
+    builder.addCase(permanentlyDeleteArchive.fulfilled, (state, action) => {
+      state.actionsLoading = false;
+      state.trashArchives = state.trashArchives.filter(
+        (archive) => archive._id !== action.payload.data._id
+      );
+      state.deleted = true;
+    });
+    builder.addCase(permanentlyDeleteArchive.rejected, (state, action) => {
+      state.actionsLoading = false;
+      state.error = true;
+      state.message = action.payload;
+    });
+
+    // Get Trash Archives
+    builder.addCase(getTrashArchives.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getTrashArchives.fulfilled, (state, action) => {
+      state.loading = false;
+      state.trashArchives = action.payload.data;
+    });
+    builder.addCase(getTrashArchives.rejected, (state, action) => {
+      state.loading = false;
       state.error = true;
       state.message = action.payload;
     });
