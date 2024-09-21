@@ -5,6 +5,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import TrashIcon from '@mui/icons-material/Delete';
 
 export const userLinks = [
   {
@@ -37,6 +38,12 @@ export const userLinks = [
     text: "المستخدمون",
     icon: GroupIcon,
     link: "/users",
+  },
+  {
+    id: Math.floor(Math.random() * 1000000) + 1,
+    text: "سلة المهملات",
+    icon: TrashIcon,
+    link: "/trash",
   },
   {
     id: Math.floor(Math.random() * 1000000) + 1,
