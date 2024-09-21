@@ -7,6 +7,7 @@ import puppeteer from 'puppeteer';
 import { v4 as uuidv4 } from 'uuid';
 import { MESSAGES } from '../config.js';
 import Folder from '../models/Folder.js';
+import { asyncHandler } from '../utils/error.handler.js';
 
 // in public folder in client outside server folder
 const __dirname = path.resolve();
@@ -362,12 +363,12 @@ const downloadImageWithArchiveDataPDF = async (req, res) => {
 };
 
 export default {
-  create,
-  list,
-  get,
-  update,
-  remove,
-  download,
-  print: downloadImageWithArchiveDataPDF,
-  createMultiple,
+  create: asyncHandler(create),
+  list: asyncHandler(list),
+  get: asyncHandler(get),
+  update: asyncHandler(update),
+  remove: asyncHandler(remove),
+  download: asyncHandler(download),
+  print: asyncHandler(downloadImageWithArchiveDataPDF),
+  createMultiple: asyncHandler(createMultiple),
 };

@@ -26,6 +26,20 @@ const archiveSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
+  deletedBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  deletedAt: {
+    type: Date,
+  },
+  deleteReason: {
+    type: String,
+  },
 });
 
 const Archive = model('Archive', archiveSchema);
