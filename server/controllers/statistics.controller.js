@@ -3,6 +3,7 @@ import Department from '../models/Department.js';
 import Folder from '../models/Folder.js';
 import Archive from '../models/Archive.js';
 import File from '../models/File.js';
+import { asyncHandler } from '../utils/error.handler.js';
 
 const calculateSize = (totalSize) => {
   let size = 0;
@@ -64,4 +65,6 @@ const list = async (req, res) => {
   });
 };
 
-export default { list };
+export default {
+  list: asyncHandler(list),
+};
