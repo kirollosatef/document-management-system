@@ -29,6 +29,9 @@ const help = {
 const addBook = {
   AddBook: lazy(() => import("@views/AddBook/AddBook")),
 };
+const trash = {
+  Trash: lazy(() => import("@views/Trash/Trash")),
+};
 
 function App() {
   const router = createBrowserRouter([
@@ -104,6 +107,14 @@ function App() {
               element: (
                 <Suspense fallback={<Loading />}>
                   <help.Help />
+                </Suspense>
+              ),
+            },
+            {
+              path: "trash",
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <trash.Trash />
                 </Suspense>
               ),
             },

@@ -8,6 +8,7 @@ import {
   Paper,
   TablePagination,
   useTheme,
+  IconButton,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { sortTable } from "@src/utils/sortTable";
@@ -27,6 +28,7 @@ const UniTable = ({
   selectedItem,
   loading,
   noDataMsg,
+  rowActions,
 }) => {
   const dispatch = useDispatch();
   const {
@@ -48,6 +50,19 @@ const UniTable = ({
       return <HiddenPassword password={item[header.id]} />;
     } else if (header.id === "creator") {
       return item[header.id].name;
+    } else if (header.id === "actions" && rowActions) {
+      return rowActions.map((action, index) => (
+        <IconButton
+          key={index}
+          onClick={(e) => {
+            e.stopPropagation();
+            action.onClick(item);
+          }}
+          color={action.color}
+        >
+          {action.icon}
+        </IconButton>
+      ));
     } else {
       return item[header.id];
     }
@@ -97,10 +112,8 @@ const UniTable = ({
                 {loading ? (
                   <Loading height="small" />
                 ) : data.length < 1 ? (
-                  <Typography
-                    sx={{ textAlign: "center", py: 4, color: "#999" }}>
-                    {" "}
-                    {noDataMsg}{" "}
+                  <Typography sx={{ textAlign: "center", py: 4, color: "#999" }}>
+                    {noDataMsg}
                   </Typography>
                 ) : (
                   sortTable(data, order, orderBy)
@@ -113,13 +126,15 @@ const UniTable = ({
                           key={item._id}
                           selected={isSelected}
                           hover
-                          onClick={() => handleClick(item)}>
+                          onClick={() => handleClick(item)}
+                        >
                           {headers.map((header) => (
                             <TableCell
                               key={header.id}
                               align="right"
                               sx={{ maxWidth: "200px" }}
-                              className="smallTxt">
+                              className="smallTxt"
+                            >
                               {cellContentHandler({ header, item })}
                             </TableCell>
                           ))}

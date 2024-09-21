@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import Department from '../models/Department.js';
 import { MESSAGES } from '../config.js';
+import { asyncHandler } from '../utils/error.handler.js';
 
 const register = async (req, res) => {
   const { name, username, password, role, department } = req.body;
@@ -153,11 +154,11 @@ const profile = async (req, res) => {
 };
 
 export default {
-  register,
-  list,
-  get,
-  login,
-  update,
-  remove,
-  profile,
+  register: asyncHandler(register),
+  list: asyncHandler(list),
+  get: asyncHandler(get),
+  login: asyncHandler(login),
+  update: asyncHandler(update),
+  remove: asyncHandler(remove),
+  profile: asyncHandler(profile),
 };
