@@ -116,10 +116,10 @@ export default function ArchiveDialog() {
       return false;
     }
     const file = e.target.files[0];
-    const validExtension = new RegExp("^image/(jpeg|png|jpg)$", "ig").test(
+    const validExtension = new RegExp("^image/(jpeg|png|jpg|webp|gif)|application/pdf$", "ig").test(
       file.type
     );
-    if (!validExtension ) {
+    if (!validExtension) {
       formik.setFieldError("photo", "Invalid image size or formal");
       toast.error("الملف غير مدعوم")
       return false;
@@ -142,8 +142,8 @@ export default function ArchiveDialog() {
           {add
             ? "اضافة ملف"
             : update
-            ? `تعديل ملف ${selectedItem?.item?.name}`
-            : ""}
+              ? `تعديل ملف ${selectedItem?.item?.name}`
+              : ""}
         </DialogTitle>
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
@@ -180,9 +180,8 @@ export default function ArchiveDialog() {
                     sx={{
                       width: "100%",
                       height: "100%",
-                      border: `1px solid ${
-                        !Boolean(formik.errors.image) ? `#dedede` : "red"
-                      }`,
+                      border: `1px solid ${!Boolean(formik.errors.image) ? `#dedede` : "red"
+                        }`,
                       borderRadius: 3,
                       position: "relative",
                       p: 3,
@@ -208,7 +207,7 @@ export default function ArchiveDialog() {
                       <input
                         multiple={false}
                         type="file"
-                        accept="image/jpeg,image/jpg,image/png"
+                        accept="image/jpeg,image/jpg,image/png,image/webp,image/gif,application/pdf"
                         style={{ display: "none" }}
                         onChange={onImageChange}
                       />
