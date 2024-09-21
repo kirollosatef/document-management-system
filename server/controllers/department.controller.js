@@ -1,5 +1,6 @@
 import Department from '../models/Department.js';
 import { MESSAGES } from '../config.js';
+import { asyncHandler } from '../utils/error.handler.js';
 
 const create = async (req, res) => {
   const { name, description } = req.body;
@@ -91,9 +92,9 @@ const remove = async (req, res) => {
 };
 
 export default {
-  create,
-  list,
-  get,
-  update,
-  remove,
+  create: asyncHandler(create),
+  list: asyncHandler(list),
+  get: asyncHandler(get),
+  update: asyncHandler(update),
+  remove: asyncHandler(remove),
 };
