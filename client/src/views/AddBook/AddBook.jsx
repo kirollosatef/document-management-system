@@ -38,12 +38,12 @@ function AddBook() {
 
   let options = allSubFoldersData.map((folder) => ({
     value: folder._id,
-    label: folder.name,
+    label: folder?.name,
   }));
 
   const handleSubFolderChange = (e) => {
     const folder = allSubFoldersData.find((folder) => folder._id === e.value);
-    setSelectedSubFolder({ value: folder._id, label: folder.name });
+    setSelectedSubFolder({ value: folder._id, label: folder?.name });
   };
 
   const formik = useFormik({

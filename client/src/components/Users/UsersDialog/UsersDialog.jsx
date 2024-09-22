@@ -55,7 +55,7 @@ export default function UsersDialog({ open, setOpen, footer }) {
     },
   ];
   const departmentsOptions = allDepartments?.map((item) => {
-    return { name: item?.name, label: item.name };
+    return { name: item?.name, label: item?.name };
   });
   // ------ Formik & Yup
   const formik = useFormik({
@@ -154,10 +154,10 @@ export default function UsersDialog({ open, setOpen, footer }) {
               <UniInput
                 name="name"
                 label="الاسم"
-                value={formik.values.name}
-                error={Boolean(formik.errors.name)}
+                value={formik.values?.name}
+                error={Boolean(formik.errors?.name)}
                 onChange={formik.handleChange}
-                helperText={formik.errors.name}
+                helperText={formik.errors?.name}
               />
               <UniInput
                 name="username"

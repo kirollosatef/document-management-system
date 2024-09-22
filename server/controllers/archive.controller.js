@@ -52,8 +52,8 @@ const create = async (req, res) => {
           creator: req.user._id,
         });
 
-        if (req.body.name) {
-          newfile.name = req.body.name;
+        if (req.body?.name) {
+          newfile.name = req.body?.name;
         }
 
         const fileSaved = await newfile.save();
@@ -300,7 +300,7 @@ const getTrashArchives = async (req, res) => {
         exporter: archive.exporter,
         importer: archive.importer,
         description: archive.description,
-        deletedBy: archive.deletedBy.name,
+        deletedBy: archive.deletedBy?.name,
         deletedAt: formatDate(archive.deletedAt),
         deleteReason: archive.deleteReason,
       };

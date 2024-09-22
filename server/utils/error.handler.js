@@ -2,7 +2,7 @@
 export const errorHandler = (err, req, res, next) => {
   console.error(err.stack);
 
-  if (err.name === 'CastError' && err.kind === 'ObjectId') {
+  if (err?.name === 'CastError' && err.kind === 'ObjectId') {
     return res.status(400).json({ message: 'Invalid ID format' });
   }
 
