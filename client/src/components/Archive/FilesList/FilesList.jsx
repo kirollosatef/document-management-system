@@ -82,17 +82,15 @@ function FilesList() {
                         {item.size}
                       </Typography>
                     </div>
-                    {!isPdf && (
-                      <div className="flex-center">
-                        <RemoveRedEyeIcon
-                          onClick={() => {
-                            setShow(true);
-                            setSelectedFile(imgUrl);
-                          }}
-                          sx={{ fontSize: 20, color: "#999" }}
-                        />
-                      </div>
-                    )}
+                    <div className="flex-center">
+                      <RemoveRedEyeIcon
+                        onClick={() => {
+                          setShow(true);
+                          setSelectedFile(imgUrl);
+                        }}
+                        sx={{ fontSize: 20, color: "#999" }}
+                      />
+                    </div>
                   </div>
                 </div>
               </Grid>
