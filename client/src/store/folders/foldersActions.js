@@ -567,3 +567,37 @@ export const getTrashArchives = createAsyncThunk(
     }
   }
 );
+
+export const downloadAllFiles = createAsyncThunk(
+  "files/downloadAll",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+      const response = await fetch("/api/v0/files/download/all/files", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "all_files.zip");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+
+      return "Download successful";
+    } catch (error) {
+      console.error("Download error:", error);
+      return rejectWithValue(error.message || "An error occurred during download");
+    }
+  }
+);
