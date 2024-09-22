@@ -29,10 +29,10 @@ export default function UniversalSelect({
   const theme = useTheme();
   const handleChange = (event) => {
     const selectedOption = options.find(
-      (option) => option.name === event.target.value
+      (option) => option?.name === event.target.value
     );
     if (selectedOption) {
-      formik.setFieldValue(name, selectedOption.name); // Call the onRoleChange callback
+      formik.setFieldValue(name, selectedOption?.name); // Call the onRoleChange callback
     }
     // setValue(event.target.value);
   };
@@ -79,7 +79,7 @@ export default function UniversalSelect({
             <MenuItem
               key={i}
               style={{ color: "#fff !important" }}
-              value={item.name}
+              value={item?.name}
               defaultValue={options[0]?.label}
               sx={{
                 color: "#000 !important",
