@@ -6,8 +6,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import { deleteFile } from "@store/folders/foldersActions";
+import UniAlertDialog from "@components/Common/UniversalAlertDialog/UniAlertDialog";
+import { resetToolbar, setRemove } from "@store/toolsbar/toolsbarSlice";
 
 export default function FileDialog({ open, setOpen, selectedFile }) {
   const fileRef = useRef(null);
@@ -15,9 +18,23 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { archiveDetails: rchv } = useSelector((state) => state.folders);
   const { actionsLoading } = useSelector((state) => state.folders);
+  const dispatch = useDispatch();
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const alertHandleClose = () => {
+    dispatch(setRemove(false));
+    dispatch(resetToolbar());
+    setOpen(false);
+  };
+
+  const alertHandleConfirm = () => {
+    dispatch(deleteFile(selectedFile.split("/").pop())).then(() => {
+      dispatch(setRemove(false));
+      setOpen(false);
+    });
   };
 
   const handlePrint = () => {
@@ -121,6 +138,14 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
         </DialogContent>
         <DialogActions dir="ltr">
           <Stack gap={2} direction="row" mx={4}>
+            <Button variant="contained" onClick={
+              () => {
+                dispatch(setRemove(true));
+                setOpen(false);
+              }
+            } className="btnFooter" color="error">
+              حذف
+            </Button>
             <Button variant="outlined" onClick={handleClose} className="btnFooter" color="error">
               غلق
             </Button>
@@ -130,6 +155,11 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
           </Stack>
         </DialogActions>
       </Dialog>
+      <UniAlertDialog
+        handleClose={alertHandleClose}
+        handleConfirm={alertHandleConfirm}
+        text={`هل تريد حذف الملف ${selectedFile?.split("/").pop()}؟`}
+      />
     </div>
   );
 }
