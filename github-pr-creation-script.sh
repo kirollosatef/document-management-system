@@ -14,6 +14,13 @@ then
     exit 1
 fi
 
+# Check if we're in a git repository
+if ! git rev-parse --is-inside-work-tree &> /dev/null
+then
+    echo "Not in a git repository. Please run this script from within a git repository."
+    exit 1
+fi
+
 # Function to create a PR
 create_pr() {
     local source_branch=$1
@@ -22,7 +29,7 @@ create_pr() {
     local body="This PR merges changes from $source_branch into $target_branch"
 
     echo "Creating PR from $source_branch to $target_branch"
-    pr_url=$(gh pr create --base "$target_branch" --head "$source_branch" --title "$title" --body "$body" --repo "$repo")
+    pr_url=$(gh pr create --base "$target_branch" --head "$source_branch" --title "$title" --body "$body")
     
     if [ $? -eq 0 ]; then
         echo "PR created successfully: $pr_url"
@@ -31,33 +38,27 @@ create_pr() {
     fi
 }
 
-# Main script
-echo "Enter the source branch name:"
-read source_branch
+# Get current branch
+source_branch=$(git rev-parse --abbrev-ref HEAD)
+echo "Current branch: $source_branch"
 
-echo "Enter the GitHub repository (format: owner/repo):"
-read repo
-
-echo "Enter the target branches (space-separated):"
-read -a target_branches
+# Get remote repository URL and extract owner/repo
+remote_url=$(git config --get remote.origin.url)
+repo=$(echo $remote_url | sed -n 's#.*/\([^.]*\)\.git#\1#p')
+echo "Current repository: $repo"
 
 # Fetch the latest changes
 git fetch origin
 
-# Check if source branch exists
-if ! git ls-remote --exit-code --heads origin "$source_branch" &> /dev/null; then
-    echo "Source branch $source_branch does not exist on remote."
-    exit 1
-fi
+# Get all remote branches
+remote_branches=$(git branch -r | grep -v '\->' | sed 's/origin\///')
 
 # Create PRs
-for target_branch in "${target_branches[@]}"
+for branch in $remote_branches
 do
-    # Check if target branch exists
-    if git ls-remote --exit-code --heads origin "$target_branch" &> /dev/null; then
-        create_pr "$source_branch" "$target_branch"
-    else
-        echo "Target branch $target_branch does not exist on remote. Skipping."
+    # Skip the current branch
+    if [ "$branch" != "$source_branch" ]; then
+        create_pr "$source_branch" "$branch"
     fi
 done
 
