@@ -63,7 +63,7 @@ function FilesList() {
             return (
               <Grid key={item._id} item sm={3} xs={6} onClick={() => handleClick(item)}>
                 <div className={`files-item  ${selectedItem.item._id === item._id ? "active" : ""}`}>
-                  <p className="smallTxt"> {item.name.split(".")[0]} </p>
+                  <p className="smallTxt"> {item?.name.split(".")[0]} </p>
                   <img
                     className="files-item-img flex-center"
                     src={isPdf ? pdfImage : imgUrl}

@@ -49,7 +49,7 @@ const UniTable = ({
     } else if (header.id === "password") {
       return <HiddenPassword password={item[header.id]} />;
     } else if (header.id === "creator") {
-      return item[header.id].name;
+      return item[header.id]?.name;
     } else if (header.id === "actions" && rowActions) {
       return rowActions.map((action, index) => (
         <IconButton

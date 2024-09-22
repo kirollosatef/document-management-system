@@ -41,7 +41,7 @@ export default function DepartmentDialog({ open, setOpen, footer }) {
   };
   const formik = useFormik({
     initialValues: {
-      name: update ? selectedItem.item.name : "",
+      name: update ? selectedItem.item?.name : "",
       description: "",
     },
     validationSchema: yup.object({
@@ -115,10 +115,10 @@ export default function DepartmentDialog({ open, setOpen, footer }) {
               <UniInput
                 name="name"
                 label="اسم القسم"
-                value={formik.values.name}
-                error={Boolean(formik.errors.name)}
+                value={formik.values?.name}
+                error={Boolean(formik.errors?.name)}
                 onChange={formik.handleChange}
-                helperText={formik.errors.name}
+                helperText={formik.errors?.name}
               />
               <UniInput
                 name="description"
