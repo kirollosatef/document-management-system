@@ -90,10 +90,10 @@ export default function SubFolderDialog() {
               <UniInput
                 name="name"
                 label="اسم المجلد الفرعي"
-                value={formik.values.name}
-                error={Boolean(formik.errors.name)}
+                value={formik.values?.name}
+                error={Boolean(formik.errors?.name)}
                 onChange={formik.handleChange}
-                helperText={formik.errors.name}
+                helperText={formik.errors?.name}
               />
               <UniInput
                 name="description"

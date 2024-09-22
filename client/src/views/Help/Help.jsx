@@ -44,7 +44,7 @@ function Help() {
             <div className="help-developers-dev-img">
               <img src={item.photo} alt="photo" />
             </div>
-            <div className="help-developers-dev-name">{item.name} </div>
+            <div className="help-developers-dev-name">{item?.name} </div>
             <div className="help-developers-dev-jopTitle">{item.jopTitle} </div>
             <div className="help-developers-dev-contactUs">
               <a
