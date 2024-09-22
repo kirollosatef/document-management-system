@@ -19,6 +19,7 @@ import {
   restoreArchiveFromTrash,
   permanentlyDeleteArchive,
   getTrashArchives,
+  downloadAllFiles,
 } from "./foldersActions";
 
 const foldersSlices = createSlice({
@@ -36,6 +37,8 @@ const foldersSlices = createSlice({
     updated: false,
     deleted: false,
     message: "",
+    downloadingAllFiles: false,
+    downloadAllFilesError: null,
   },
   reducers: {
     reset: (state) => {
@@ -361,6 +364,19 @@ const foldersSlices = createSlice({
       state.loading = false;
       state.error = true;
       state.message = action.payload;
+    });
+
+    // Download All Files
+    builder.addCase(downloadAllFiles.pending, (state) => {
+      state.downloadingAllFiles = true;
+      state.downloadAllFilesError = null;
+    });
+    builder.addCase(downloadAllFiles.fulfilled, (state) => {
+      state.downloadingAllFiles = false;
+    });
+    builder.addCase(downloadAllFiles.rejected, (state, action) => {
+      state.downloadingAllFiles = false;
+      state.downloadAllFilesError = action.payload;
     });
   },
 });
