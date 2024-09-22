@@ -1,4 +1,5 @@
 import File from '../models/File.js';
+import Folder from '../models/Folder.js';
 import Archive from '../models/Archive.js';
 import fs from 'fs';
 import path from 'path';
@@ -6,10 +7,12 @@ import { PDFDocument } from 'pdf-lib';
 import puppeteer from 'puppeteer';
 import { v4 as uuidv4 } from 'uuid';
 import { MESSAGES } from '../config.js';
-import Folder from '../models/Folder.js';
 import { asyncHandler } from '../utils/error.handler.js';
+import archiver from 'archiver';
+import { fileURLToPath } from 'url';
 
 // in public folder in client outside server folder
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.resolve();
 const uploadsFolder = path.join(__dirname, '../client/public/uploads');
 
@@ -362,6 +365,56 @@ const downloadImageWithArchiveDataPDF = async (req, res) => {
   }
 };
 
+const downloadAllFiles = asyncHandler(async (req, res) => {
+  try {
+    const folders = await Folder.find().populate({
+      path: 'archives',
+      populate: {
+        path: 'files'
+      }
+    });
+
+    const archive = archiver('zip', {
+      zlib: { level: 9 } // Sets the compression level.
+    });
+
+    archive.on('error', function (err) {
+      res.status(500).send({ message: `Error during zip creation: ${err.message}` });
+    });
+
+    // Set the headers
+    res.attachment('all_files.zip');
+
+    // Pipe archive data to the response
+    archive.pipe(res);
+
+    // Iterate through folders
+    for (const folder of folders) {
+      // Iterate through archives in each folder
+      for (const archiveDoc of folder.archives) {
+        // Create a folder for each archive
+        const archivePath = `${folder.name}/${archiveDoc.title}`;
+
+        // Iterate through files in each archive
+        for (const file of archiveDoc.files) {
+          const filePath = path.join(uploadsFolder, file.path);
+          if (fs.existsSync(filePath)) {
+            archive.file(filePath, { name: `${archivePath}/${file.name}` });
+          } else {
+            console.warn(`File not found: ${filePath}`);
+          }
+        }
+      }
+    }
+
+    // Finalize the archive (ie we are done appending files but streams have to finish yet)
+    await archive.finalize();
+  } catch (error) {
+    console.error("Error in downloadAllFiles:", error);
+    res.status(500).send({ message: `Server error: ${error.message}` });
+  }
+});
+
 export default {
   create: asyncHandler(create),
   list: asyncHandler(list),
@@ -371,4 +424,5 @@ export default {
   download: asyncHandler(download),
   print: asyncHandler(downloadImageWithArchiveDataPDF),
   createMultiple: asyncHandler(createMultiple),
+  downloadAllFiles: asyncHandler(downloadAllFiles),
 };
