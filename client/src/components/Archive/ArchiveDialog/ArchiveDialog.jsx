@@ -59,7 +59,7 @@ export default function ArchiveDialog() {
     onSubmit(values) {
       const actionData = {
         params: { archiveId: archiveDetails?._id },
-        data: add ? { tempPhoto, name: values.name } : { tempPhoto },
+        data: add ? { tempPhoto, name: values?.name } : { tempPhoto },
       };
       if (multiple) {
         const formData = new FormData();
@@ -168,10 +168,10 @@ export default function ArchiveDialog() {
                   <UniInput
                     name="name"
                     label="اسم الملف"
-                    value={formik.values.name}
-                    error={Boolean(formik.errors.name)}
+                    value={formik.values?.name}
+                    error={Boolean(formik.errors?.name)}
                     onChange={formik.handleChange}
-                    helperText={formik.errors.name}
+                    helperText={formik.errors?.name}
                   />
                 </Box>
                 {add && (

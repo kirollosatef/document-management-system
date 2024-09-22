@@ -44,7 +44,7 @@ function FoldersItem({ folder, handleClick }) {
               تم الانشاء من قبل:
             </Typography>
             <Typography sx={{ fontSize: 10, fontWeight: 600 }}>
-              {creator.name}
+              {creator?.name}
             </Typography>
           </div>
         </div>
