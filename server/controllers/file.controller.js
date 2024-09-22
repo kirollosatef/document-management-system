@@ -113,8 +113,8 @@ const create = async (req, res) => {
     creator: req.user._id,
   });
 
-  if (req.body.name) {
-    file.name = req.body.name;
+  if (req.body?.name) {
+    file.name = req.body?.name;
   }
 
   const fileSaved = await file.save();
@@ -350,7 +350,7 @@ const downloadImageWithArchiveDataPDF = async (req, res) => {
       fs.mkdirSync(`${uploadsFolder}/Downloads`);
     }
 
-    const fileDownloadedName = `${archive.title}-${file.name.split('.')[0]}`;
+    const fileDownloadedName = `${archive.title}-${file?.name.split('.')[0]}`;
 
     fs.writeFileSync(`${uploadsFolder}/Downloads/${fileDownloadedName}.pdf`, pdfBytes);
 
@@ -393,13 +393,13 @@ const downloadAllFiles = asyncHandler(async (req, res) => {
       // Iterate through archives in each folder
       for (const archiveDoc of folder.archives) {
         // Create a folder for each archive
-        const archivePath = `${folder.name}/${archiveDoc.title}`;
+        const archivePath = `${folder?.name}/${archiveDoc.title}`;
 
         // Iterate through files in each archive
         for (const file of archiveDoc.files) {
           const filePath = path.join(uploadsFolder, file.path);
           if (fs.existsSync(filePath)) {
-            archive.file(filePath, { name: `${archivePath}/${file.name}` });
+            archive.file(filePath, { name: `${archivePath}/${file?.name}` });
           } else {
             console.warn(`File not found: ${filePath}`);
           }
