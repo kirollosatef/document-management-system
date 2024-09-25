@@ -48,43 +48,36 @@ export default function FolderDialog() {
   const formik = useFormik({
     initialValues: {
       title: "",
-      // description: "",
-      // exporter: "",
-      // importer: "",
+      issueNumber: "",
       date: "",
+      propertyNumber: "",
+      contractNumber: "",
+      year: "",
+      personName: "",
     },
     validationSchema: yup.object({
       title: yup.string().required("هذا الحقل مطلوب"),
-      // description: yup.string().required("هذا الحقل مطلوب"),
-      // exporter: yup.string().required("هذا الحقل مطلوب"),
-      // importer: yup.string().required("هذا الحقل مطلوب"),
       issueNumber: yup.string().required("هذا الحقل مطلوب"),
       date: yup.string().required("هذا الحقل مطلوب"),
+      propertyNumber: yup.string().required("هذا الحقل مطلوب"),
+      contractNumber: yup.string().required("هذا الحقل مطلوب"),
+      year: yup.number().required("هذا الحقل مطلوب").positive().integer(),
+      personName: yup.string().required("هذا الحقل مطلوب"),
     }),
     onSubmit(values) {
       const formData = new FormData();
       for (const file of selectedFiles) {
         formData.append("files", file);
       }
-      formData.append("title", formik.values.title);
-      // formData.append("description", formik.values.description);
-      // formData.append("exporter", formik.values.exporter);
-      // formData.append("importer", formik.values.importer);
-      formData.append("issueNumber", formik.values.issueNumber);
-      formData.append("date", formik.values.date);
-      add &&
-        dispatch(
-          createArchive({ data: formData, params: { folderId: folder?._id } })
-        );
-      update &&
-        dispatch(
-          updateArchive({
-            data: { ...values, folderId: folder?._id },
-            params: { id: selectedItem?.item?._id },
-          })
-        );
+      Object.keys(values).forEach(key => {
+        formData.append(key, values[key]);
+      });
+      
+      add && dispatch(createArchive({ data: formData, params: { folderId: folder?._id } }));
+      update && dispatch(updateArchive({ data: { ...values, folderId: folder?._id }, params: { id: selectedItem?.item?._id } }));
     },
   });
+
   useEffect(() => {
     if (folder?.isRoot) {
       if (created) {
@@ -135,19 +128,11 @@ export default function FolderDialog() {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title">
         <DialogTitle id="responsive-dialog-title">
-          {add
-            ? "اضافة ارشيف"
-            : update
-            ? `تعديل ارشيف ${selectedItem?.item?.title}`
-            : ""}
+          {add ? "اضافة ارشيف" : update ? `تعديل ارشيف ${selectedItem?.item?.title}` : ""}
         </DialogTitle>
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              gap={2}
-              marginBottom={2}>
+            <Box display={"flex"} flexDirection={"column"} gap={2} marginBottom={2}>
               <UniInput
                 name="title"
                 label="الموضوع"
@@ -156,30 +141,6 @@ export default function FolderDialog() {
                 onChange={formik.handleChange}
                 helperText={formik.errors.title}
               />
-              {/* <UniInput
-                name="description"
-                label="الوصف"
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                error={Boolean(formik.errors.description)}
-                helperText={formik.errors.description}
-              />
-              <UniInput
-                name="exporter"
-                label="المصدر"
-                value={formik.values.exporter}
-                error={Boolean(formik.errors.exporter)}
-                onChange={formik.handleChange}
-                helperText={formik.errors.exporter}
-              />
-              <UniInput
-                name="importer"
-                label="المستورد"
-                value={formik.values.importer}
-                onChange={formik.handleChange}
-                error={Boolean(formik.errors.importer)}
-                helperText={formik.errors.importer}
-              /> */}
               <UniInput
                 name="issueNumber"
                 label="رقم الكتاب"
@@ -192,6 +153,39 @@ export default function FolderDialog() {
                 label="التاريخ"
                 value={formik.values.date ? dayjs(formik.values.date) : null}
                 onChange={(value) => formik.setFieldValue("date", value)}
+              />
+              <UniInput
+                name="propertyNumber"
+                label="رقم العقار"
+                value={formik.values.propertyNumber}
+                error={Boolean(formik.errors.propertyNumber)}
+                onChange={formik.handleChange}
+                helperText={formik.errors.propertyNumber}
+              />
+              <UniInput
+                name="contractNumber"
+                label="رقم العقد"
+                value={formik.values.contractNumber}
+                error={Boolean(formik.errors.contractNumber)}
+                onChange={formik.handleChange}
+                helperText={formik.errors.contractNumber}
+              />
+              <UniInput
+                name="year"
+                label="السنة"
+                type="number"
+                value={formik.values.year}
+                error={Boolean(formik.errors.year)}
+                onChange={formik.handleChange}
+                helperText={formik.errors.year}
+              />
+              <UniInput
+                name="personName"
+                label="اسم الشخص"
+                value={formik.values.personName}
+                error={Boolean(formik.errors.personName)}
+                onChange={formik.handleChange}
+                helperText={formik.errors.personName}
               />
             </Box>
             {add && (

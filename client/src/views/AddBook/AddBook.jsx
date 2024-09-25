@@ -129,6 +129,39 @@ function AddBook() {
               value={formik.values.date ? dayjs(formik.values.date) : null}
               onChange={(value) => formik.setFieldValue("date", value)}
             />
+            <UniInput
+              name="propertyNumber"
+              label="رقم العقار"
+              value={formik.values.propertyNumber}
+              error={Boolean(formik.errors.propertyNumber)}
+              onChange={formik.handleChange}
+              helperText={formik.errors.propertyNumber}
+            />
+            <UniInput
+              name="contractNumber"
+              label="رقم العقد"
+              value={formik.values.contractNumber}
+              error={Boolean(formik.errors.contractNumber)}
+              onChange={formik.handleChange}
+              helperText={formik.errors.contractNumber}
+            />
+            <UniInput
+              name="year"
+              label="السنة"
+              type="number"
+              value={formik.values.year}
+              error={Boolean(formik.errors.year)}
+              onChange={formik.handleChange}
+              helperText={formik.errors.year}
+            />
+            <UniInput
+              name="personName"
+              label="اسم الشخص"
+              value={formik.values.personName}
+              error={Boolean(formik.errors.personName)}
+              onChange={formik.handleChange}
+              helperText={formik.errors.personName}
+            />
             <Select
               options={options}
               onChange={handleSubFolderChange}
@@ -149,7 +182,7 @@ function AddBook() {
               setMultiple={setMultiple}
               multiple={multiple}
               title="رفع اكثر من صورة"
-            />{" "}
+            />
           </Box>
           <Stack
             gap={2}

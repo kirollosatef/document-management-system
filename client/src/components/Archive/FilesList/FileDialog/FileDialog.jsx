@@ -129,6 +129,22 @@ export default function FileDialog({ open, setOpen, selectedFile }) {
                   <Typography sx={{ fontSize: 18, color: "#999" }}>تاريخ الانشاء</Typography>
                   <Typography sx={{ fontSize: 16 }}>{rchv?.date ? dayjs(rchv.date).format("DD-MM-YYYY") : 'N/A'}</Typography>
                 </div>
+                <div>
+                  <Typography sx={{ fontSize: 18, color: "#999" }}>رقم العقار</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{rchv?.propertyNumber}</Typography>
+                </div>
+                <div>
+                  <Typography sx={{ fontSize: 18, color: "#999" }}>رقم العقد</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{rchv?.contractNumber}</Typography>
+                </div>
+                <div>
+                  <Typography sx={{ fontSize: 18, color: "#999" }}>السنة</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{rchv?.year}</Typography>
+                </div>
+                <div>
+                  <Typography sx={{ fontSize: 18, color: "#999" }}>اسم الشخص</Typography>
+                  <Typography sx={{ fontSize: 16 }}>{rchv?.personName}</Typography>
+                </div>
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>

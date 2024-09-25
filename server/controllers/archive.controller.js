@@ -8,10 +8,10 @@ import { asyncHandler } from '../utils/error.handler.js';
 const create = async (req, res) => {
   const folderId = req.params.folderId;
   const creatorId = req.user._id;
-  const { title, issueNumber, date, exporter, importer, description } = req.body;
+  const { title, issueNumber, date, exporter, importer, description, propertyNumber, contractNumber, year, personName } = req.body;
   const files = req.files;
 
-  if (!title || !issueNumber || !date) {
+  if (!title || !issueNumber || !date || !propertyNumber || !contractNumber || !year || !personName) {
     return res.status(400).json({ message: MESSAGES.invalidFields });
   }
 
@@ -32,6 +32,10 @@ const create = async (req, res) => {
     exporter,
     importer,
     description,
+    propertyNumber,
+    contractNumber,
+    year,
+    personName,
     creator: creatorId,
   });
 
@@ -112,7 +116,7 @@ const get = async (req, res) => {
 
 const update = async (req, res) => {
   const archiveId = req.params.id;
-  const { title, issueNumber, date, exporter, importer, description, folderId } = req.body;
+  const { title, issueNumber, date, exporter, importer, description, propertyNumber, contractNumber, year, personName, folderId } = req.body;
 
   try {
     const archive = await Archive.findByIdAndUpdate(archiveId, {
@@ -122,6 +126,10 @@ const update = async (req, res) => {
       exporter,
       importer,
       description,
+      propertyNumber,
+      contractNumber,
+      year,
+      personName,
     }).populate('creator');
 
     if (!archive) {

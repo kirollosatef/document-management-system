@@ -15,27 +15,13 @@ function SearchResults() {
   const headers = [
     { id: "_id", label: "ID" },
     { id: "title", label: "الموضوع" },
-    // { id: "description", label: "الوصف" },
-    // {
-    //   id: "exporter",
-    //   label: "المصدر",
-    // },
-    // {
-    //   id: "importer",
-    //   label: "المستورد",
-    // },
-    {
-      id: "issueNumber",
-      label: "رقم الكتاب",
-    },
-    {
-      id: "creator",
-      label: "المنشئ",
-    },
-    {
-      id: "date",
-      label: "التاريخ",
-    },
+    { id: "issueNumber", label: "رقم الكتاب" },
+    { id: "propertyNumber", label: "رقم العقار" },
+    { id: "contractNumber", label: "رقم العقد" },
+    { id: "year", label: "السنة" },
+    { id: "personName", label: "اسم الشخص" },
+    { id: "creator", label: "المنشئ" },
+    { id: "date", label: "التاريخ" },
   ];
   const handleClick = (obj) => {
     if (selectedItem?.item?._id === obj._id) {

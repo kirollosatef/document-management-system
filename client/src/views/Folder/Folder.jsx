@@ -36,6 +36,10 @@ function Folder() {
     { id: "_id", label: "ID" },
     { id: "title", label: "الموضوع" },
     { id: "issueNumber", label: "رقم الكتاب" },
+    { id: "propertyNumber", label: "رقم العقار" },
+    { id: "contractNumber", label: "رقم العقد" },
+    { id: "year", label: "السنة" },
+    { id: "personName", label: "اسم الشخص" },
     { id: "creator", label: "المنشئ" },
     { id: "date", label: "التاريخ" },
   ];

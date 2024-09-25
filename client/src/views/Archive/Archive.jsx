@@ -40,35 +40,7 @@ function Archive() {
     (state) => state.toolsbar
   );
   const { selectedItem } = components;
-  const headers = [
-    { id: "_id", label: "ID" },
-    { id: "title", label: "الموضوع" },
-    // { id: "description", label: "الوصف" },
-    // {
-    //   id: "exporter",
-    //   label: "المصدر",
-    // },
-    // {
-    //   id: "importer",
-    //   label: "المستورد",
-    // },
-    {
-      id: "issueNumber",
-      label: "رقم الكتاب",
-    },
-    {
-      id: "creator",
-      label: "المنشئ",
-    },
-    {
-      id: "date",
-      label: "التاريخ",
-    },
-  ];
   //  ========== Actions ==========
-  const handleClick = (obj) => {
-    dispatch(setSelectedItem({ type: "archive", item: obj }));
-  };
   const alertHandleClose = () => {
     dispatch(setRemove(false));
     dispatch(resetToolbar());
@@ -101,13 +73,7 @@ function Archive() {
     <Loading />
   ) : (
     <div>
-      <Box
-        mb={5}
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}>
+      <Box mb={5} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ flex: 10 }}>
           <Typography variant="h4" sx={{ fontWeight: 800 }}>
             {archive?.title}
@@ -118,22 +84,16 @@ function Archive() {
       <Grid container spacing={2} mb={3}>
         <Grid item>
           <div style={{ flex: 2 }} className="creator">
-            <Typography
-              sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
-              className="flex-items-center">
+            <Typography sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }} className="flex-items-center">
               <BeenhereIcon sx={{ fontSize: 14 }} />
               <span> منشئ الارشيف: </span>
             </Typography>
-            <Typography sx={{ fontSize: 18 }}>
-              {archive?.creator?.name}
-            </Typography>
+            <Typography sx={{ fontSize: 18 }}>{archive?.creator?.name}</Typography>
           </div>
         </Grid>
         <Grid item>
           <div style={{ flex: 2 }} className="creator">
-            <Typography
-              sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
-              className="flex-items-center">
+            <Typography sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }} className="flex-items-center">
               <ArrowOutwardIcon sx={{ fontSize: 14 }} />
               <span> الموضوع </span>
             </Typography>
@@ -142,9 +102,7 @@ function Archive() {
         </Grid>
         <Grid item>
           <div style={{ flex: 2 }} className="creator">
-            <Typography
-              sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
-              className="flex-items-center">
+            <Typography sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }} className="flex-items-center">
               <TransitEnterexitIcon sx={{ fontSize: 14 }} />
               <span> رقم الكتاب </span>
             </Typography>
@@ -153,13 +111,47 @@ function Archive() {
         </Grid>
         <Grid item>
           <div style={{ flex: 2 }} className="creator">
-            <Typography
-              sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }}
-              className="flex-items-center">
+            <Typography sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }} className="flex-items-center">
               <TransitEnterexitIcon sx={{ fontSize: 14 }} />
               <span> التاريخ </span>
             </Typography>
             <Typography sx={{ fontSize: 18 }}>{dayjs(archive?.date).format("DD-MM-YYYY")}</Typography>
+          </div>
+        </Grid>
+        <Grid item>
+          <div style={{ flex: 2 }} className="creator">
+            <Typography sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }} className="flex-items-center">
+              <TransitEnterexitIcon sx={{ fontSize: 14 }} />
+              <span> رقم العقار </span>
+            </Typography>
+            <Typography sx={{ fontSize: 18 }}>{archive?.propertyNumber}</Typography>
+          </div>
+        </Grid>
+        <Grid item>
+          <div style={{ flex: 2 }} className="creator">
+            <Typography sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }} className="flex-items-center">
+              <TransitEnterexitIcon sx={{ fontSize: 14 }} />
+              <span> رقم العقد </span>
+            </Typography>
+            <Typography sx={{ fontSize: 18 }}>{archive?.contractNumber}</Typography>
+          </div>
+        </Grid>
+        <Grid item>
+          <div style={{ flex: 2 }} className="creator">
+            <Typography sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }} className="flex-items-center">
+              <TransitEnterexitIcon sx={{ fontSize: 14 }} />
+              <span> السنة </span>
+            </Typography>
+            <Typography sx={{ fontSize: 18 }}>{archive?.year}</Typography>
+          </div>
+        </Grid>
+        <Grid item>
+          <div style={{ flex: 2 }} className="creator">
+            <Typography sx={{ fontSize: 15, fontWeight: 800, color: "#999", gap: 1 }} className="flex-items-center">
+              <TransitEnterexitIcon sx={{ fontSize: 14 }} />
+              <span> اسم الشخص </span>
+            </Typography>
+            <Typography sx={{ fontSize: 18 }}>{archive?.personName}</Typography>
           </div>
         </Grid>
       </Grid>
