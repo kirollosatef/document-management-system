@@ -15,27 +15,13 @@ function SearchResults() {
   const headers = [
     { id: "_id", label: "ID" },
     { id: "title", label: "الموضوع" },
-    // { id: "description", label: "الوصف" },
-    // {
-    //   id: "exporter",
-    //   label: "المصدر",
-    // },
-    // {
-    //   id: "importer",
-    //   label: "المستورد",
-    // },
-    {
-      id: "issueNumber",
-      label: "رقم الكتاب",
-    },
-    {
-      id: "creator",
-      label: "المنشئ",
-    },
-    {
-      id: "date",
-      label: "التاريخ",
-    },
+    { id: "issueNumber", label: "رقم الكتاب" },
+    { id: "m7derNumber", label: "رقم المحضر" },
+    { id: "specializationYear", label: "سنة التخصص" },
+    { id: "partNumber", label: "رقم القطعة" },
+    { id: "deportationBookNumber", label: "رقم كتاب الترحيل" },
+    { id: "creator", label: "المنشئ" },
+    { id: "date", label: "التاريخ" },
   ];
   const handleClick = (obj) => {
     if (selectedItem?.item?._id === obj._id) {

@@ -16,6 +16,22 @@ const archiveSchema = new Schema({
   exporter: String,
   importer: String,
   description: String,
+  m7derNumber: {
+    type: String,
+    required: true,
+  },
+  specializationYear: {
+    type: String,
+    required: true,
+  },
+  partNumber: {
+    type: Number,
+    required: true,
+  },
+  deportationBookNumber: {
+    type: String,
+    required: true,
+  },
   files: [
     {
       type: Schema.Types.ObjectId,

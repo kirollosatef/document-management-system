@@ -36,6 +36,10 @@ function Folder() {
     { id: "_id", label: "ID" },
     { id: "title", label: "الموضوع" },
     { id: "issueNumber", label: "رقم الكتاب" },
+    { id: "m7derNumber", label: "رقم المحضر" },
+    { id: "specializationYear", label: "سنة التخصص" },
+    { id: "partNumber", label: "رقم القطعة" },
+    { id: "deportationBookNumber", label: "رقم كتاب الترحيل" },
     { id: "creator", label: "المنشئ" },
     { id: "date", label: "التاريخ" },
   ];
