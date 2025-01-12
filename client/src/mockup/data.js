@@ -771,7 +771,7 @@ const users = [
     id: 97,
     fullName: "Templeton Frowd",
     username: "tfrowd2o",
-    password: "zxvXCY80887?'AvW",
+    password: "zxvXCY80897?'AvW",
     department: "Engineering",
     addedAt: "2022-11-22T07:23:40Z",
   },
